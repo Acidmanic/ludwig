@@ -11,7 +11,7 @@ namespace Ludwig.Presentation.Controllers
 {
     [ApiController]
     [Route("story-users")]
-    public class StoryUsersController : CrudControllerBase<UserStory,long>
+    public class StoryUsersController : CrudControllerBase<StoryUser,long>
     {
         
     }
