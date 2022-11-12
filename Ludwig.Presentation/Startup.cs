@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EnTier;
+using EnTier.Services;
+using Ludwig.Presentation.Models;
+using Ludwig.Presentation.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +35,8 @@ namespace Ludwig.Presentation
             services.AddControllers();
 
             services.AddJsonFileUnitOfWork();
+            
+            services.AddTransient<ICrudService<UserStory,long>,UserStoryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
