@@ -16,6 +16,9 @@ namespace Ludwig.Presentation
 {
     public class Startup
     {
+
+        private StaticServer _frontEndServer = new StaticServer();
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,7 +32,6 @@ namespace Ludwig.Presentation
             services.AddControllers();
 
             services.AddJsonFileUnitOfWork();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,17 +43,18 @@ namespace Ludwig.Presentation
             }
 
             app.UseHttpsRedirection();
+            
+            
+
+            _frontEndServer.ConfigurePreRouting(app, env);
 
             app.UseRouting();
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
             
+            _frontEndServer.ConfigureMappings(app,env);
             
             app.IntroduceDotnetResolverToEnTier();
         }
