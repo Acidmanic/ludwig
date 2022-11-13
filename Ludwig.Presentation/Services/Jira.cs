@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using EnTier.Results;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Download;
-using Ludwig.Presentation.Extensions;
 using Ludwig.Presentation.Models;
 using Microsoft.AspNetCore.Http;
 
@@ -22,12 +21,13 @@ namespace Ludwig.Presentation.Services
 
 
         private HttpContext _httpContext = null;
-        private string _cookiesString = null;
-        
+        private readonly ICookieForwarder _cookieForwarder;
         private readonly string _baseUrl;
 
-        public Jira(ILudwigConfigurationProvider configurationProvider)
+        public Jira(ILudwigConfigurationProvider configurationProvider, ICookieForwarder cookieForwarder)
         {
+            _cookieForwarder = cookieForwarder;
+            
             var config = configurationProvider.Configuration;
 
             var baseUrl = config.JiraBaseUrl;
@@ -46,29 +46,13 @@ namespace Ludwig.Presentation.Services
 
             return this;
         }
-        
-        public Jira UseCookies(string cookiesString)
-        {
-
-            _cookiesString = cookiesString;
-
-            return this;
-        }
-        
+     
         private PatientDownloader GetDownloader()
         {
             var downloader = new PatientDownloader();
             
-            if (_httpContext != null)
-            {
-                downloader.Cookies = _httpContext.Request.Cookies;
-            }
-
-            if (!string.IsNullOrEmpty(_cookiesString) && !string.IsNullOrWhiteSpace(_cookiesString))
-            {
-                downloader.InDirectCookies = _cookiesString.LoadCookies();
-            }
-
+            _cookieForwarder.ForwardCookies(_httpContext,downloader);
+            
             return downloader;
         }
 

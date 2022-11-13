@@ -40,6 +40,8 @@ namespace Ludwig.Presentation
             
             services.AddTransient<ICrudService<UserStory,long>,UserStoryService>();
 
+            services.AddTransient<ICookieForwarder, DevelopmentMockCookieForwarder>();
+            
             services.AddTransient<Jira>();
 
             services.AddTransient<ILudwigConfigurationProvider, LudwigJsonConfigurationProvider>();
