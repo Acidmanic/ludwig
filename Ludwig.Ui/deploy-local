@@ -1,0 +1,6 @@
+ 
+
+PUB_DIR=../Ludwig.Presentation/bin/Debug/netcoreapp3.1/front-end
+DST_DIR=dist/ludwig.ui
+
+ng build && (cd $PUB_DIR && rm -rf ./*) && cp $DST_DIR/* $PUB_DIR/

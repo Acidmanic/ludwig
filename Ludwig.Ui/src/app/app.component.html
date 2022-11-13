@@ -2,8 +2,17 @@
 
 
 
-
-<div *ngFor="let story of stories">
-  {{story.title}}
-
+<div class="container">
+  <div class="row">
+    <div *ngFor="let story of stories" class="card col-4" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{story.title}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{story.storyFeature}}</h6>
+        <p class="card-text">As {{story.storyUser.name}}, I Want {{story.storyFeature}}, So that I can {{story.storyBenefit}}</p>
+      </div>
+    </div>
+  </div>
 </div>
+
+
+
