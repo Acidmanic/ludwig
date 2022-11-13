@@ -117,6 +117,28 @@ namespace Ludwig.Presentation.Services
         }
 
 
+        public async Task<List<JiraIssue>> IssuesByUserStory(string userStory)
+        {
+            var downloader = GetDownloader();
+
+            var url = _baseUrl + Resources.AllIssues + $"?jql=\"User%20Story\"%20~%20\"{userStory}\"";
+
+            var result = await downloader.DownloadObject<JiraIssueChunk>(url, 1200, 12);
+
+            if (result)
+            {
+                var fields = await AllFields();
+
+                var definitions = _definitionProvider.Provide(fields);
+
+                result.Value.Issues.ForEach(i => JiraIssueNormalizer.Normalize(i, definitions));
+
+                return result.Value.Issues;
+            }
+
+            return new List<JiraIssue>();
+        }
+
         public async Task<Result<JiraUser>> LoggedInUser()
         {
             var downloader = GetDownloader();

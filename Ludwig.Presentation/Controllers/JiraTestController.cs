@@ -43,6 +43,17 @@ namespace Ludwig.Presentation.Controllers
         }
         
         [HttpGet]
+        [Route("issues-by-story/{story}")]
+        public async  Task<IActionResult> IssuesByStory(string story)
+        {
+            var issues = await _jira.IssuesByUserStory(story);
+            
+            issues.ForEach( i => i.Fields.Clear());
+
+            return Ok(issues);
+        }
+        
+        [HttpGet]
         [Route("logged-user")]
         public async  Task<IActionResult> LoggedUser()
         {
