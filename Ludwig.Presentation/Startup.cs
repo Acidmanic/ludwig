@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EnTier;
 using EnTier.Services;
 using Ludwig.Presentation.Contracts;
+using Ludwig.Presentation.JiraAuthentication;
 using Ludwig.Presentation.Models;
 using Ludwig.Presentation.Services;
 using Microsoft.AspNetCore.Builder;
@@ -42,6 +43,8 @@ namespace Ludwig.Presentation
             services.AddTransient<Jira>();
 
             services.AddTransient<ILudwigConfigurationProvider, LudwigJsonConfigurationProvider>();
+
+            services.AddJiraAuthentication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +63,7 @@ namespace Ludwig.Presentation
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

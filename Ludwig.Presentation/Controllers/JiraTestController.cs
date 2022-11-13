@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EnTier.Controllers;
 using Ludwig.Presentation.Models;
 using Ludwig.Presentation.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -12,6 +13,7 @@ namespace Ludwig.Presentation.Controllers
 {
     [ApiController]
     [Route("jira")]
+    [Authorize]
     public class JiraTestController : ControllerBase
     {
 
