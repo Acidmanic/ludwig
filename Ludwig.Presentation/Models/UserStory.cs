@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Acidmanic.Utilities.Reflection.Attributes;
 
 namespace Ludwig.Presentation.Models
@@ -19,5 +20,7 @@ namespace Ludwig.Presentation.Models
         public string StoryBenefit { get; set; }
         
         public string CardColor { get; set; }
+        
+        public List<JiraIssue> Issues { get; set; }
     }
 }

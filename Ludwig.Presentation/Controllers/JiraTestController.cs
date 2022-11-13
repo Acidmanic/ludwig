@@ -11,9 +11,6 @@ namespace Ludwig.Presentation.Controllers
     public class JiraTestController : ControllerBase
     {
 
-        
-        
-        
         private readonly Jira _jira;
 
         public JiraTestController(Jira jira)

@@ -5,6 +5,7 @@ using EnTier.Results;
 using EnTier.UnitOfWork;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Ludwig.Presentation.Services
 {
@@ -14,13 +15,17 @@ namespace Ludwig.Presentation.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICrudRepository<UserStory, long> _userStoryRepository;
         private readonly ICrudRepository<StoryUser, long> _storyUserRepository;
+        private readonly Jira _jira;
         
-        public UserStoryService(IUnitOfWork unitOfWork)
+        
+        public UserStoryService(IUnitOfWork unitOfWork, Jira jira)
         {
             _unitOfWork = unitOfWork;
+            _jira = jira;
 
             _userStoryRepository = unitOfWork.GetCrudRepository<UserStory, long>();
             _storyUserRepository = unitOfWork.GetCrudRepository<StoryUser, long>();
+            
         }
 
 
@@ -44,11 +49,24 @@ namespace Ludwig.Presentation.Services
             
             ReadFullTree(item);
 
+            ReadIssuesInto(item);
+            
             return item;
         }
 
+        private void ReadIssuesInto(UserStory item)
+        {
+            var issues = _jira.IssuesByUserStory(item.Title).Result;
+
+            issues.ForEach(i => i.Fields.Clear());
+            
+            item.Issues = issues;
+        }
+
+
         public UserStory Add(UserStory value)
         {
+            
             var inserted = _userStoryRepository.Add(value);
 
             WriteFullTree(inserted);
@@ -152,6 +170,13 @@ namespace Ludwig.Presentation.Services
         public bool RemoveById(long id)
         {
             return _userStoryRepository.Remove(id);
+        }
+
+        public IUserStoryService UseContext(HttpContext context)
+        {
+            _jira.UseContext(context);
+
+            return this;
         }
     }
 }
