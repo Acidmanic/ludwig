@@ -18,6 +18,6 @@ namespace Ludwig.Presentation.Models
         
         public string StoryBenefit { get; set; }
         
-        
+        public string CardColor { get; set; }
     }
 }
