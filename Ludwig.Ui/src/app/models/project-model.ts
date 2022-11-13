@@ -9,6 +9,6 @@ export class ProjectModel{
   key:string="";
   name:string="";
   projectTypeKey:string="";
-  avatarUrls:Map<string,string>;
+  avatarUrls:Map<string,string>=new Map<string, string>();
 
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
 import {UserStoryModel} from "../../models/user-story.model";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import {UserStoryModel} from "../../models/user-story.model";
 export class UserStoryService {
 
 
+  private baseUrl=environment.baseUrl;
 
   constructor(private http:HttpClient) { }
 
@@ -17,7 +19,7 @@ export class UserStoryService {
 
     let handle = new Subject<UserStoryModel>();
 
-    let url = "stories/"+id;
+    let url = this.baseUrl+"stories/"+id;
 
     this.http.get<UserStoryModel>(url).subscribe({
       next: model => handle.next(model),
@@ -32,7 +34,7 @@ export class UserStoryService {
 
     let handle = new Subject<UserStoryModel[]>();
 
-    let url = "stories";
+    let url = this.baseUrl+"stories";
 
     this.http.get<UserStoryModel[]>(url).subscribe({
       next: model => handle.next(model),

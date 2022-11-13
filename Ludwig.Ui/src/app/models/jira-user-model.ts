@@ -7,7 +7,7 @@ export class JiraUserModel{
   key: string="";
   name:string="";
   emailAddress:string="";
-  avatarUrls:Map<string,string>;
+  avatarUrls:Map<string,string>=new Map<string, string>();
   displayName:string="";
   active:boolean=false;
   timeZone:string="Asia/Tehran";
