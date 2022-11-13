@@ -32,6 +32,17 @@ namespace Ludwig.Presentation.Controllers
         }
         
         [HttpGet]
+        [Route("issues")]
+        public async  Task<IActionResult> AllIssues()
+        {
+            var issues = await _jira.AllIssues();
+            
+            issues.ForEach( i => i.Fields.Clear());
+
+            return Ok(issues);
+        }
+        
+        [HttpGet]
         [Route("logged-user")]
         public async  Task<IActionResult> LoggedUser()
         {

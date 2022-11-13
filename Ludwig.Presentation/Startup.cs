@@ -47,6 +47,8 @@ namespace Ludwig.Presentation
             services.AddTransient<ILudwigConfigurationProvider, LudwigJsonConfigurationProvider>();
 
             services.AddJiraAuthentication();
+
+            services.AddTransient<ICustomFieldDefinitionProvider, LudwigJiraFieldDefinitionProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
