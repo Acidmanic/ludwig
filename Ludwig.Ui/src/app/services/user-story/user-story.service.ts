@@ -28,4 +28,19 @@ export class UserStoryService {
     return handle;
   }
 
+  public getAllStories():Observable<UserStoryModel[]>{
+
+    let handle = new Subject<UserStoryModel[]>();
+
+    let url = "stories";
+
+    this.http.get<UserStoryModel[]>(url).subscribe({
+      next: model => handle.next(model),
+      error:handle.error,
+      complete:handle.complete
+    });
+
+    return handle;
+  }
+
 }
