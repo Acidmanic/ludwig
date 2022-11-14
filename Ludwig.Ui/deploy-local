@@ -1,6 +1,19 @@
  
 
 PUB_DIR=../Ludwig.Presentation/bin/Debug/netcoreapp3.1/front-end
+DPL_DIR=../Ludwig.Presentation/front-end
 DST_DIR=dist/ludwig.ui
 
-ng build && (cd $PUB_DIR && rm -rf ./*) && cp -R $DST_DIR/* $PUB_DIR/
+
+
+deploy(){
+	
+	echo "deploying into $1"
+
+	(cd $1 && rm -rf ./*) && cp -R $DST_DIR/* $1/
+
+}
+
+echo "Building Application"
+
+ng build && deploy $PUB_DIR && deploy $DPL_DIR

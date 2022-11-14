@@ -4,20 +4,20 @@ using EnTier.Repositories;
 using EnTier.Results;
 using EnTier.UnitOfWork;
 using Ludwig.Presentation.Contracts;
+using Ludwig.Presentation.Extensions;
 using Ludwig.Presentation.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace Ludwig.Presentation.Services
 {
-    public class UserStoryService:IUserStoryService
+    public class UserStoryService : IUserStoryService
     {
-
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICrudRepository<UserStory, long> _userStoryRepository;
         private readonly ICrudRepository<StoryUser, long> _storyUserRepository;
         private readonly Jira _jira;
-        
-        
+
+
         public UserStoryService(IUnitOfWork unitOfWork, Jira jira)
         {
             _unitOfWork = unitOfWork;
@@ -25,15 +25,12 @@ namespace Ludwig.Presentation.Services
 
             _userStoryRepository = unitOfWork.GetCrudRepository<UserStory, long>();
             _storyUserRepository = unitOfWork.GetCrudRepository<StoryUser, long>();
-            
         }
 
 
-        
-        
         public IEnumerable<UserStory> GetAll()
         {
-            var all =  _userStoryRepository.All();
+            var all = _userStoryRepository.All();
 
             foreach (var userStorey in all)
             {
@@ -45,12 +42,10 @@ namespace Ludwig.Presentation.Services
 
         public UserStory GetById(long id)
         {
-            var item =  _userStoryRepository.GetById(id);
-            
+            var item = _userStoryRepository.GetById(id);
+
             ReadFullTree(item);
 
-            ReadIssuesInto(item);
-            
             return item;
         }
 
@@ -59,53 +54,76 @@ namespace Ludwig.Presentation.Services
             var issues = _jira.IssuesByUserStory(item.Title).Result;
 
             issues.ForEach(i => i.Fields.Clear());
-            
+
             item.Issues = issues;
         }
 
 
         public UserStory Add(UserStory value)
         {
-            
             var inserted = _userStoryRepository.Add(value);
 
             WriteFullTree(inserted);
 
             _unitOfWork.Complete();
-            
+
             return inserted;
         }
 
-        private void WriteFullTree(UserStory inserted)
+
+        private UserStory Clone(UserStory value)
         {
-            if (inserted.StoryUser != null)
+            return new UserStory
             {
-                var foundUser = FindUser(inserted.StoryUser);
+                Id = value.Id,
+                Issues = new List<JiraIssue>(),
+                Title = value.Title,
+                CardColor = value.CardColor,
+                StoryBenefit = value.StoryBenefit,
+                StoryFeature = value.StoryFeature,
+                StoryUser = new StoryUser
+                {
+                    Id = value.StoryUser.Id,
+                    Name = value.StoryUser?.Name
+                },
+                StoryUserId = value.StoryUserId
+            };
+        }
+
+
+        private void WriteFullTree(UserStory value)
+        {
+            var insertee = Clone(value);
+            
+            if (insertee.StoryUser != null)
+            {
+                var foundUser = FindUser(insertee.StoryUser);
 
                 StoryUser user = null;
-                
+
                 if (foundUser)
                 {
-                     user = foundUser.Primary;
-                     
-                }else if (foundUser.Secondary)
+                    user = foundUser.Primary;
+                }
+                else if (foundUser.Secondary)
                 {
                     user = _storyUserRepository.Add(foundUser.Primary);
                 }
 
                 if (user != null)
                 {
-                    inserted.StoryUser = user;
-                    inserted.StoryUserId = user.Id;
+                    insertee.StoryUser = user;
+                    insertee.StoryUserId = user.Id;
 
-                    _userStoryRepository.Update(inserted);
+                    _userStoryRepository.Update(insertee);
                 }
             }
         }
 
-        private Result<StoryUser,bool> FindUser(StoryUser insertedStoryUser)
+        private Result<StoryUser, bool> FindUser(StoryUser insertedStoryUser)
         {
-            if (insertedStoryUser != null && !string.IsNullOrEmpty(insertedStoryUser.Name) && !string.IsNullOrWhiteSpace(insertedStoryUser.Name) )
+            if (insertedStoryUser != null && !string.IsNullOrEmpty(insertedStoryUser.Name) &&
+                !string.IsNullOrWhiteSpace(insertedStoryUser.Name))
             {
                 if (insertedStoryUser.Id > 0)
                 {
@@ -113,19 +131,19 @@ namespace Ludwig.Presentation.Services
 
                     if (user != null)
                     {
-                        return new Result<StoryUser,bool>(true,false,user);
+                        return new Result<StoryUser, bool>(true, false, user);
                     }
                 }
                 else
                 {
-                    var user = _storyUserRepository.Find(u => 
-                        u.Name!=null && insertedStoryUser.Name !=null 
-                        && u.Name.Trim().ToLower()== insertedStoryUser.Name.Trim().ToLower())
+                    var user = _storyUserRepository.Find(u =>
+                            u.Name != null && insertedStoryUser.Name != null
+                                           && u.Name.Trim().ToLower() == insertedStoryUser.Name.Trim().ToLower())
                         .FirstOrDefault();
 
                     if (user != null)
                     {
-                        return new Result<StoryUser,bool>(true,false,user);
+                        return new Result<StoryUser, bool>(true, false, user);
                     }
                 }
 
@@ -141,15 +159,16 @@ namespace Ludwig.Presentation.Services
         private void ReadFullTree(UserStory value)
         {
             value.StoryUser = _storyUserRepository.GetById(value.StoryUserId);
-            
+
+            ReadIssuesInto(value);
         }
 
         public UserStory Update(UserStory value)
         {
             var updated = _userStoryRepository.Update(value);
-            
+
             WriteFullTree(updated);
-            
+
             _unitOfWork.Complete();
 
             return updated;
