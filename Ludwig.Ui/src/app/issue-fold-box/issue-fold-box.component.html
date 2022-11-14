@@ -1,0 +1,13 @@
+
+<div *ngIf="countIssues(story)>0">
+
+  <button class="btn btn-dark w-100 fold-btn" (click)="toggle()">
+    <span class="badge bg-primary badge-fold" *ngIf="folded">{{countIssues(story)}}</span>
+    Associated Issues
+  </button>
+
+  <div class="container" *ngIf="!folded">
+    <issue-item *ngFor="let issue of story.issues" [issue]="issue"></issue-item>
+  </div>
+
+</div>

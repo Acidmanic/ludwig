@@ -8,12 +8,14 @@ import { ShoeBoxComponent } from './pages/shoe-box/shoe-box.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from "@angular/forms";
 import { IssueItemComponent } from './issue-item/issue-item.component';
+import { IssueFoldBoxComponent } from './issue-fold-box/issue-fold-box.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShoeBoxComponent,
-    IssueItemComponent
+    IssueItemComponent,
+    IssueFoldBoxComponent
   ],
   imports: [
     BrowserModule,

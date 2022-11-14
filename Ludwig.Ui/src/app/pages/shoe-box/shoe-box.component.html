@@ -4,15 +4,13 @@
     <button type="button" class="btn btn-info col-2" (click)="createStory()">Create Story</button>
   </div>
   <div class="row">
-    <div *ngFor="let story of stories" class="card text-white bg-secondary col-4" (click)="edit(story)">
+    <div *ngFor="let story of stories" class="card text-white bg-secondary col-4">
+      <button class="btn btn-info"  (click)="edit(story)">Edit</button>
       <div class="card-body">
         <h5 class="card-title">{{story.title}}</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{story.storyFeature}}</h6>
         <p class="card-text">As {{story.storyUser.name}}, I Want {{story.storyFeature}}, So that I can {{story.storyBenefit}}</p>
-        <label>Associated Issues</label>
-        <div class="container">
-          <issue-item *ngFor="let issue of story.issues" [issue]="issue"></issue-item>
-        </div>
+        <issue-fold-box [story]="story" ></issue-fold-box>
       </div>
     </div>
   </div>
