@@ -1,18 +1,17 @@
-
-
-
-
-<div class="container">
-  <div class="row">
-    <div *ngFor="let story of stories" class="card col-4" style="width: 18rem;">
-      <div class="card-body">
-        <h5 class="card-title">{{story.title}}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{story.storyFeature}}</h6>
-        <p class="card-text">As {{story.storyUser.name}}, I Want {{story.storyFeature}}, So that I can {{story.storyBenefit}}</p>
-      </div>
-    </div>
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="assets/images/icon-w.png">
+      &nbsp;&nbsp;
+      <span class="nav-item">Ludwig - User Story - Tool</span>
+    </a> |
+    <ul>
+      <li class="btn btn-outline-light btn-light text-secondary"><a class="nav-link" routerLink="/shoe-box" routerLinkActive="active" ariaCurrentWhenActive="page">ShoeBox</a></li>
+    </ul>
   </div>
-</div>
+</nav>
+
+<router-outlet></router-outlet>
 
 
 

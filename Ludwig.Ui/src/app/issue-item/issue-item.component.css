@@ -1,0 +1,19 @@
+
+.row-issue{
+  border-top: black solid 1px;
+  padding-top: 5px;
+}
+
+img.icn-issue{
+  width: 20px;
+  height: 20px;
+  flex-basis: fit-content;
+  padding: 0px;
+  margin: 5px 0px 5px 5px;
+}
+
+.txt-issue{
+  width: auto;
+  padding: 0px;
+  margin: 5px 0px 5px 5px;
+}

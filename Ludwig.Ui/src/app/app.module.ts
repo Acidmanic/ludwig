@@ -4,15 +4,23 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
+import { ShoeBoxComponent } from './pages/shoe-box/shoe-box.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from "@angular/forms";
+import { IssueItemComponent } from './issue-item/issue-item.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ShoeBoxComponent,
+    IssueItemComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

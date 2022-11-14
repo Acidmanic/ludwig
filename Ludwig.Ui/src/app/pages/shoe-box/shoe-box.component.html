@@ -1,0 +1,42 @@
+
+<div class="container">
+  <div class="row">
+    <button type="button" class="btn btn-info col-2" (click)="createStory()">Create Story</button>
+  </div>
+  <div class="row">
+    <div *ngFor="let story of stories" class="card text-white bg-secondary col-4" (click)="edit(story)">
+      <div class="card-body">
+        <h5 class="card-title">{{story.title}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{story.storyFeature}}</h6>
+        <p class="card-text">As {{story.storyUser.name}}, I Want {{story.storyFeature}}, So that I can {{story.storyBenefit}}</p>
+        <label>Associated Issues</label>
+        <div class="container">
+          <issue-item *ngFor="let issue of story.issues" [issue]="issue"></issue-item>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{editorTitle}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-3">
+        <label for="txtTitle">Story Title</label>
+        <div class="input-group">
+          <intput type="text" id="txtTitle" [(ngModel)]="editingStory.title"></intput>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+  </div>
+</ng-template>
