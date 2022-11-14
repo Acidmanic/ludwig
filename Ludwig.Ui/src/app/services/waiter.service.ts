@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Observable, Subscription, timer} from "rxjs";
+import {Observable, Subject, Subscription, timer} from "rxjs";
+import {Color} from "./color";
+import {WaitGoodies} from "./wait-goodies";
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +14,27 @@ export class WaiterService {
 
   private static waiters:number=0;
   private static timerHandle:Subscription;
+  private static stateChange:Subject<WaitGoodies>=new Subject<WaitGoodies>();
+
+  private static color:Color=Color.create(90,121,83,0.3);
+  private static goodies:WaitGoodies={color:WaiterService.color,waiting:false};
 
   constructor() {
+    WaiterService.stateChange.next(WaiterService.goodies);
 
+  }
+
+
+  public state():Observable<WaitGoodies>{
+
+    return WaiterService.stateChange;
   }
 
   public start(){
 
     WaiterService.waiters++;
+    WaiterService.goodies.waiting=true;
+    WaiterService.stateChange.next(WaiterService.goodies);
     this.shootTimer()
 
   }
@@ -40,10 +55,12 @@ export class WaiterService {
     WaiterService.timerHandle = timer(0, 300)
         .subscribe({
           next: () => {
-            console.log("shit",WaiterService.waiters);
             WaiterService.toggle();
+            WaiterService.goodies.color.incrementColor();
+            WaiterService.stateChange.next(WaiterService.goodies);
             if(WaiterService.waiters<=0){
-              console.log("im trying to die!",WaiterService.waiters);
+              WaiterService.goodies.waiting=false;
+              WaiterService.stateChange.next(WaiterService.goodies);
               this.killTimer();
               WaiterService.disableFunction();
             }

@@ -1,5 +1,8 @@
 
-<div class="container">
+
+  <disabler>
+
+    <div class="container">
   <div class="row">
     <button type="button" class="btn btn-info col-2" (click)="createStory()">Create Story</button>
   </div>
@@ -29,9 +32,9 @@
   </div>
 </div>
 
+  </disabler>
 
-
-<ng-template class="shoebox-modal" #content let-modal>
+  <ng-template class="shoebox-modal" #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">{{editorTitle}}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
