@@ -9,6 +9,8 @@ export class AppComponent {
 
   title = 'Ludwig.Ui';
 
+  constructor() {
+  }
 
 
 }

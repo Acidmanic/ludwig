@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {UserStoryModel} from "../../models/user-story.model";
 import {UserStoryService} from "../../services/user-story/user-story.service";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {WaiterService} from "../../services/waiter.service";
 
 
 @Component({
@@ -18,18 +19,26 @@ export class ShoeBoxComponent implements OnInit {
   @ViewChild('content') content:any;
 
   constructor(private svcStory:UserStoryService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private svcWaiter:WaiterService) {
   }
 
   ngOnInit(): void {
+
+    this.svcWaiter.start();
 
     this.svcStory.getAllStories().subscribe({
       next:stories => {
         this.stories = stories;
         console.log("stories:",this.stories);
+        this.svcWaiter.stop();
       },
-      error:err=>{},
-      complete:()=>{}
+      error:err=>{
+        this.svcWaiter.stop();
+      },
+      complete:()=>{
+        this.svcWaiter.stop();
+      }
     });
 
     console.log(this.content);
@@ -52,6 +61,8 @@ export class ShoeBoxComponent implements OnInit {
     this.editingStory = new UserStoryModel();
 
     this.openModal('Create New Story');
+
+    this.svcWaiter.start();
   }
 
   openModal(title:string) {
