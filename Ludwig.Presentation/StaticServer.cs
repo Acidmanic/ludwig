@@ -16,6 +16,9 @@ namespace Ludwig.Presentation
         private  string _frontDirectory;
         
         private  string _indexFile;
+
+        private bool _serveForAngular = false;
+        
         public StaticServer(string servingDirectoryName, string defaultFile)
         {
             _servingDirectoryName = servingDirectoryName;
@@ -31,6 +34,13 @@ namespace Ludwig.Presentation
         public StaticServer():this("front-end")
         {
             
+        }
+
+        public StaticServer ServeForAnguler()
+        {
+            _serveForAngular = true;
+            
+            return this;
         }
 
         public void ConfigurePreRouting(IApplicationBuilder app, IHostEnvironment env)
@@ -69,6 +79,24 @@ namespace Ludwig.Presentation
 
                 endpoints.MapGet("/", c => c.Response.WriteAsync(File.ReadAllText(_indexFile)));
             });
+
+            if (_serveForAngular)
+            {
+                app.Use( async (context,next) =>
+                {
+                    await next.Invoke();
+                
+                    if (context.Response.StatusCode == 404)
+                    {
+                        context.Response.StatusCode = 200;
+
+                        var content = await File.ReadAllTextAsync(_indexFile);
+                    
+                        await context.Response.WriteAsync(content);
+                    }
+                
+                });   
+            }
         }
     }
 }

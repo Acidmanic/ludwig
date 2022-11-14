@@ -22,7 +22,7 @@ namespace Ludwig.Presentation
     public class Startup
     {
 
-        private StaticServer _frontEndServer = new StaticServer();
+        private StaticServer _frontEndServer = new StaticServer().ServeForAnguler();
         
         public Startup(IConfiguration configuration)
         {
