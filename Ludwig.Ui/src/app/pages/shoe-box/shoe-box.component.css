@@ -8,6 +8,14 @@
 }
 
 
+/*background: #dbdbdb;*/
+
+
 .shoebox-modal{
   background-color: #6e7462;
+}
+
+.card-description{
+  margin: 0px;
+  padding: 1em;
 }

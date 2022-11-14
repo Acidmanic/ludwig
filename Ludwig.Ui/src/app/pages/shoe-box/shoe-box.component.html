@@ -31,7 +31,7 @@
 
 
 
-<ng-template #content let-modal>
+<ng-template class="shoebox-modal" #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">{{editorTitle}}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
@@ -39,26 +39,26 @@
   <div class="modal-body">
     <form>
       <div class="mb-3">
-        <label for="txtTitle">Story Title</label>
-        <div class="input-group">
-          <input class="w-100" type="text" name="txtTitle" id="txtTitle" [(ngModel)]="editingStory.title">
+        <div class="">
+          <label for="txtTitle" class="form-label">Story Title</label>
+          <input class="w-100 form-control" type="text" name="txtTitle" id="txtTitle" [(ngModel)]="editingStory.title">
         </div>
-        <label for="txtUser">User</label>
         <div class="input-group">
-          <input class="w-100" type="text" name="txtUser" id="txtUser" [(ngModel)]="editingStory.storyUser.name">
+          <label for="txtUser" class="form-label">User</label>
+          <input class="w-100 form-control" type="text" name="txtUser" id="txtUser" [(ngModel)]="editingStory.storyUser.name">
         </div>
-        <label for="txtFeature">Feature</label>
         <div class="input-group">
-          <input class="w-100" type="text" name="txtFeature" id="txtFeature" [(ngModel)]="editingStory.storyFeature">
+          <label for="txtFeature" class="form-label">Feature</label>
+          <input class="w-100 form-control" type="text" name="txtFeature" id="txtFeature" [(ngModel)]="editingStory.storyFeature">
         </div>
-        <label for="txtBenefit">Benefit</label>
         <div class="input-group">
-          <input class="w-100" type="text" name="txtBenefit" id="txtBenefit" [(ngModel)]="editingStory.storyBenefit">
+          <label for="txtBenefit" class="form-label">Benefit</label>
+          <input class="w-100 form-control" type="text" name="txtBenefit" id="txtBenefit" [(ngModel)]="editingStory.storyBenefit">
         </div>
       </div>
     </form>
     <label for="storyPreview"></label>
-    <span id="storyPreview" class="card bg-info">{{caption(editingStory)}}</span>
+    <span id="storyPreview" class="card card-description">{{caption(editingStory)}}</span>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
