@@ -1,0 +1,25 @@
+
+
+.notfound-img-container{
+  width: 512px;
+  height: 512px;
+  border-radius: 100%;
+  overflow: hidden;
+  margin-top: 5%;
+  padding: 0px;
+}
+
+.notfound-img-container img{
+  width:100%;
+  vertical-align: middle;
+  padding: 0px;
+  margin: 0px;
+}
+
+.quot-inline{
+  display: contents;
+}
+
+.notfound-container{
+  margin-top: 5%;
+}

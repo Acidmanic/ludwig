@@ -25,9 +25,6 @@ export class ShoeBoxComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.svcWaiter.start();
-
     this.refreshShoeBox();
   }
 
@@ -85,6 +82,9 @@ export class ShoeBoxComponent implements OnInit {
 
 
   refreshShoeBox(){
+
+    this.svcWaiter.start();
+
     this.svcStory.getAllStories().subscribe({
       next:stories => {
         this.stories = stories;
@@ -101,6 +101,8 @@ export class ShoeBoxComponent implements OnInit {
 
   onUpdateEditingStory(){
 
+    this.svcWaiter.start();
+
     this.svcStory.updateStory(this.editingStory).subscribe({
       next:updated => {
         this.svcWaiter.stop();
@@ -116,6 +118,9 @@ export class ShoeBoxComponent implements OnInit {
   }
 
   onAddEditingStory(){
+
+    this.svcWaiter.start();
+
     this.svcStory.addStory(this.editingStory).subscribe({
       next:inserted => {
         this.svcWaiter.stop();

@@ -11,6 +11,7 @@ import { IssueItemComponent } from './issue-item/issue-item.component';
 import { IssueFoldBoxComponent } from './issue-fold-box/issue-fold-box.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { WaitingLogoComponent } from './waiting-logo/waiting-logo.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { WaitingLogoComponent } from './waiting-logo/waiting-logo.component';
     ShoeBoxComponent,
     IssueItemComponent,
     IssueFoldBoxComponent,
-    WaitingLogoComponent
+    WaitingLogoComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
