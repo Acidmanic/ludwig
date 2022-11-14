@@ -37,7 +37,12 @@ export class ShoeBoxComponent implements OnInit {
 
   editStory(story:UserStoryModel){
 
-    this.editingStory = story;
+    this.editingStory = {
+      ...story,
+      storyUser:{
+        ...story.storyUser
+      }
+    };
     this.editOperation = this.onUpdateEditingStory;
     this.openModal('Edit ' + story.title);
   }
