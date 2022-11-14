@@ -70,4 +70,10 @@ export class ShoeBoxComponent implements OnInit {
   }
 
 
+  caption(story:UserStoryModel){
+    return 'As ' +
+      story.storyUser.name + ', I Want ' +
+      story.storyFeature+ ', So that I can ' +
+      story.storyBenefit;
+  }
 }
