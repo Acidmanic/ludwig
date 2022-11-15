@@ -11,8 +11,10 @@ export class EditableUserStoryComponent implements OnInit {
 
 
   @Input('story') story:UserStoryModel=EditableUserStoryComponent.blankStory();
+  @Input('force-enable-sync') forceEnableSync:boolean=false;
   @Output('storyChange') storyChange:EventEmitter<UserStoryModel> = new EventEmitter<UserStoryModel>();
   @Output('syncStory') syncStory:EventEmitter<UserStoryModel> = new EventEmitter<UserStoryModel>();
+  @Output('deleteStory') deleteStory:EventEmitter<UserStoryModel> = new EventEmitter<UserStoryModel>();
 
   original:UserStoryModel=new UserStoryModel();
 
@@ -73,5 +75,9 @@ export class EditableUserStoryComponent implements OnInit {
     this.updateFields=[false,false,false,false];
     this.modelUpdate=false;
     this.storyChange.emit(this.story);
+  }
+
+  onDeleteClick(){
+    this.deleteStory.emit(this.story);
   }
 }

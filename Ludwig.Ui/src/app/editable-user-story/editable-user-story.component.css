@@ -5,4 +5,5 @@ button.btn.btn-icon {
   padding: 2px;
   width: 32px;
   height: 32px;
+  opacity: 0.75;
 }

@@ -1,7 +1,9 @@
 
-<div class="container">
-  <div class="row">
-    <button *ngIf="modelUpdate" class="btn btn-success btn-icon"
+<div class="card-body">
+  <h5 class="card-title d-flex justify-content-between">
+    <editable-text-box class="d-flex align-items-center"
+      [(text)]="story.title" (updatedChange)="onFieldUpdate(0,$event)"></editable-text-box>
+    <button *ngIf="modelUpdate || forceEnableSync" class="btn btn-success btn-icon"
             (click)="onSyncClick()"
             ngbTooltip="Sync Up Changes" >
             <span class="material-symbols-outlined">
@@ -15,12 +17,13 @@
               undo
             </span>
     </button>
-  </div>
-</div>
-
-<div class="card-body">
-  <h5 class="card-title">
-    <editable-text-box [(text)]="story.title" (updatedChange)="onFieldUpdate(0,$event)"></editable-text-box>
+    <button class="btn btn-danger btn-icon"
+            (click)="onDeleteClick()"
+            ngbTooltip="Delete User Story" >
+            <span class="material-symbols-outlined">
+              delete
+            </span>
+    </button>
   </h5>
   <p class="card-text">
     As

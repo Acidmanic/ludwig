@@ -23,7 +23,6 @@ export class ShoeBoxComponent implements OnInit {
   messageBoxHook:EventEmitter<any> = new EventEmitter<any>();
 
   editOperation=()=>{};
-  @ViewChild('content') content:any;
 
   constructor(private svcStory:UserStoryService,
               private modalService: NgbModal,
@@ -38,35 +37,11 @@ export class ShoeBoxComponent implements OnInit {
   ngAfterViewInit() {
   }
 
-  // editStory(story:UserStoryModel){
-  //
-  //   this.editingStory = {
-  //     ...story,
-  //     storyUser:{
-  //       ...story.storyUser
-  //     }
-  //   };
-  //   this.editOperation = this.onUpdateEditingStory;
-  //   // this.openModal('Edit ' + story.title);
-  // }
-
   createStory(){
     let editingStory = EditableUserStoryComponent.blankStory();
 
     this.stories.push(editingStory);
   }
-
-  // openModal(title:string) {
-  //
-  //   this.editorTitle=title;
-  //
-  //   this.modalService.open(this.content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-  //     (result) => {
-  //     },
-  //     (reason) => {
-  //     },
-  //   );
-  // }
 
   askDeletingStory(story:UserStoryModel){
     this.deletingStory=story;
@@ -75,18 +50,32 @@ export class ShoeBoxComponent implements OnInit {
 
   deleteStory(story:UserStoryModel){
 
-    this.svcStory.deleteStory(story).subscribe({
-      next:updated => {
-        this.svcWaiter.stop();
-        this.refreshShoeBox();
-      },
-      error:err=>{
-        this.svcWaiter.stop();
-      },
-      complete:()=>{
-        this.svcWaiter.stop();
+    var i:number=0;
+
+    while(i<this.stories.length){
+
+      let s = this.stories[i];
+
+      if(s.id==story.id){
+        this.stories.splice(i,1);
+      }else{
+        i++;
       }
-    });
+    }
+    if(story.id>0){
+      this.svcStory.deleteStory(story).subscribe({
+        next:updated => {
+          this.svcWaiter.stop();
+          this.refreshShoeBox();
+        },
+        error:err=>{
+          this.svcWaiter.stop();
+        },
+        complete:()=>{
+          this.svcWaiter.stop();
+        }
+      });
+    }
   }
 
 
@@ -108,27 +97,8 @@ export class ShoeBoxComponent implements OnInit {
     });
   }
 
-  // onUpdateEditingStory(){
-  //
-  //   this.svcWaiter.start();
-  //
-  //   this.svcStory.updateStory(this.editingStory).subscribe({
-  //     next:updated => {
-  //       this.svcWaiter.stop();
-  //       this.refreshShoeBox();
-  //     },
-  //     error:err=>{
-  //       this.svcWaiter.stop();
-  //     },
-  //     complete:()=>{
-  //       this.svcWaiter.stop();
-  //     }
-  //   });
-  // }
 
   saveUserStory(story:UserStoryModel){
-
-
 
     this.svcWaiter.start();
 
@@ -154,48 +124,11 @@ export class ShoeBoxComponent implements OnInit {
     });
   }
 
-  // onAddEditingStory(){
-  //
-  //   this.svcWaiter.start();
-  //
-  //   this.svcStory.addStory(this.editingStory).subscribe({
-  //     next:inserted => {
-  //       this.svcWaiter.stop();
-  //       this.refreshShoeBox();
-  //     },
-  //     error:err=>{
-  //       this.svcWaiter.stop();
-  //     },
-  //     complete:()=>{
-  //       this.svcWaiter.stop();
-  //     }
-  //   });
-  // }
-  //
-  // addStory(story:UserStoryModel){
-  //
-  //   this.svcWaiter.start();
-  //
-  //   this.svcStory.addStory(story).subscribe({
-  //     next:inserted => {
-  //       this.svcWaiter.stop();
-  //       this.refreshShoeBox();
-  //     },
-  //     error:err=>{
-  //       this.svcWaiter.stop();
-  //     },
-  //     complete:()=>{
-  //       this.svcWaiter.stop();
-  //     }
-  //   });
-  // }
-
   caption(story:UserStoryModel){
     return 'As ' +
       story.storyUser.name + ', I Want ' +
       story.storyFeature+ ', So that I can ' +
       story.storyBenefit;
   }
-
 
 }
