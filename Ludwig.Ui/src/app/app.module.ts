@@ -16,6 +16,7 @@ import { DisablerComponent } from './disabler/disabler.component';
 import { MessageBoxComponent } from './message-box/message-box.component';
 import { EditableTextBoxComponent } from './editable-text-box/editable-text-box.component';
 import { EditableUserStoryComponent } from './editable-user-story/editable-user-story.component';
+import { CollapsibleComponent } from './collapsible/collapsible.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { EditableUserStoryComponent } from './editable-user-story/editable-user-
     DisablerComponent,
     MessageBoxComponent,
     EditableTextBoxComponent,
-    EditableUserStoryComponent
+    EditableUserStoryComponent,
+    CollapsibleComponent
   ],
   imports: [
     BrowserModule,

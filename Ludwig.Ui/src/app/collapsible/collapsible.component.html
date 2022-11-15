@@ -1,0 +1,13 @@
+
+
+<div *ngIf="collapsed" class="alert alert-light collapsible-alternative" ngbTooltip="Click to expand" (click)="toggle()">
+  {{alternativeText}}
+</div>
+<div *ngIf="!collapsed">
+  <ng-content></ng-content>
+  <div (click)="toggle()" class="collapsible-collapse d-flex justify-content-center">
+    <span class="material-symbols-outlined">
+              expand_less
+    </span>
+  </div>
+</div>

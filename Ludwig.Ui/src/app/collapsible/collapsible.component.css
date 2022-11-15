@@ -1,0 +1,10 @@
+
+
+.collapsible-alternative{
+  cursor: pointer;
+}
+
+.collapsible-collapse{
+  cursor: pointer;
+  width: 100%;
+}
