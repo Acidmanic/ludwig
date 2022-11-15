@@ -1,0 +1,17 @@
+
+<ng-template class="messagebox-modal" #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{modalTitle}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss(rejCaption);noIt();"></button>
+  </div>
+  <div class="modal-body">
+    <span>{{modalText}}</span>
+    <ng-content></ng-content>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn {{acceptButtonClass}}" (click)="modal.close(accCaption);yesIt();">{{accCaption}}</button>
+    <button type="button" class="btn {{rejectButtonClass}}" (click)="modal.close(rejCaption);noIt();">{{rejCaption}}</button>
+  </div>
+</ng-template>
+

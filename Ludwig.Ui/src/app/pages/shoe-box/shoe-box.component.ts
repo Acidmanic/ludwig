@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, ViewChild} from '@angular/core';
 import {UserStoryModel} from "../../models/user-story.model";
 import {UserStoryService} from "../../services/user-story/user-story.service";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
@@ -16,6 +16,9 @@ export class ShoeBoxComponent implements OnInit {
   stories:UserStoryModel[]=[];
   editorTitle:string='Create';
   editingStory:UserStoryModel=new UserStoryModel();
+  deletingStory:UserStoryModel=new UserStoryModel();
+  messageBoxHook:EventEmitter<any> = new EventEmitter<any>();
+
   editOperation=()=>{};
   @ViewChild('content') content:any;
 
@@ -63,6 +66,10 @@ export class ShoeBoxComponent implements OnInit {
     );
   }
 
+  askDeletingStory(story:UserStoryModel){
+    this.deletingStory=story;
+    this.messageBoxHook.emit();
+  }
 
   deleteStory(story:UserStoryModel){
 

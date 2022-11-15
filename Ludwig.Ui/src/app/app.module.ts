@@ -13,6 +13,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { WaitingLogoComponent } from './waiting-logo/waiting-logo.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { DisablerComponent } from './disabler/disabler.component';
+import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { DisablerComponent } from './disabler/disabler.component';
     IssueFoldBoxComponent,
     WaitingLogoComponent,
     NotFoundComponent,
-    DisablerComponent
+    DisablerComponent,
+    MessageBoxComponent
   ],
   imports: [
     BrowserModule,

@@ -15,7 +15,7 @@
           edit_square
         </span>
           </button>
-          <button class="btn btn-danger btn-icon"  (click)="deleteStory(story)">
+          <button class="btn btn-danger btn-icon"  (click)="askDeletingStory(story)">
         <span class="material-symbols-outlined">
           delete
         </span>
@@ -33,6 +33,15 @@
 </div>
 
   </disabler>
+
+  <message-box  title="Deleting {{deletingStory.title}}"
+                caption="Are you sure you wan to delete user story:"
+                (accepted)="deleteStory(deletingStory)"
+                [negative-reject]="false"
+                [show-hook]="messageBoxHook">
+    <div><b>{{caption(deletingStory)}}?</b></div>
+  </message-box>
+
 
   <ng-template class="shoebox-modal" #content let-modal>
   <div class="modal-header">
