@@ -1,16 +1,35 @@
-<nav class="navbar navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="#">
-<!--      <img src="assets/images/icon-w.png">-->
-      <waiting-logo></waiting-logo>
-      &nbsp;&nbsp;
-      <span class="nav-item">Ludwig - User Story - Tool</span>
-    </a> |
-    <ul>
-      <li class="btn btn-outline-light btn-light text-secondary"><a class="nav-link" routerLink="/shoe-box" routerLinkActive="active" ariaCurrentWhenActive="page">ShoeBox</a></li>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a class="navbar-brand" href="#">
+    <waiting-logo></waiting-logo>
+    &nbsp;&nbsp;
+    <span class="nav-item">Ludwig - User Story - Tool</span>
+  </a>
+
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+<!--      btn btn-outline-light btn-light text-secondary-->
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/shoe-box" routerLinkActive="active" ariaCurrentWhenActive="page">Shoe Box!</a>
+      </li>
+
+      <li ngbDropdown class="nav-item">
+        <a href (click)="false" class="nav-link" ngbDropdownToggle>Export</a>
+        <div ngbDropdownMenu>
+          <a href="export/cvs/stories" ngbDropdownItem>Export User Stories as CSV</a>
+          <a href="export/json/stories" ngbDropdownItem>Export User Stories as Json</a>
+          <a href="export/json/database"ngbDropdownItem>Export Database as Json</a>
+<!--          <div class="dropdown-divider"></div>-->
+<!--          <button ngbDropdownItem>Separated link</button>-->
+        </div>
+      </li>
+
     </ul>
   </div>
+
+
 </nav>
+
 
 
 
