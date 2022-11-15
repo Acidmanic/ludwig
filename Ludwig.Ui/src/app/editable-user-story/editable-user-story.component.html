@@ -1,37 +1,38 @@
-
-<div class="card-body">
-  <h5 class="card-title d-flex justify-content-between">
-    <editable-text-box class="d-flex align-items-center"
-      [(text)]="story.title" (updatedChange)="onFieldUpdate(0,$event)"></editable-text-box>
-    <button *ngIf="modelUpdate || forceEnableSync" class="btn btn-success btn-icon"
-            (click)="onSyncClick()"
-            ngbTooltip="Sync Up Changes" >
-            <span class="material-symbols-outlined">
-              publish
-            </span>
-    </button>
-    <button *ngIf="modelUpdate" class="btn btn-warning btn-icon"
-            (click)="onRevertClick()"
-            ngbTooltip="Revert Changes" >
-            <span class="material-symbols-outlined">
-              undo
-            </span>
-    </button>
-    <button class="btn btn-danger btn-icon"
-            (click)="onDeleteClick()"
-            ngbTooltip="Delete User Story" >
-            <span class="material-symbols-outlined">
-              delete
-            </span>
-    </button>
-  </h5>
-  <p class="card-text">
-    As
-    <editable-text-box [(text)]="story.storyUser.name" (updatedChange)="onFieldUpdate(1,$event)"></editable-text-box>
-    I Want
-    <editable-text-box [(text)]="story.storyFeature" (updatedChange)="onFieldUpdate(2,$event)"></editable-text-box>
-    So That I Can
-    <editable-text-box [(text)]="story.storyBenefit" (updatedChange)="onFieldUpdate(3,$event)"></editable-text-box>
-  </p>
-  <issue-fold-box [story]="story" ></issue-fold-box>
+<div class="card text-white bg-secondary">
+  <div class="card-body">
+    <h5 class="card-title d-flex justify-content-between">
+      <editable-text-box class="d-flex align-items-center"
+        [(text)]="story.title" (updatedChange)="onFieldUpdate(0,$event)"></editable-text-box>
+      <button *ngIf="modelUpdate || forceEnableSync" class="btn btn-success btn-icon"
+              (click)="onSyncClick()"
+              ngbTooltip="Sync Up Changes" >
+              <span class="material-symbols-outlined">
+                publish
+              </span>
+      </button>
+      <button *ngIf="modelUpdate" class="btn btn-warning btn-icon"
+              (click)="onRevertClick()"
+              ngbTooltip="Revert Changes" >
+              <span class="material-symbols-outlined">
+                undo
+              </span>
+      </button>
+      <button class="btn btn-danger btn-icon"
+              (click)="onDeleteClick()"
+              ngbTooltip="Delete User Story" >
+              <span class="material-symbols-outlined">
+                delete
+              </span>
+      </button>
+    </h5>
+    <p class="card-text">
+      As
+      <editable-text-box [(text)]="story.storyUser.name" (updatedChange)="onFieldUpdate(1,$event)"></editable-text-box>
+      I Want
+      <editable-text-box [(text)]="story.storyFeature" (updatedChange)="onFieldUpdate(2,$event)"></editable-text-box>
+      So That I Can
+      <editable-text-box [(text)]="story.storyBenefit" (updatedChange)="onFieldUpdate(3,$event)"></editable-text-box>
+    </p>
+    <issue-fold-box [story]="story" ></issue-fold-box>
+  </div>
 </div>

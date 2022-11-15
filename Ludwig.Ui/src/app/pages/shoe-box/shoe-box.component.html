@@ -7,14 +7,17 @@
     <button type="button" class="btn btn-info col-2" (click)="createStory()">Create Story</button>
   </div>
   <div class="row">
-    <div *ngFor="let story of stories" class="card text-white bg-secondary col-3">
+    <collapsible
+      *ngFor="let story of stories" class="col-3"
+      [collapsed]="true"
+      collapse-button-classes="text-light"
+      alternative-text="{{caption(story)}}">
       <editable-user-story [story]="story"
                            (syncStory)="saveUserStory($event)"
                            (deleteStory)="askDeletingStory($event)"
-                           [force-enable-sync]="story.id<=0"
-      >
+                           [force-enable-sync]="story.id<=0">
       </editable-user-story>
-    </div>
+    </collapsible>
   </div>
 </div>
 
