@@ -60,7 +60,6 @@ export class Color{
 
   private updateCode(){
     this.colorCode='rgba(' + this.red + ',' + this.green + ',' + this.blue + ',' + this.alpha + ')';
-    console.log(this.colorCode);
   }
 
   public static create(r:number,g:number,b:number,a:number):Color{

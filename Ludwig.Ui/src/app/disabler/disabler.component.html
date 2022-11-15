@@ -1,5 +1,5 @@
 
 <div  class="disabler-container" >
-  <div *ngIf="block" style="{{styleString}}" class="blocker"></div>
+  <div *ngIf="block" [@backgroundState]="state" class="blocker"></div>
   <ng-content></ng-content>
 </div>
