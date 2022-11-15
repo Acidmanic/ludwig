@@ -13,11 +13,3 @@
   border-bottom: 1px solid;
   width: fit-content;
 }
-
-.button.btn.btn-icon {
-  margin: 0.3em;
-  font-size: 20px;
-  padding: 2px;
-  width: 32px;
-  height: 32px;
-}

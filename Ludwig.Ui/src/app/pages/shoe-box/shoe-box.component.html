@@ -8,7 +8,10 @@
   </div>
   <div class="row">
     <div *ngFor="let story of stories" class="card text-white bg-secondary col-3">
-      <editable-user-story [story]="story"></editable-user-story>
+      <editable-user-story [story]="story"
+                           (syncStory)="saveUserStory($event)"
+      >
+      </editable-user-story>
     </div>
   </div>
 </div>
@@ -24,36 +27,36 @@
   </message-box>
 
 
-  <ng-template class="shoebox-modal" #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{editorTitle}}</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-  </div>
-  <div class="modal-body">
-    <form>
-      <div class="mb-3">
-        <div class="">
-          <label for="txtTitle" class="form-label">Story Title</label>
-          <input class="w-100 form-control" type="text" name="txtTitle" id="txtTitle" [(ngModel)]="editingStory.title">
-        </div>
-        <div class="input-group">
-          <label for="txtUser" class="form-label">User</label>
-          <input class="w-100 form-control" type="text" name="txtUser" id="txtUser" [(ngModel)]="editingStory.storyUser.name">
-        </div>
-        <div class="input-group">
-          <label for="txtFeature" class="form-label">Feature</label>
-          <input class="w-100 form-control" type="text" name="txtFeature" id="txtFeature" [(ngModel)]="editingStory.storyFeature">
-        </div>
-        <div class="input-group">
-          <label for="txtBenefit" class="form-label">Benefit</label>
-          <input class="w-100 form-control" type="text" name="txtBenefit" id="txtBenefit" [(ngModel)]="editingStory.storyBenefit">
-        </div>
-      </div>
-    </form>
-    <label for="storyPreview"></label>
-    <span id="storyPreview" class="card card-description">{{caption(editingStory)}}</span>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click');editOperation();">Save</button>
-  </div>
-</ng-template>
+<!--  <ng-template class="shoebox-modal" #content let-modal>-->
+<!--  <div class="modal-header">-->
+<!--    <h4 class="modal-title" id="modal-basic-title">{{editorTitle}}</h4>-->
+<!--    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>-->
+<!--  </div>-->
+<!--  <div class="modal-body">-->
+<!--    <form>-->
+<!--      <div class="mb-3">-->
+<!--        <div class="">-->
+<!--          <label for="txtTitle" class="form-label">Story Title</label>-->
+<!--          <input class="w-100 form-control" type="text" name="txtTitle" id="txtTitle" [(ngModel)]="editingStory.title">-->
+<!--        </div>-->
+<!--        <div class="input-group">-->
+<!--          <label for="txtUser" class="form-label">User</label>-->
+<!--          <input class="w-100 form-control" type="text" name="txtUser" id="txtUser" [(ngModel)]="editingStory.storyUser.name">-->
+<!--        </div>-->
+<!--        <div class="input-group">-->
+<!--          <label for="txtFeature" class="form-label">Feature</label>-->
+<!--          <input class="w-100 form-control" type="text" name="txtFeature" id="txtFeature" [(ngModel)]="editingStory.storyFeature">-->
+<!--        </div>-->
+<!--        <div class="input-group">-->
+<!--          <label for="txtBenefit" class="form-label">Benefit</label>-->
+<!--          <input class="w-100 form-control" type="text" name="txtBenefit" id="txtBenefit" [(ngModel)]="editingStory.storyBenefit">-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </form>-->
+<!--    <label for="storyPreview"></label>-->
+<!--    <span id="storyPreview" class="card card-description">{{caption(editingStory)}}</span>-->
+<!--  </div>-->
+<!--  <div class="modal-footer">-->
+<!--    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click');editOperation();">Save</button>-->
+<!--  </div>-->
+<!--</ng-template>-->

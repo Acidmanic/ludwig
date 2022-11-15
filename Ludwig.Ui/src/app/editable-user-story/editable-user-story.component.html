@@ -1,9 +1,18 @@
 
 <div class="container">
   <div class="row">
-    <button *ngIf="modelUpdate" class="btn btn-success btn-icon" ngbTooltip="Sync Up Changes" >
+    <button *ngIf="modelUpdate" class="btn btn-success btn-icon"
+            (click)="onSyncClick()"
+            ngbTooltip="Sync Up Changes" >
             <span class="material-symbols-outlined">
               publish
+            </span>
+    </button>
+    <button *ngIf="modelUpdate" class="btn btn-warning btn-icon"
+            (click)="onRevertClick()"
+            ngbTooltip="Revert Changes" >
+            <span class="material-symbols-outlined">
+              undo
             </span>
     </button>
   </div>

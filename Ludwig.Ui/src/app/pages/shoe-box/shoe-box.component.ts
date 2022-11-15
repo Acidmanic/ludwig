@@ -3,6 +3,9 @@ import {UserStoryModel} from "../../models/user-story.model";
 import {UserStoryService} from "../../services/user-story/user-story.service";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {WaiterService} from "../../services/waiter.service";
+import {StoryUserModel} from "../../models/story-user.model";
+import {Observable} from "rxjs";
+import {EditableUserStoryComponent} from "../../editable-user-story/editable-user-story.component";
 
 
 @Component({
@@ -35,36 +38,35 @@ export class ShoeBoxComponent implements OnInit {
   ngAfterViewInit() {
   }
 
-  editStory(story:UserStoryModel){
-
-    this.editingStory = {
-      ...story,
-      storyUser:{
-        ...story.storyUser
-      }
-    };
-    this.editOperation = this.onUpdateEditingStory;
-    this.openModal('Edit ' + story.title);
-  }
+  // editStory(story:UserStoryModel){
+  //
+  //   this.editingStory = {
+  //     ...story,
+  //     storyUser:{
+  //       ...story.storyUser
+  //     }
+  //   };
+  //   this.editOperation = this.onUpdateEditingStory;
+  //   // this.openModal('Edit ' + story.title);
+  // }
 
   createStory(){
+    let editingStory = EditableUserStoryComponent.blankStory();
 
-    this.editingStory = new UserStoryModel();
-    this.editOperation = this.onAddEditingStory;
-    this.openModal('Create New Story');
+    this.stories.push(editingStory);
   }
 
-  openModal(title:string) {
-
-    this.editorTitle=title;
-
-    this.modalService.open(this.content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      (result) => {
-      },
-      (reason) => {
-      },
-    );
-  }
+  // openModal(title:string) {
+  //
+  //   this.editorTitle=title;
+  //
+  //   this.modalService.open(this.content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+  //     (result) => {
+  //     },
+  //     (reason) => {
+  //     },
+  //   );
+  // }
 
   askDeletingStory(story:UserStoryModel){
     this.deletingStory=story;
@@ -106,11 +108,39 @@ export class ShoeBoxComponent implements OnInit {
     });
   }
 
-  onUpdateEditingStory(){
+  // onUpdateEditingStory(){
+  //
+  //   this.svcWaiter.start();
+  //
+  //   this.svcStory.updateStory(this.editingStory).subscribe({
+  //     next:updated => {
+  //       this.svcWaiter.stop();
+  //       this.refreshShoeBox();
+  //     },
+  //     error:err=>{
+  //       this.svcWaiter.stop();
+  //     },
+  //     complete:()=>{
+  //       this.svcWaiter.stop();
+  //     }
+  //   });
+  // }
+
+  saveUserStory(story:UserStoryModel){
+
+
 
     this.svcWaiter.start();
 
-    this.svcStory.updateStory(this.editingStory).subscribe({
+    let handle:Observable<UserStoryModel>;
+
+    if(story.id>0){
+      handle=this.svcStory.updateStory(story);
+    }else{
+      handle=this.svcStory.addStory(story);
+    }
+
+    handle.subscribe({
       next:updated => {
         this.svcWaiter.stop();
         this.refreshShoeBox();
@@ -124,23 +154,41 @@ export class ShoeBoxComponent implements OnInit {
     });
   }
 
-  onAddEditingStory(){
-
-    this.svcWaiter.start();
-
-    this.svcStory.addStory(this.editingStory).subscribe({
-      next:inserted => {
-        this.svcWaiter.stop();
-        this.refreshShoeBox();
-      },
-      error:err=>{
-        this.svcWaiter.stop();
-      },
-      complete:()=>{
-        this.svcWaiter.stop();
-      }
-    });
-  }
+  // onAddEditingStory(){
+  //
+  //   this.svcWaiter.start();
+  //
+  //   this.svcStory.addStory(this.editingStory).subscribe({
+  //     next:inserted => {
+  //       this.svcWaiter.stop();
+  //       this.refreshShoeBox();
+  //     },
+  //     error:err=>{
+  //       this.svcWaiter.stop();
+  //     },
+  //     complete:()=>{
+  //       this.svcWaiter.stop();
+  //     }
+  //   });
+  // }
+  //
+  // addStory(story:UserStoryModel){
+  //
+  //   this.svcWaiter.start();
+  //
+  //   this.svcStory.addStory(story).subscribe({
+  //     next:inserted => {
+  //       this.svcWaiter.stop();
+  //       this.refreshShoeBox();
+  //     },
+  //     error:err=>{
+  //       this.svcWaiter.stop();
+  //     },
+  //     complete:()=>{
+  //       this.svcWaiter.stop();
+  //     }
+  //   });
+  // }
 
   caption(story:UserStoryModel){
     return 'As ' +

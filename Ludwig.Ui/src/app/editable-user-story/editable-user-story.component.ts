@@ -10,9 +10,11 @@ import {StoryUserModel} from "../models/story-user.model";
 export class EditableUserStoryComponent implements OnInit {
 
 
-  @Input('story') story:UserStoryModel=this.blankStory();
+  @Input('story') story:UserStoryModel=EditableUserStoryComponent.blankStory();
   @Output('storyChange') storyChange:EventEmitter<UserStoryModel> = new EventEmitter<UserStoryModel>();
+  @Output('syncStory') syncStory:EventEmitter<UserStoryModel> = new EventEmitter<UserStoryModel>();
 
+  original:UserStoryModel=new UserStoryModel();
 
   private updateFields:boolean[]=[false,false,false,false];
   modelUpdate:boolean=false;
@@ -21,9 +23,15 @@ export class EditableUserStoryComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.original={
+      ...this.story,
+      storyUser:{
+        ...this.story.storyUser
+      }
+    };
   }
 
-  blankStory():UserStoryModel{
+  public static blankStory():UserStoryModel{
     let story = new UserStoryModel();
     story.storyBenefit="Somehow Benefit from it";
     story.storyFeature="Specific Feature";
@@ -49,6 +57,21 @@ export class EditableUserStoryComponent implements OnInit {
     if(this.modelUpdate){
       this.storyChange.emit(this.story);
     }
+  }
 
+  onSyncClick(){
+    this.syncStory.emit(this.story);
+  }
+
+  onRevertClick(){
+    this.story={
+      ...this.original,
+      storyUser:{
+        ...this.original.storyUser
+      }
+    };
+    this.updateFields=[false,false,false,false];
+    this.modelUpdate=false;
+    this.storyChange.emit(this.story);
   }
 }
