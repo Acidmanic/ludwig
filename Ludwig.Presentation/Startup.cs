@@ -39,6 +39,7 @@ namespace Ludwig.Presentation
             services.AddJsonFileUnitOfWork();
             
             services.AddTransient<ICrudService<UserStory,long>,UserStoryService>();
+            services.AddTransient<IUserStoryService,UserStoryService>();
 
             services.AddTransient<ICookieForwarder, DevelopmentMockCookieForwarder>();
             
