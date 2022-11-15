@@ -1,13 +1,14 @@
 
-
-<div *ngIf="collapsed" class="alert alert-light collapsible-alternative" ngbTooltip="Click to expand" (click)="toggle()">
-  {{alternativeText}}
-</div>
-<div *ngIf="!collapsed">
-  <ng-content></ng-content>
-  <div (click)="toggle()" class="collapsible-collapse d-flex justify-content-center">
-    <span class="material-symbols-outlined {{colButCss}}">
-              expand_less
-    </span>
+<div #meView>
+  <div *ngIf="collapsed" class="alert alert-secondary collapsible-alternative" ngbTooltip="Click to expand" (click)="toggle()">
+    {{alternativeText}}
+  </div>
+  <div *ngIf="!collapsed">
+    <ng-content></ng-content>
+    <div (click)="toggle()" class="collapsible-collapse d-flex justify-content-center">
+      <span class="material-symbols-outlined {{colButCss}}">
+                expand_less
+      </span>
+    </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, Renderer2} from '@angular/core';
 import {UserStoryModel} from "../models/user-story.model";
 import {StoryUserModel} from "../models/story-user.model";
 
