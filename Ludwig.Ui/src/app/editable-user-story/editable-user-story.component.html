@@ -1,0 +1,25 @@
+
+<div class="container">
+  <div class="row">
+    <button *ngIf="modelUpdate" class="btn btn-success btn-icon" ngbTooltip="Sync Up Changes" >
+            <span class="material-symbols-outlined">
+              publish
+            </span>
+    </button>
+  </div>
+</div>
+
+<div class="card-body">
+  <h5 class="card-title">
+    <editable-text-box [(text)]="story.title" (updatedChange)="onFieldUpdate(0,$event)"></editable-text-box>
+  </h5>
+  <p class="card-text">
+    As
+    <editable-text-box [(text)]="story.storyUser.name" (updatedChange)="onFieldUpdate(1,$event)"></editable-text-box>
+    I Want
+    <editable-text-box [(text)]="story.storyFeature" (updatedChange)="onFieldUpdate(2,$event)"></editable-text-box>
+    So That I Can
+    <editable-text-box [(text)]="story.storyBenefit" (updatedChange)="onFieldUpdate(3,$event)"></editable-text-box>
+  </p>
+  <issue-fold-box [story]="story" ></issue-fold-box>
+</div>

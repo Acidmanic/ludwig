@@ -1,0 +1,23 @@
+
+.editable-label{
+  cursor: pointer;
+}
+
+
+.editable-input{
+  background-color: inherit;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid;
+  width: fit-content;
+}
+
+.button.btn.btn-icon {
+  margin: 0.3em;
+  font-size: 20px;
+  padding: 2px;
+  width: 32px;
+  height: 32px;
+}

@@ -14,6 +14,8 @@ import { WaitingLogoComponent } from './waiting-logo/waiting-logo.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { DisablerComponent } from './disabler/disabler.component';
 import { MessageBoxComponent } from './message-box/message-box.component';
+import { EditableTextBoxComponent } from './editable-text-box/editable-text-box.component';
+import { EditableUserStoryComponent } from './editable-user-story/editable-user-story.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { MessageBoxComponent } from './message-box/message-box.component';
     WaitingLogoComponent,
     NotFoundComponent,
     DisablerComponent,
-    MessageBoxComponent
+    MessageBoxComponent,
+    EditableTextBoxComponent,
+    EditableUserStoryComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,10 @@
+
+
+<div *ngIf="editing" class="input-group">
+  <input #textInput class="form-control editable-input" type="text" name="txtBox" id="txtBox"
+         ngModel="{{text}}"
+         (ngModelChange)="onText($event)"
+         (focusout)="toggleEdit()"
+  >
+</div>
+<span class="editable-label" *ngIf="!editing" (click)="toggleEdit()">{{text}}</span>
