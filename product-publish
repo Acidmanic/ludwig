@@ -3,8 +3,10 @@
 
 rm -rf publish/*
 
-dotnet publish --output publish --self-contained false --runtime linux-x64 --framework netcoreapp3.1 -p:PublishReadyToRun=true -p:PublishSingleFile=true
+#dotnet publish --output publish --self-contained false --runtime linux-x64 --framework netcoreapp3.1 -p:PublishReadyToRun=true -p:PublishSingleFile=true
 
+
+dotnet publish --output publish --self-contained false --runtime linux-x64 --framework netcoreapp3.1 -p:PublishReadyToRun=true
 
 (cd Ludwig.Ui && ./deploy-local)
 
