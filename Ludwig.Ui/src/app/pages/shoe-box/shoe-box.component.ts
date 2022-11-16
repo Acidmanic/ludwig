@@ -45,6 +45,16 @@ export class ShoeBoxComponent implements OnInit {
     this.stories.push(editingStory);
   }
 
+
+  onSelectChanged(selected:boolean, story:UserStoryModel){
+    if(this.selectedStory==story && !selected){
+      this.selectedStory=undefined;
+    }
+    if(selected){
+      this.selectedStory=story;
+    }
+  }
+
   duplicateStory(){
     let editingStory:UserStoryModel = {
       ...this.selectedStory!,
@@ -78,6 +88,11 @@ export class ShoeBoxComponent implements OnInit {
         i++;
       }
     }
+
+    if(this.selectedStory==story){
+      this.selectedStory=undefined;
+    }
+
     if(story.id>0){
       this.svcStory.deleteStory(story).subscribe({
         next:updated => {
@@ -98,6 +113,7 @@ export class ShoeBoxComponent implements OnInit {
   refreshShoeBox(){
 
     this.svcWaiter.start();
+
     this.selectedStory=undefined;
 
     this.svcStory.getAllStories().subscribe({

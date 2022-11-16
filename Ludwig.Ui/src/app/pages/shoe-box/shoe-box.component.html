@@ -21,11 +21,12 @@
       [collapsed]="true"
       content-class="{{glowStyle(story)}}"
       collapse-button-classes="text-light"
-      alternative-text="{{caption(story)}}">
+      alternative-text="{{caption(story)}}"
+      (collapsedChange)="onSelectChanged(!$event,story)"
+      >
       <editable-user-story [story]="story"
                            (syncStory)="saveUserStory($event)"
                            (deleteStory)="askDeletingStory($event)"
-                           (click)="selectedStory=story"
                            [force-enable-sync]="story.id<=0">
       </editable-user-story>
     </collapsible>
