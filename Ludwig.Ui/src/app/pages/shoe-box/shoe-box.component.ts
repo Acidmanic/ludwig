@@ -131,4 +131,8 @@ export class ShoeBoxComponent implements OnInit {
       story.storyBenefit;
   }
 
+
+  glowStyle(story:UserStoryModel):string {
+    return story.id==0?'newborn-glow':'';
+  }
 }

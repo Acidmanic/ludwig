@@ -13,8 +13,8 @@ export class CollapsibleComponent implements OnInit {
   @Output('collapsedChange') collapsedChange:EventEmitter<boolean>=new EventEmitter<boolean>();
   @Input('alternative-text') alternativeText:string='...';
   @Input('collapse-button-classes') colButCss:string="";
-
   @ViewChild('meView') meView:any;
+  @Input('content-class') contentClass:string='';
 
   ngOnInit(): void {
 

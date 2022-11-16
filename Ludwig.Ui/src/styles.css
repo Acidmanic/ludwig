@@ -38,3 +38,10 @@ button.btn.btn-icon {
   width: 64px;
   height: 64px;
 }
+
+
+.newborn-glow{
+  border-color: rgba(147, 57, 231, 0.8);
+  box-shadow: 0 0px 0px rgba(236, 159, 82, 0.8) inset, 0 0 8px rgba(236, 82, 136, 0.8);
+  outline: 0 none;
+}

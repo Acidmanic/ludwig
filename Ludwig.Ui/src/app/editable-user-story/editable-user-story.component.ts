@@ -80,4 +80,5 @@ export class EditableUserStoryComponent implements OnInit {
   onDeleteClick(){
     this.deleteStory.emit(this.story);
   }
+
 }
