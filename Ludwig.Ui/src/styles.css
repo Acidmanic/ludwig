@@ -32,3 +32,9 @@
 button.btn.btn-icon {
   margin: 0.3em;
 }
+
+.btn-round{
+  border-radius: 100%;
+  width: 64px;
+  height: 64px;
+}

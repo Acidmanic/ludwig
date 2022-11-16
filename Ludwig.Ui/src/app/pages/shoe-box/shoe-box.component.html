@@ -1,11 +1,15 @@
 
 
   <disabler>
-
+    <button type="button"
+            class="btn btn-info text-light btn-round material-symbols-outlined sticky-bottom"
+            ngbTooltip="Create new User Story"
+            (click)="createStory()">add
+    </button>
     <div class="container">
-  <div class="row">
-    <button type="button" class="btn btn-info col-2" (click)="createStory()">Create Story</button>
-  </div>
+
+
+
   <div class="row">
     <collapsible
       *ngFor="let story of stories" class="col-3"
