@@ -40,6 +40,7 @@ export class EditableUserStoryComponent implements OnInit {
     story.storyUser=new StoryUserModel();
     story.storyUser.name="An Imaginary User";
     story.title="Example";
+    story.priority={name:'Medium',value:2};
     return story;
   }
 
@@ -70,6 +71,9 @@ export class EditableUserStoryComponent implements OnInit {
       ...this.original,
       storyUser:{
         ...this.original.storyUser
+      },
+      priority:{
+        ...this.story.priority
       }
     };
     this.updateFields=[false,false,false,false];

@@ -6,6 +6,11 @@
             ngbTooltip="Create new User Story"
             (click)="createStory()">add
     </button>
+    <button *ngIf="selectedStory" type="button"
+            class="btn btn-success text-light btn-round material-symbols-outlined sticky-bottom"
+            ngbTooltip="Duplicate {{selectedStory.title}}"
+            (click)="duplicateStory()">content_copy
+    </button>
     <div class="container">
 
 
@@ -20,6 +25,7 @@
       <editable-user-story [story]="story"
                            (syncStory)="saveUserStory($event)"
                            (deleteStory)="askDeletingStory($event)"
+                           (click)="selectedStory=story"
                            [force-enable-sync]="story.id<=0">
       </editable-user-story>
     </collapsible>

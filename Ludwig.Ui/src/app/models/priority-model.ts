@@ -1,11 +1,8 @@
 
 
 
-
-
 export class PriorityModel{
-  self:string="";
-  iconUrl:string="";
-  name: string="";
-  id:string="";
+
+  public name:string='Medium';
+  public value:number=2;
 }

@@ -1,5 +1,6 @@
 import {StoryUserModel} from "./story-user.model";
 import {IssueModel} from "./issue-model";
+import {PriorityModel} from "./priority-model";
 
 
 export class UserStoryModel{
@@ -13,5 +14,6 @@ export class UserStoryModel{
   public storyBenefit:string="";
   public cardColor:string="gray";
   public issues:IssueModel[]=[];
+  public priority:PriorityModel=new PriorityModel();
 
 }

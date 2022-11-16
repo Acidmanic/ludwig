@@ -21,6 +21,8 @@ export class ShoeBoxComponent implements OnInit {
   editingStory:UserStoryModel=new UserStoryModel();
   deletingStory:UserStoryModel=new UserStoryModel();
   messageBoxHook:EventEmitter<any> = new EventEmitter<any>();
+  selectedStory?:UserStoryModel;
+
 
   editOperation=()=>{};
 
@@ -43,6 +45,20 @@ export class ShoeBoxComponent implements OnInit {
     this.stories.push(editingStory);
   }
 
+  duplicateStory(){
+    let editingStory:UserStoryModel = {
+      ...this.selectedStory!,
+      id:0,
+      storyUser:{
+        ...this.selectedStory?.storyUser!
+      },
+      priority:{
+        ...this.selectedStory?.priority!
+      }
+    } ;
+
+    this.stories.push(editingStory);
+  }
   askDeletingStory(story:UserStoryModel){
     this.deletingStory=story;
     this.messageBoxHook.emit();
@@ -82,6 +98,7 @@ export class ShoeBoxComponent implements OnInit {
   refreshShoeBox(){
 
     this.svcWaiter.start();
+    this.selectedStory=undefined;
 
     this.svcStory.getAllStories().subscribe({
       next:stories => {
@@ -135,4 +152,6 @@ export class ShoeBoxComponent implements OnInit {
   glowStyle(story:UserStoryModel):string {
     return story.id==0?'newborn-glow':'';
   }
+
+
 }
