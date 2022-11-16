@@ -61,6 +61,12 @@ namespace Ludwig.Presentation.Services
 
         public UserStory Add(UserStory value)
         {
+
+            if (value.Priority == null)
+            {
+                value.Priority=Priority.Medium;
+            }
+            
             var inserted = _userStoryRepository.Add(value);
 
             WriteFullTree(inserted);
@@ -161,10 +167,20 @@ namespace Ludwig.Presentation.Services
             value.StoryUser = _storyUserRepository.GetById(value.StoryUserId);
 
             ReadIssuesInto(value);
+            
+            if (value.Priority == null)
+            {
+                value.Priority=Priority.Medium;
+            }
         }
 
         public UserStory Update(UserStory value)
         {
+            if (value.Priority == null)
+            {
+                value.Priority=Priority.Medium;
+            }
+            
             var updated = _userStoryRepository.Update(value);
 
             WriteFullTree(updated);
