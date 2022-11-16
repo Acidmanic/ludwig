@@ -17,8 +17,6 @@ export class ShoeBoxComponent implements OnInit {
 
 
   stories:UserStoryModel[]=[];
-  editorTitle:string='Create';
-  editingStory:UserStoryModel=new UserStoryModel();
   deletingStory:UserStoryModel=new UserStoryModel();
   messageBoxHook:EventEmitter<any> = new EventEmitter<any>();
   selectedStory?:UserStoryModel;
