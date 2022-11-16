@@ -15,9 +15,11 @@ namespace Ludwig.Presentation.Controllers
     {
 
         private readonly IUserStoryService _userStoryService;
-
-        public ExportController(IUserStoryService userStoryService)
+        private readonly IDatabaseExporter _databaseExporter;
+        
+        public ExportController(IUserStoryService userStoryService, IDatabaseExporter databaseExporter)
         {
+            _databaseExporter = databaseExporter;
             _userStoryService = userStoryService.UseContext(HttpContext);
         }
 
@@ -42,6 +44,18 @@ namespace Ludwig.Presentation.Controllers
             var csvContent = new UserStoryCsvConvert().Add(allStories).ToString();
 
             return ThrowDownload(csvContent, "csv");
+        }
+        
+        
+        [HttpGet]
+        [Route("json/database")]
+        public IActionResult ExportDatabaseJson()
+        {
+            var database = _databaseExporter.Export();
+
+            var jsonContent = JsonConvert.SerializeObject(database);
+
+            return ThrowDownload(jsonContent, "json");
         }
 
 

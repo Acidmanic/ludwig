@@ -50,6 +50,8 @@ namespace Ludwig.Presentation
             services.AddJiraAuthentication();
 
             services.AddTransient<ICustomFieldDefinitionProvider, LudwigJiraFieldDefinitionProvider>();
+
+            services.AddTransient<IDatabaseExporter, DatabaseExporterV1>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
