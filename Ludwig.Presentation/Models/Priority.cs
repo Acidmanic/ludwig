@@ -63,12 +63,12 @@ namespace Ludwig.Presentation.Models
 
         public static bool operator ==(Priority p1, Priority p2)
         {
-            if (p1 == null && p2 == null)
+            if (p1 is null && p2 is null)
             {
                 return true;
             }
 
-            if (p1 == null || p2 == null)
+            if (p1 is null || p2 is null)
             {
                 return false;
             }
