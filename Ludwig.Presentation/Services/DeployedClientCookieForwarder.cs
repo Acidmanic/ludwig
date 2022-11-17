@@ -1,3 +1,4 @@
+using System;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Download;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +12,7 @@ namespace Ludwig.Presentation.Services
             
             if (context != null && context.Request!=null)
             {
-                downloader.Cookies = context.Request.Cookies;    
+                downloader.Cookies = context.Request.Cookies;
             }
             
         }

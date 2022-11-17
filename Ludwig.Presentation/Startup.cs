@@ -31,6 +31,27 @@ namespace Ludwig.Presentation
 
         public IConfiguration Configuration { get; }
 
+
+
+        private void AddCookieForwarder(IServiceCollection services)
+        {
+            var fakeIt = Configuration["FakeCookieForwarding"];
+
+            if (!string.IsNullOrWhiteSpace(fakeIt))
+            {
+                if (Boolean.TryParse(fakeIt, out var fake))
+                {
+                    if (fake)
+                    {
+                        services.AddTransient<ICookieForwarder, DevelopmentMockCookieForwarder>();
+                        return;
+                    }
+                }
+            }
+            services.AddTransient<ICookieForwarder, DeployedClientCookieForwarder>();
+            Console.WriteLine("** Using Actual Jira Users **");
+        }
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
