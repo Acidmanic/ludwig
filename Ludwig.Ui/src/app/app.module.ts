@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { ShoeBoxComponent } from './pages/shoe-box/shoe-box.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from "@angular/forms";
@@ -38,9 +38,15 @@ import { CollapsibleComponent } from './collapsible/collapsible.component';
     HttpClientModule,
     NgbModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [
+    // {
+    //   provide:HTTP_INTERCEPTORS,
+    //   useClass:CookieInterceptor,
+    //   multi:true
+    // }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
