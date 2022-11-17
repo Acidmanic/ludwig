@@ -13,7 +13,7 @@ run_backend(){
   echo "checking to kill previously open instances"
   kill_backend
   echo "starting backend"
-  (cd "../Ludwig.Presentation/bin/Debug/netcoreapp3.1" && ./Ludwig.Presentation &)
+  (cd "../Ludwig.Presentation/bin/Debug/netcoreapp3.1" && ./Ludwig.Presentation --fake-cookies &)
 }
 
 
