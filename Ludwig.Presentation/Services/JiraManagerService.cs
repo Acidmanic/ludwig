@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using EnTier.Results;
@@ -28,9 +29,9 @@ namespace Ludwig.Presentation.Services
             return new List<JiraIssue>();
         }
 
-        public IJiraManagerService UseContext(HttpContext context)
+        public IJiraManagerService UseContextSource(Func<HttpContext> contextSource)
         {
-            _jira.UseContext(context);
+            _jira.UseContextSource(contextSource);
             
             _availableFields = _jira.AllFields().Result;
 

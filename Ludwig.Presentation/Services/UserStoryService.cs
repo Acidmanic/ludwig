@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using EnTier.Repositories;
@@ -207,9 +208,9 @@ namespace Ludwig.Presentation.Services
             return _userStoryRepository.Remove(id);
         }
 
-        public IUserStoryService UseContext(HttpContext context)
+        public IUserStoryService UseContextSource(Func<HttpContext> contextSource)
         {
-            _jira.UseContext(context);
+            _jira.UseContextSource(contextSource);
 
             return this;
         }

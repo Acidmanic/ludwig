@@ -16,7 +16,7 @@ namespace Ludwig.Presentation.Controllers
         public JiraController(Jira jira)
         {
             _jira = jira
-                .UseContext(HttpContext);
+                .UseContextSource(() => this.HttpContext);
         }
 
         [HttpGet]

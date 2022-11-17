@@ -20,7 +20,7 @@ namespace Ludwig.Presentation.Controllers
         {
             if (Service is IUserStoryService userStoryService)
             {
-                userStoryService.UseContext(HttpContext);
+                userStoryService.UseContextSource(() => this.HttpContext);
             }
         }
     }

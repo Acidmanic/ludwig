@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Ludwig.Presentation.Models;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +11,6 @@ namespace Ludwig.Presentation.Contracts
 
         List<JiraIssue> GetAllIssuesByUserStory(string storyName);
 
-        IJiraManagerService UseContext(HttpContext context);
+        IJiraManagerService UseContextSource(Func<HttpContext> context);
     }
 }

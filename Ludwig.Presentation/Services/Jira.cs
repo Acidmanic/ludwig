@@ -21,7 +21,7 @@ namespace Ludwig.Presentation.Services
         }
 
 
-        private HttpContext _httpContext = null;
+        private Func<HttpContext> _httpContextSource = () => null;
         private readonly ICookieForwarder _cookieForwarder;
         private readonly string _baseUrl;
         private readonly ICustomFieldDefinitionProvider _definitionProvider;
@@ -44,10 +44,9 @@ namespace Ludwig.Presentation.Services
             _baseUrl = baseUrl;
         }
 
-        public Jira UseContext(HttpContext httpContext)
+        public Jira UseContextSource(Func<HttpContext> httpContextSource)
         {
-            _httpContext = httpContext;
-
+            _httpContextSource = httpContextSource;
             return this;
         }
 
@@ -55,7 +54,9 @@ namespace Ludwig.Presentation.Services
         {
             var downloader = new PatientDownloader();
 
-            _cookieForwarder.ForwardCookies(_httpContext, downloader);
+            var context = _httpContextSource();
+            
+            _cookieForwarder.ForwardCookies(context, downloader);
 
             return downloader;
         }

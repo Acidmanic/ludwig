@@ -1,3 +1,4 @@
+using System;
 using EnTier.Services;
 using Ludwig.Presentation.Models;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +9,6 @@ namespace Ludwig.Presentation.Contracts
     {
 
 
-        IUserStoryService UseContext(HttpContext context);
+        IUserStoryService UseContextSource(Func<HttpContext> context);
     }
 }
