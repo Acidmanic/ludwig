@@ -1,0 +1,28 @@
+#!/bin/bash
+
+
+
+kill_backend(){
+  res=$(ps aux | grep Ludwig.Presentation)
+  IFS=' ' read -r -a array <<< "$res"
+  kill -9 ${array[1]}
+}
+
+
+run_backend(){
+  echo "checking to kill previously open instances"
+  kill_backend
+  echo "starting backend"
+  (cd "../Ludwig.Presentation/bin/Debug/netcoreapp3.1" && ./Ludwig.Presentation &)
+}
+
+
+
+
+if [ "$1" = "stop" ]; then
+    echo "stopping backend server"
+    kill_backend
+else
+    echo "running backend sever"
+    run_backend
+fi

@@ -8,12 +8,12 @@ namespace Ludwig.Presentation.Controllers
     [ApiController]
     [Route("jira")]
     [Authorize]
-    public class JiraTestController : ControllerBase
+    public class JiraController : ControllerBase
     {
 
         private readonly Jira _jira;
 
-        public JiraTestController(Jira jira)
+        public JiraController(Jira jira)
         {
             _jira = jira
                 .UseContext(HttpContext);
