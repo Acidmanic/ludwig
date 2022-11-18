@@ -35,7 +35,16 @@ namespace Ludwig.Presentation.Utilities
 
         public override string ToString()
         {
-            return _content.ToString();
+            var content = "";
+
+            var headers = GetHeaders();
+
+            if (!string.IsNullOrWhiteSpace(headers))
+            {
+                content = headers + "\n";
+            }
+            
+            return content + _content.ToString();
         }
 
         protected string Escape(string value)
@@ -113,5 +122,10 @@ namespace Ludwig.Presentation.Utilities
         }
 
         protected abstract string CommaSeparate(T value);
+
+        protected virtual string GetHeaders()
+        {
+            return "";
+        }
     }
 }
