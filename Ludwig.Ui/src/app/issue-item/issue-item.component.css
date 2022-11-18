@@ -19,3 +19,9 @@ img.icn-issue{
   font-size: 0.9em;
 
 }
+jira-user-view.icn-issue{
+  display: inline;
+  width: fit-content;
+  margin: 0px;
+  padding: 0px;
+}

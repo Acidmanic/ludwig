@@ -2,3 +2,11 @@
 body{
   background-color:  #3d3a3e;
 }
+.nav-user-profile{
+  margin-right: 48px;
+}
+
+
+.jirauser-active{
+  outline: #4a7742 1px solid;
+}

@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {JiraUserModel} from "../models/jira-user-model";
+import {ImageSrcMap} from "../models/image-src-map";
+import {MapIndex} from "../utilities/map-index";
 
 @Component({
   selector: 'jira-user-view',
@@ -11,24 +13,29 @@ export class JiraUserViewComponent implements OnInit {
 
   @Input('user') user:JiraUserModel=new JiraUserModel();
   @Input('size') size:string ='48';
+  @Input('active-user-class') activeUserClass:string='';
 
+  private avatarMapIndex:MapIndex=new MapIndex();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-
   profilePicture():string {
-    if(this.user){
-      switch (this.size){
-        case '48': return this.user.avatarUrls["48x48"];
-        case '32': return this.user.avatarUrls["32x32"];
-        case '24': return this.user.avatarUrls["24x24"];
-        case '16': return this.user.avatarUrls["16x16"];
-      };
+
+    this.avatarMapIndex = MapIndex.fromImageSrcMap(this.user.avatarUrls);
+
+    var src = '';
+
+    if(this.user && this.user.avatarUrls){
+
+      let size = parseInt(this.size);
+
+      src = this.avatarMapIndex.getSrcAnyway(size);
     }
-    return '';
+
+    return src;
   }
 
   css():string {
@@ -36,7 +43,7 @@ export class JiraUserViewComponent implements OnInit {
     var css ='';
 
     if(this.user.active){
-      css+='jirauser-active ';
+      css+= ' '+this.activeUserClass;
     }
 
     return css;

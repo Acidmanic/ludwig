@@ -1,4 +1,5 @@
 <div class="row row-issue">
+  <jira-user-view  class="icn-issue" *ngIf="issue.assignee" [user]="issue.assignee" size="16"></jira-user-view>
   <img class="icn-issue" src="{{issue.priority.iconUrl}}" alt="{{issue.priority.name}}" >
   <img class="icn-issue" src="{{issue.issueType.iconUrl}}" alt="{{issue.issueType.name}}">
   <a class="txt-issue" href="http://litbid.ir:8888/projects/LIT/issues/{{issue.key}}">{{issue.key}}</a>

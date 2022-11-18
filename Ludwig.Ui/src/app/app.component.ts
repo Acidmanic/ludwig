@@ -27,7 +27,6 @@ export class AppComponent implements OnInit{
           if(loggedIn.value){
             this.loggedInUser = loggedIn.value;
             this.isLoggedIn=true;
-            console.log(this.loggedInUser);
           }
         }
       },
