@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EnTier.Repositories;
+using EnTier.Repositories.Attributes;
 using EnTier.Results;
 using EnTier.UnitOfWork;
 using Ludwig.Presentation.Contracts;
@@ -60,6 +61,7 @@ namespace Ludwig.Presentation.Services
         }
 
 
+        [KeepProperty(typeof(Priority))]
         public UserStory Add(UserStory value)
         {
 
@@ -93,7 +95,12 @@ namespace Ludwig.Presentation.Services
                     Id = value.StoryUser.Id,
                     Name = value.StoryUser?.Name
                 },
-                StoryUserId = value.StoryUserId
+                StoryUserId = value.StoryUserId,
+                Priority = new Priority
+                {
+                    Name = value.Priority.Name,
+                    Value = value.Priority.Value
+                }
             };
         }
 
@@ -175,6 +182,7 @@ namespace Ludwig.Presentation.Services
             }
         }
 
+        [KeepProperty(typeof(Priority))]
         public UserStory Update(UserStory value)
         {
             if (value.Priority == null)
