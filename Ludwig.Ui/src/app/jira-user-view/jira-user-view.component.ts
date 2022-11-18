@@ -42,9 +42,15 @@ export class JiraUserViewComponent implements OnInit {
 
     var css ='';
 
+    if(!this.activeUserClass || this.activeUserClass.length==0){
+      css+= ' auto-outline';
+    }
+
     if(this.user.active){
       css+= ' '+this.activeUserClass;
     }
+
+    console.log('css prepared:',css);
 
     return css;
   }

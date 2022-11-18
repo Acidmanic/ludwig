@@ -1,8 +1,12 @@
 
 .img-jirauser{
-  outline: auto;
+
 }
 
+
+.auto-outline{
+  outline: auto;
+}
 
 .img-jirauser-48{
   width: 48px;
