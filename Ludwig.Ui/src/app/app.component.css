@@ -10,3 +10,27 @@ body{
 :host ::ng-deep .jirauser-active {
   outline: #66491c double thick;
 }
+
+
+
+:host ::ng-deep .priority-highest{
+  background-color: #efe5a3;
+}
+
+:host ::ng-deep .priority-high{
+  background-color: #efe5bd;
+}
+
+
+:host ::ng-deep .priority-medium{
+  background-color: #dbd5a9;
+}
+
+:host ::ng-deep .priority-low{
+  background-color: #beb997;
+}
+
+:host ::ng-deep .priority-lowest{
+  background-color: #a8a394;
+  color: black;
+}

@@ -20,25 +20,4 @@
   padding: 1em;
 }
 
-.priority-highest{
-  background-color: #e5d1a6;
-}
-
-:host ::ng-deep .priority-high{
-  background-color: #d7cea1;
-}
-
-
-:host ::ng-deep .priority-medium{
-  background-color: #ddd8bd;
-}
-
-:host ::ng-deep .priority-low{
-  background-color: #c3c0b4;
-}
-
-:host ::ng-deep .priority-lowest{
-  background-color: #a1a2b1;
-}
-
 
