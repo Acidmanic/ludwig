@@ -41,7 +41,6 @@ export class DisablerComponent implements OnInit {
         this.block=goodies.waiting;
         if(goodies.waiting){
           this.update();
-          console.log(this.state);
         }else{
           this.stop();
         }

@@ -1,4 +1,4 @@
-
+import {ImageSrcMap} from "./image-src-map";
 
 
 export class JiraUserModel{
@@ -7,7 +7,7 @@ export class JiraUserModel{
   key: string="";
   name:string="";
   emailAddress:string="";
-  avatarUrls:Map<string,string>=new Map<string, string>();
+  avatarUrls:ImageSrcMap=new ImageSrcMap();
   displayName:string="";
   active:boolean=false;
   timeZone:string="Asia/Tehran";

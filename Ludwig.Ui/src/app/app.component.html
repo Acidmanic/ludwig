@@ -27,6 +27,10 @@
     </ul>
   </div>
 
+  <jira-user-view *ngIf="loggedInUser"
+                  size="48"
+                  [user]="loggedInUser"
+  ></jira-user-view>
 
 </nav>
 

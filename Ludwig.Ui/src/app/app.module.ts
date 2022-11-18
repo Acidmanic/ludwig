@@ -17,6 +17,7 @@ import { MessageBoxComponent } from './message-box/message-box.component';
 import { EditableTextBoxComponent } from './editable-text-box/editable-text-box.component';
 import { EditableUserStoryComponent } from './editable-user-story/editable-user-story.component';
 import { CollapsibleComponent } from './collapsible/collapsible.component';
+import { JiraUserViewComponent } from './jira-user-view/jira-user-view.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { CollapsibleComponent } from './collapsible/collapsible.component';
     MessageBoxComponent,
     EditableTextBoxComponent,
     EditableUserStoryComponent,
-    CollapsibleComponent
+    CollapsibleComponent,
+    JiraUserViewComponent
   ],
   imports: [
     BrowserModule,
