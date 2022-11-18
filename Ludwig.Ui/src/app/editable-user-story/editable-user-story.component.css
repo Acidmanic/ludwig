@@ -9,8 +9,15 @@
 }
 .story-priority-icon{
   cursor: pointer;
+
+  border-radius: 5px;
+  border: none;
+  padding: 3px 6px 4px 6px;
+  align-items: center;
+  vertical-align: middle;
 }
 .story-priority-icon:hover{
   transform: scale(1.6);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+  box-shadow: 0 4px 23px #00000038, 0 4px 14px #00000026;
 }
+

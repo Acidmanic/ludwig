@@ -6,7 +6,8 @@
 }
 .editable-label:hover {
   transform: scale(1.15);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+  /*box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);*/
+  box-shadow: 0 4px 23px #00000038, 0 4px 14px #00000026;
 }
 
 .editable-input{
