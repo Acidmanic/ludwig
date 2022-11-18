@@ -1,9 +1,16 @@
 
-button.btn.btn-icon {
+*.btn.btn-icon {
   margin: 0.3em;
   font-size: 20px;
   padding: 2px;
   width: 32px;
   height: 32px;
   opacity: 0.75;
+}
+.story-priority-icon{
+  cursor: pointer;
+}
+.story-priority-icon:hover{
+  transform: scale(1.6);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
 }

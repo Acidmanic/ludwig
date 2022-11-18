@@ -15,6 +15,7 @@ export class CollapsibleComponent implements OnInit {
   @Input('collapse-button-classes') colButCss:string="";
   @ViewChild('meView') meView:any;
   @Input('content-class') contentClass:string='';
+  @Input('collapse-label-class') labelClass:string='';
 
   ngOnInit(): void {
 

@@ -18,6 +18,7 @@ import { EditableTextBoxComponent } from './editable-text-box/editable-text-box.
 import { EditableUserStoryComponent } from './editable-user-story/editable-user-story.component';
 import { CollapsibleComponent } from './collapsible/collapsible.component';
 import { JiraUserViewComponent } from './jira-user-view/jira-user-view.component';
+import { EditablePriorityComponent } from './editable-priority/editable-priority.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { JiraUserViewComponent } from './jira-user-view/jira-user-view.component
     EditableTextBoxComponent,
     EditableUserStoryComponent,
     CollapsibleComponent,
-    JiraUserViewComponent
+    JiraUserViewComponent,
+    EditablePriorityComponent
   ],
   imports: [
     BrowserModule,

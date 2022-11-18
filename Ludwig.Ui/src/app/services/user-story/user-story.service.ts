@@ -51,6 +51,8 @@ export class UserStoryService {
 
     let url = this.baseUrl+"stories/"+story.id;
 
+    console.log('updating story',story);
+
     this.http.put<UserStoryModel>(url,story).subscribe({
       next: model => handle.next(model),
       error:handle.error,

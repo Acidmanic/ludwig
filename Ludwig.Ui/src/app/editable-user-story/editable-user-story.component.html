@@ -26,6 +26,11 @@
       </button>
     </h5>
     <p class="card-text">
+      <editable-priority class="story-priority-icon"
+                         (updated-change)="onFieldUpdate(4,$event)"
+                         [onRevert]="priorityRevertTrigger"
+                         [(priority)]="story.priority">
+      </editable-priority>&nbsp;
       As
       <editable-text-box [(text)]="story.storyUser.name" (updatedChange)="onFieldUpdate(1,$event)"></editable-text-box>
       I Want

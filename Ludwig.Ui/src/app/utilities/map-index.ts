@@ -20,8 +20,6 @@ export class MapIndex{
 
     let mapIndex:MapIndex=new MapIndex();
 
-    console.log('getting index ImageMap for',map );
-
     if(map["16x16"]){
       mapIndex.add(16,map["16x16"]);
     }

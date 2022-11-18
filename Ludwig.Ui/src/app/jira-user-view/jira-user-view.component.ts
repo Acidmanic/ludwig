@@ -49,9 +49,6 @@ export class JiraUserViewComponent implements OnInit {
     if(this.user.active){
       css+= ' '+this.activeUserClass;
     }
-
-    console.log('css prepared:',css);
-
     return css;
   }
 

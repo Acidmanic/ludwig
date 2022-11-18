@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, Renderer2} from '@angular/core';
 import {UserStoryModel} from "../models/user-story.model";
 import {StoryUserModel} from "../models/story-user.model";
+import {Trigger} from "../utilities/trigger";
 
 @Component({
   selector: 'editable-user-story',
@@ -18,8 +19,9 @@ export class EditableUserStoryComponent implements OnInit {
 
   original:UserStoryModel=new UserStoryModel();
 
-  private updateFields:boolean[]=[false,false,false,false];
+  private updateFields:boolean[]=[false,false,false,false,false];
   modelUpdate:boolean=false;
+  priorityRevertTrigger:Trigger=new Trigger();
 
   constructor() { }
 
@@ -29,6 +31,9 @@ export class EditableUserStoryComponent implements OnInit {
       ...this.story,
       storyUser:{
         ...this.story.storyUser
+      },
+      priority:{
+        ...this.story.priority
       }
     };
   }
@@ -67,18 +72,21 @@ export class EditableUserStoryComponent implements OnInit {
   }
 
   onRevertClick(){
+
     this.story={
       ...this.original,
       storyUser:{
         ...this.original.storyUser
       },
       priority:{
-        ...this.story.priority
+        ...this.original.priority
       }
     };
-    this.updateFields=[false,false,false,false];
+
+    this.updateFields=[false,false,false,false,false];
     this.modelUpdate=false;
     this.storyChange.emit(this.story);
+    this.priorityRevertTrigger.fire();
   }
 
   onDeleteClick(){
