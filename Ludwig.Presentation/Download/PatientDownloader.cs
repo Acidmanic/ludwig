@@ -17,7 +17,9 @@ namespace Ludwig.Presentation.Download
         public IRequestCookieCollection Cookies { get; set; } = null;
 
         public Dictionary<string, string> InDirectCookies { get; set; } = new Dictionary<string, string>();
-        
+
+        public Dictionary<string, string> Headers { get;  } = new Dictionary<string, string>();
+
         private async Task<DownloadResult<T>> DownloadData<T>(string url, int timeout,
             Func<WebClient, string, Task<T>> pickData)
         {
@@ -48,6 +50,15 @@ namespace Ludwig.Presentation.Download
                     " Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0");
 
                 net.InDirectCookies = InDirectCookies;
+
+                foreach (var header in Headers)
+                {
+                    try
+                    {
+                        net.Headers.Add(header.Key,header.Value);
+                    }
+                    catch (Exception) {                    }
+                }
 
                 if (Cookies != null)
                 {
