@@ -7,8 +7,6 @@ namespace Ludwig.Presentation.Contracts
 {
     public interface IUserStoryService:ICrudService<UserStory,long>
     {
-
-
-        IUserStoryService UseContextSource(Func<HttpContext> context);
+        
     }
 }

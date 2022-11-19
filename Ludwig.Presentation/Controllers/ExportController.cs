@@ -20,7 +20,7 @@ namespace Ludwig.Presentation.Controllers
         public ExportController(IUserStoryService userStoryService, IDatabaseExporter databaseExporter)
         {
             _databaseExporter = databaseExporter;
-            _userStoryService = userStoryService.UseContextSource(() => HttpContext);
+            _userStoryService = userStoryService;
         }
 
 

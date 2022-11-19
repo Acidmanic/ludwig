@@ -18,6 +18,7 @@ namespace Ludwig.Presentation.Services
         public JiraManagerService(Jira jira)
         {
             _jira = jira;
+            UpdateFields();
         }
         
         public List<JiraIssue> GetAllIssuesByUserStory(string storyName)
@@ -29,17 +30,13 @@ namespace Ludwig.Presentation.Services
             return new List<JiraIssue>();
         }
 
-        public IJiraManagerService UseContextSource(Func<HttpContext> contextSource)
+        private void UpdateFields()
         {
-            _jira.UseContextSource(contextSource);
-            
             _availableFields = _jira.AllFields().Result;
 
             var usField = _availableFields.FirstOrDefault(f => f.Name?.ToLower() == "user story");
 
             _userStoryField = new Result<JiraField>(usField != null, usField);
-            
-            return this;
         }
     }
 }

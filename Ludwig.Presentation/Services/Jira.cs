@@ -1,4 +1,5 @@
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EnTier.Results;
@@ -6,6 +7,7 @@ using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Download;
 using Ludwig.Presentation.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json.Linq;
 
 namespace Ludwig.Presentation.Services
@@ -21,20 +23,22 @@ namespace Ludwig.Presentation.Services
         }
 
 
-        private Func<HttpContext> _httpContextSource = () => null;
+        //private Func<HttpContext> _httpContextSource = () => null;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICookieForwarder _cookieForwarder;
         private readonly string _baseUrl;
         private readonly ICustomFieldDefinitionProvider _definitionProvider;
 
         public Jira(ILudwigConfigurationProvider configurationProvider, ICookieForwarder cookieForwarder,
-            ICustomFieldDefinitionProvider definitionProvider)
+            ICustomFieldDefinitionProvider definitionProvider, IHttpContextAccessor httpContextAccessor)
         {
             _cookieForwarder = cookieForwarder;
             _definitionProvider = definitionProvider;
+            _httpContextAccessor = httpContextAccessor;
 
             var config = configurationProvider.Configuration;
 
-            var baseUrl = config.JiraBaseUrl;
+            var baseUrl = config.JiraBackChannelUrl;
 
             if (!baseUrl.EndsWith("/"))
             {
@@ -44,17 +48,17 @@ namespace Ludwig.Presentation.Services
             _baseUrl = baseUrl;
         }
 
-        public Jira UseContextSource(Func<HttpContext> httpContextSource)
-        {
-            _httpContextSource = httpContextSource;
-            return this;
-        }
+        // public Jira UseContextSource(Func<HttpContext> httpContextSource)
+        // {
+        //     _httpContextSource = httpContextSource;
+        //     return this;
+        // }
 
         private PatientDownloader GetDownloader()
         {
             var downloader = new PatientDownloader();
 
-            var context = _httpContextSource();
+            var context = _httpContextAccessor.HttpContext;
             
             _cookieForwarder.ForwardCookies(context, downloader);
 
@@ -140,10 +144,20 @@ namespace Ludwig.Presentation.Services
             return new List<JiraIssue>();
         }
 
-        public async Task<Result<JiraUser>> LoggedInUser()
+        public Task<Result<JiraUser>> LoggedInUser()
+        {
+            return LoggedInUser(null);
+        }
+        
+        private async Task<Result<JiraUser>> LoggedInUser(string authHeader)
         {
             var downloader = GetDownloader();
 
+            if (!string.IsNullOrWhiteSpace(authHeader))
+            {
+                downloader.Headers.Add("Authorization",authHeader);
+            }
+            
             var url = _baseUrl + Resources.Self;
 
             var result = await downloader.DownloadObject<JiraUser>(url, 1200, 12);
@@ -154,6 +168,17 @@ namespace Ludwig.Presentation.Services
             }
 
             return new Result<JiraUser>().FailAndDefaultValue();
+        }
+        
+        public Task<Result<JiraUser>> LoginByCredentials(string username, string password)
+        {
+            var credentials = username + ":" + password;
+
+            var credBytes = System.Text.Encoding.Default.GetBytes(credentials);
+
+            var credBase64 = Convert.ToBase64String(credBytes);
+            
+            return LoggedInUser("Basic " + credBase64);
         }
     }
 }

@@ -21,9 +21,8 @@ namespace Ludwig.Presentation
 {
     public class Startup
     {
-
         private StaticServer _frontEndServer = new StaticServer().ServeForAnguler();
-        
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,18 +31,17 @@ namespace Ludwig.Presentation
         public IConfiguration Configuration { get; }
 
 
-
-        
-        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
             services.AddJsonFileUnitOfWork();
-            
-            services.AddTransient<ICrudService<UserStory,long>,UserStoryService>();
-            services.AddTransient<IUserStoryService,UserStoryService>();
+
+            services.AddTransient<ICrudService<UserStory, long>, UserStoryService>();
+            services.AddTransient<IUserStoryService, UserStoryService>();
+
+            services.AddHttpContextAccessor();
             
             services.AddTransient<Jira>();
 
@@ -65,8 +63,6 @@ namespace Ludwig.Presentation
             }
 
             app.UseHttpsRedirection();
-            
-            
 
             _frontEndServer.ConfigurePreRouting(app, env);
 
@@ -76,9 +72,9 @@ namespace Ludwig.Presentation
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            
-            _frontEndServer.ConfigureMappings(app,env);
-            
+
+            _frontEndServer.ConfigureMappings(app, env);
+
             app.IntroduceDotnetResolverToEnTier();
         }
     }

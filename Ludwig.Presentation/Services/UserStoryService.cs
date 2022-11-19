@@ -215,12 +215,6 @@ namespace Ludwig.Presentation.Services
         {
             return _userStoryRepository.Remove(id);
         }
-
-        public IUserStoryService UseContextSource(Func<HttpContext> contextSource)
-        {
-            _jira.UseContextSource(contextSource);
-
-            return this;
-        }
+        
     }
 }

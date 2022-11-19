@@ -14,14 +14,6 @@ namespace Ludwig.Presentation.Controllers
     [Route("stories")]
     public class StoriesController : CrudControllerBase<UserStory,long>
     {
-
-
-        public StoriesController()
-        {
-            if (Service is IUserStoryService userStoryService)
-            {
-                userStoryService.UseContextSource(() => this.HttpContext);
-            }
-        }
+        
     }
 }

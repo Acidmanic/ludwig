@@ -10,7 +10,6 @@ namespace Ludwig.Presentation.Contracts
 
 
         List<JiraIssue> GetAllIssuesByUserStory(string storyName);
-
-        IJiraManagerService UseContextSource(Func<HttpContext> context);
+        
     }
 }

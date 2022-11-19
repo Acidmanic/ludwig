@@ -22,7 +22,7 @@ namespace Ludwig.Presentation.JiraAuthentication
             UrlEncoder encoder,
             ISystemClock clock, Jira jira) : base(options, logger, encoder, clock)
         {
-            _jira = jira.UseContextSource(() => Context);
+            _jira = jira;
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
