@@ -31,7 +31,8 @@ namespace Ludwig.Presentation.Services
 
                 var defaultConfiguration = new LudwigConfiguration
                 {
-                    JiraBaseUrl = "http://litbid.ir:8888"
+                    JiraBackChannelUrl = "http://litbid:8888",
+                    JiraFrontChannelUrl = "http://litbid.ir:8888"
                 };
 
                 WriteFile(defaultConfiguration, configurationFile);
