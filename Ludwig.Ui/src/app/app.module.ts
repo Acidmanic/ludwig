@@ -19,6 +19,7 @@ import { EditableUserStoryComponent } from './editable-user-story/editable-user-
 import { CollapsibleComponent } from './collapsible/collapsible.component';
 import { JiraUserViewComponent } from './jira-user-view/jira-user-view.component';
 import { EditablePriorityComponent } from './editable-priority/editable-priority.component';
+import {CookieInterceptor} from "./inteceptors/cookie-interceptor";
 
 @NgModule({
   declarations: [

@@ -1,6 +1,7 @@
 using System;
 using System.Buffers.Text;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using EnTier.Results;
 using Ludwig.Presentation.Contracts;
@@ -48,19 +49,21 @@ namespace Ludwig.Presentation.Services
             _baseUrl = baseUrl;
         }
 
-        // public Jira UseContextSource(Func<HttpContext> httpContextSource)
-        // {
-        //     _httpContextSource = httpContextSource;
-        //     return this;
-        // }
 
         private PatientDownloader GetDownloader()
         {
             var downloader = new PatientDownloader();
 
             var context = _httpContextAccessor.HttpContext;
-            
+
             _cookieForwarder.ForwardCookies(context, downloader);
+
+            // foreach (var key in context.Request.Headers.Keys)
+            // {
+            //     var value = context.Request.Headers[key];
+            //
+            //     downloader.Headers.Add(key, value);
+            // }
 
             return downloader;
         }
@@ -144,40 +147,40 @@ namespace Ludwig.Presentation.Services
             return new List<JiraIssue>();
         }
 
-        public Task<Result<JiraUser>> LoggedInUser()
+        public Task<Result<JiraUser,WebHeaderCollection>> LoggedInUser()
         {
             return LoggedInUser(null);
         }
-        
-        private async Task<Result<JiraUser>> LoggedInUser(string authHeader)
+
+        private async Task<Result<JiraUser,WebHeaderCollection>> LoggedInUser(string authHeader)
         {
             var downloader = GetDownloader();
 
             if (!string.IsNullOrWhiteSpace(authHeader))
             {
-                downloader.Headers.Add("Authorization",authHeader);
+                downloader.Headers.Add("Authorization", authHeader);
             }
-            
+
             var url = _baseUrl + Resources.Self;
 
             var result = await downloader.DownloadObject<JiraUser>(url, 1200, 12);
 
             if (result)
             {
-                return new Result<JiraUser>(true, result.Value);
+                return new Result<JiraUser,WebHeaderCollection>(true, result.ResponseHeaders, result.Value);
             }
 
-            return new Result<JiraUser>().FailAndDefaultValue();
+            return new Result<JiraUser,WebHeaderCollection>().FailAndDefaultBothValues();
         }
-        
-        public Task<Result<JiraUser>> LoginByCredentials(string username, string password)
+
+        public Task<Result<JiraUser,WebHeaderCollection>> LoginByCredentials(string username, string password)
         {
             var credentials = username + ":" + password;
 
             var credBytes = System.Text.Encoding.Default.GetBytes(credentials);
 
             var credBase64 = Convert.ToBase64String(credBytes);
-            
+
             return LoggedInUser("Basic " + credBase64);
         }
     }

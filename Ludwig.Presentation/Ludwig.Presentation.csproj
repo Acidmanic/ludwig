@@ -10,5 +10,9 @@
     <PackageReference Include="EnTier" Version="2.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Ludwig.Contracts\Ludwig.Contracts.csproj" />
+  </ItemGroup>
+
 
 </Project>

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Net;
 using EnTier.Results;
 
 namespace Ludwig.Presentation.Download
@@ -17,13 +19,14 @@ namespace Ludwig.Presentation.Download
             set => Primary = value;
         }
 
-        public DownloadResult<T> Succeed(T value)
+        public DownloadResult<T> Succeed(T value,WebHeaderCollection responseHeaders)
         {
             return new DownloadResult<T>
             {
                 Value = value,
                 Success = true,
-                Exception = null
+                Exception = null,
+                ResponseHeaders = responseHeaders
             };
         }
         
@@ -36,6 +39,8 @@ namespace Ludwig.Presentation.Download
                 Exception = exception
             };
         }
-        
+
+        public WebHeaderCollection ResponseHeaders { get; set; } = new WebHeaderCollection();
+
     }
 }

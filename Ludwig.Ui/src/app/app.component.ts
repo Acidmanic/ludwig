@@ -4,6 +4,7 @@ import {ResultOf} from "./models/result-of";
 import {JiraUserModel} from "./models/jira-user-model";
 import {JiraService} from "./services/jira/jira.service";
 import {PriorityModel} from "./models/priority-model";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-root',
@@ -26,7 +27,8 @@ export class AppComponent implements OnInit{
     {name:'Lowest',value:4},
   ];
 
-  constructor(private svcJira:JiraService) {
+  constructor(private svcJira:JiraService,
+              private http:HttpClient) {
   }
 
 
@@ -45,4 +47,23 @@ export class AppComponent implements OnInit{
     });
   }
 
+  //
+  // usernameValue:string='Acidmanic';
+  // passwordValue:string='sphere';
+  //
+  // authorize(){
+  //
+  //   let url = 'http://litbid.ir:8888/rest/api/2/myself'
+  //   let usernamePassword = this.usernameValue+':'+this.passwordValue;
+  //   let token = btoa(usernamePassword);
+  //   let authorization = 'Basic ' + token;
+  //
+  //
+  //   this.http.get(url,{headers:{authorization:authorization}}).subscribe({
+  //     next: valu => console.log('Received as auth response',valu),
+  //     error: err => console.log('Received auth Error',err),
+  //     complete: () => {}
+  //   });
+  // }
+  //
 }

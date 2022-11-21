@@ -27,6 +27,20 @@ export class JiraService {
     return handle;
   }
 
+  public logInByCredentials(username:string,password:string):Observable<ResultOf<JiraUserModel>>{
 
+    let handle = new Subject<ResultOf<JiraUserModel>>();
+
+    let url = "auth/jira/login"
+    this.http.post<ResultOf<JiraUserModel>>(url,{username:username,password:password}).subscribe(
+      {
+        next: result => handle.next(result),
+        error: err => handle.error(err),
+        complete: () => handle.complete()
+      }
+    );
+
+    return handle;
+  }
 
 }

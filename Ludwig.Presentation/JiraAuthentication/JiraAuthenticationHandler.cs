@@ -32,7 +32,7 @@ namespace Ludwig.Presentation.JiraAuthentication
 
             if (logged)
             {
-                var user = logged.Value;
+                var user = logged.Primary;
                 
                 var claims = new List<Claim>
                 {

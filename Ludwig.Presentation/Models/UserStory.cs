@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Acidmanic.Utilities.Reflection.Attributes;
+using Ludwig.Contracts.IssueManagement.Models;
 
 namespace Ludwig.Presentation.Models
 {

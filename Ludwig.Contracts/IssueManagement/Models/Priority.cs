@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
 
-namespace Ludwig.Presentation.Models
+namespace Ludwig.Contracts.IssueManagement.Models
 {
     public class Priority
     {
@@ -13,9 +12,9 @@ namespace Ludwig.Presentation.Models
 
         public static List<Priority> Priorities = new List<Priority>
         {
-            Highest,High,Medium,Low,Lowest
+            Highest, High, Medium, Low, Lowest
         };
-        
+
         private Priority(string name, int value)
         {
             Name = name;
@@ -24,18 +23,18 @@ namespace Ludwig.Presentation.Models
 
         public Priority()
         {
-            
         }
-        
+
         public string Name { get; set; }
-        
-        public int Value { get;  set;}
+
+        public int Value { get; set; }
 
 
         public static implicit operator string(Priority p)
         {
             return p.Name;
         }
+
         public static implicit operator int(Priority p)
         {
             return p.Value;
@@ -51,15 +50,19 @@ namespace Ludwig.Presentation.Models
             return false;
         }
 
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((Name != null ? Name.GetHashCode() : 0) * 397) ^ Value;
+            }
+        }
+
         protected bool Equals(Priority other)
         {
             return other.Value == this.Value && other.Name?.ToLower() == this.Name?.ToLower();
         }
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Name, Value);
-        }
 
         public static bool operator ==(Priority p1, Priority p2)
         {
