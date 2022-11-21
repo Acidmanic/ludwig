@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.Models;
 
 namespace Ludwig.Contracts.IssueManagement
@@ -14,7 +15,7 @@ namespace Ludwig.Contracts.IssueManagement
 
         Task<List<Issue>> GetIssuesByUserStory(string userStory);
         
-        Type AuthenticatorClass { get; } 
+        List<IAuthenticator> Authenticators { get; } 
 
     }
 }

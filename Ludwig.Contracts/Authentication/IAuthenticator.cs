@@ -10,5 +10,6 @@ namespace Ludwig.Contracts.Authentication
 
         Task<RequestUpdate> GrantAccess(RequestUpdate requestUpdate);
         
+        LoginMethod LoginMethod { get; }
     }
 }
