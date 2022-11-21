@@ -5,6 +5,7 @@ using EnTier.Repositories;
 using EnTier.Repositories.Attributes;
 using EnTier.Results;
 using EnTier.UnitOfWork;
+using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Extensions;
@@ -18,13 +19,15 @@ namespace Ludwig.Presentation.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICrudRepository<UserStory, long> _userStoryRepository;
         private readonly ICrudRepository<StoryUser, long> _storyUserRepository;
-        private readonly Jira _jira;
+
+        private readonly IIssueManager _issueManager;
+        //private readonly Jira _jira;
 
 
-        public UserStoryService(IUnitOfWork unitOfWork, Jira jira)
+        public UserStoryService(IUnitOfWork unitOfWork,  IIssueManager issueManager)
         {
             _unitOfWork = unitOfWork;
-            _jira = jira;
+            _issueManager = issueManager;
 
             _userStoryRepository = unitOfWork.GetCrudRepository<UserStory, long>();
             _storyUserRepository = unitOfWork.GetCrudRepository<StoryUser, long>();
@@ -54,10 +57,8 @@ namespace Ludwig.Presentation.Services
 
         private void ReadIssuesInto(UserStory item)
         {
-            var issues = _jira.IssuesByUserStory(item.Title).Result;
-
-            issues.ForEach(i => i.Fields.Clear());
-
+            var issues = _issueManager.GetIssuesByUserStory(item.Title).Result;
+            
             item.Issues = issues;
         }
 
@@ -86,7 +87,7 @@ namespace Ludwig.Presentation.Services
             return new UserStory
             {
                 Id = value.Id,
-                Issues = new List<JiraIssue>(),
+                Issues = new List<Issue>(),
                 Title = value.Title,
                 CardColor = value.CardColor,
                 StoryBenefit = value.StoryBenefit,

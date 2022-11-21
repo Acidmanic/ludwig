@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Ludwig.Contracts.Models;
 using Ludwig.Presentation.Models;
 
 namespace Ludwig.Presentation.Utilities
@@ -23,9 +24,9 @@ namespace Ludwig.Presentation.Utilities
             return "Title,User,Feature,Benefit,Priority,Issues";
         }
 
-        private string ToString(IEnumerable<JiraIssue> issues)
+        private string ToString(IEnumerable<Issue> issues)
         {
-            return string.Join(" | ", issues.Select(i => i.Key));
+            return string.Join(" | ", issues.Select(i => i.Title));
         }
     }
 }

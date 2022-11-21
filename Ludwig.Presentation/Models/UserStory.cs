@@ -22,7 +22,7 @@ namespace Ludwig.Presentation.Models
         
         public string CardColor { get; set; }
         
-        public List<JiraIssue> Issues { get; set; }
+        public List<Issue> Issues { get; set; }
         
         public Priority Priority { get; set; }
     }

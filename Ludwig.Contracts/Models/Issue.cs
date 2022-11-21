@@ -13,5 +13,7 @@ namespace Ludwig.Contracts.Models
         public IssueType IssueType { get; set; }
         
         public Priority Priority { get; set; }
+        
+        public string IssueReferenceLink { get; set; }
     }
 }
