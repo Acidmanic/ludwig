@@ -19,9 +19,6 @@ namespace Ludwig.IssueManager.Fake
             EmailAddress = "fake@ludwig.user"
         };
 
-        public static Result<IssueManagerUser> LoggedInUser { get; private set; }
-            = new Result<IssueManagerUser>().FailAndDefaultValue();
-
         public static List<Issue> Issues { get; }= new List<Issue>
         {
             new Issue
@@ -65,12 +62,7 @@ namespace Ludwig.IssueManager.Fake
         {
             return Task.Run(() =>
             {
-                if (LoggedInUser)
-                {
-                    return LoggedInUser.Value;
-                }
-
-                return null;
+                return User;
             });
         }
 
