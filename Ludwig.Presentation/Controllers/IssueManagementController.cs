@@ -34,5 +34,15 @@ namespace Ludwig.Presentation.Controllers
 
             return NotFound();
         }
+        
+        
+        [HttpGet]
+        [Route("users")]
+        public async  Task<IActionResult> AllUsers()
+        {
+            var users = await _issueManager.GetAllUsers();
+
+            return Ok(users);
+        }
     }
 }
