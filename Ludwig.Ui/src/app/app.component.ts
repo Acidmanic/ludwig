@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {CookieService} from "ngx-cookie-service/dist-lib";
-import {ResultOf} from "./models/result-of";
 import {JiraUserModel} from "./models/jira-user-model";
 import {JiraService} from "./services/jira/jira.service";
 import {PriorityModel} from "./models/priority-model";
@@ -33,18 +31,7 @@ export class AppComponent implements OnInit{
 
 
   ngOnInit(): void {
-    this.svcJira.loggedIn().subscribe({
-      next: loggedIn => {
-        if(loggedIn.success){
-          if(loggedIn.value){
-            this.loggedInUser = loggedIn.value;
-            this.isLoggedIn=true;
-          }
-        }
-      },
-      error: e => {},
-      complete: () => {}
-    });
+
   }
 
   //
