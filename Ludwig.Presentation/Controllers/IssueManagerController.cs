@@ -10,12 +10,12 @@ namespace Ludwig.Presentation.Controllers
     [ApiController]
     [Route("issue-manager")]
     [Authorize]
-    public class IssueManagementController:ControllerBase
+    public class IssueManagerController:ControllerBase
     {
 
         private readonly IIssueManager _issueManager;
 
-        public IssueManagementController(IIssueManager issueManager)
+        public IssueManagerController(IIssueManager issueManager)
         {
             _issueManager = issueManager;
         }
