@@ -3,11 +3,8 @@ using Ludwig.IssueManager.Jira.Models;
 
 namespace Ludwig.IssueManager.Jira.Interfaces
 {
-    public interface IJiraManagerService
+    internal interface IJiraManagerService
     {
-
-
         List<JiraIssue> GetAllIssuesByUserStory(string storyName);
-        
     }
 }

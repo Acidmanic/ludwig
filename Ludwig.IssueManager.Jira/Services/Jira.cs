@@ -6,12 +6,11 @@ using Acidmanic.Utilities.Results;
 using Ludwig.Common.Download;
 using Ludwig.IssueManager.Jira.Interfaces;
 using Ludwig.IssueManager.Jira.Models;
-using Ludwig.Presentation.Services;
 using Microsoft.AspNetCore.Http;
 
 namespace Ludwig.IssueManager.Jira.Services
 {
-    public class Jira
+    internal class Jira
     {
         private class Resources
         {
@@ -138,12 +137,12 @@ namespace Ludwig.IssueManager.Jira.Services
             return new List<JiraIssue>();
         }
 
-        public Task<Result<JiraUser,WebHeaderCollection>> LoggedInUser()
+        public Task<Result<JiraUser, WebHeaderCollection>> LoggedInUser()
         {
             return LoggedInUser(null);
         }
 
-        private async Task<Result<JiraUser,WebHeaderCollection>> LoggedInUser(string authHeader)
+        private async Task<Result<JiraUser, WebHeaderCollection>> LoggedInUser(string authHeader)
         {
             var downloader = GetDownloader();
 
@@ -158,13 +157,13 @@ namespace Ludwig.IssueManager.Jira.Services
 
             if (result)
             {
-                return new Result<JiraUser,WebHeaderCollection>(true, result.ResponseHeaders, result.Value);
+                return new Result<JiraUser, WebHeaderCollection>(true, result.ResponseHeaders, result.Value);
             }
 
-            return new Result<JiraUser,WebHeaderCollection>().FailAndDefaultBothValues();
+            return new Result<JiraUser, WebHeaderCollection>().FailAndDefaultBothValues();
         }
 
-        public Task<Result<JiraUser,WebHeaderCollection>> LoginByCredentials(string username, string password)
+        public Task<Result<JiraUser, WebHeaderCollection>> LoginByCredentials(string username, string password)
         {
             var credentials = username + ":" + password;
 

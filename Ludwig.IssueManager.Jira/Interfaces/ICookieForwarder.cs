@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Ludwig.IssueManager.Jira.Interfaces
 {
-    public interface ICookieForwarder
+    internal interface ICookieForwarder
     {
         void ForwardCookies(HttpContext context, PatientDownloader downloader);
     }

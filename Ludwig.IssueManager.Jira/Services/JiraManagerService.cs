@@ -6,25 +6,24 @@ using Ludwig.IssueManager.Jira.Models;
 
 namespace Ludwig.IssueManager.Jira.Services
 {
-    public class JiraManagerService:IJiraManagerService
+    internal class JiraManagerService : IJiraManagerService
     {
-
         private List<JiraField> _availableFields = new List<JiraField>();
         private readonly Jira _jira;
-        private Result<JiraField> _userStoryField  = new Result<JiraField>().FailAndDefaultValue();
-        
+        private Result<JiraField> _userStoryField = new Result<JiraField>().FailAndDefaultValue();
+
         public JiraManagerService(Jira jira)
         {
             _jira = jira;
             UpdateFields();
         }
-        
+
         public List<JiraIssue> GetAllIssuesByUserStory(string storyName)
         {
             if (_userStoryField)
             {
-                   
             }
+
             return new List<JiraIssue>();
         }
 

@@ -2,9 +2,8 @@ using System.Collections.Generic;
 
 namespace Ludwig.IssueManager.Jira.Models
 {
-    public class JiraProject
+    internal class JiraProject
     {
-     
         public string Self { get; set; }
 
         public string Id { get; set; }

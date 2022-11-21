@@ -1,9 +1,8 @@
-using Ludwig.IssueManager.Jira.JiraAuthentication;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Ludwig.Presentation.JiraAuthentication
+namespace Ludwig.IssueManager.Jira.JiraAuthentication
 {
-    public static class JiraAuthenticationServiceCollectionExtensions
+    internal static class JiraAuthenticationServiceCollectionExtensions
     {
         public static IServiceCollection AddJiraAuthentication(this IServiceCollection services)
         {

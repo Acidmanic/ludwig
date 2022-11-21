@@ -5,13 +5,12 @@ using Ludwig.IssueManager.Jira.Models;
 
 namespace Ludwig.IssueManager.Jira.Services
 {
-    public class LudwigJiraFieldDefinitionProvider:ICustomFieldDefinitionProvider
+    internal class LudwigJiraFieldDefinitionProvider : ICustomFieldDefinitionProvider
     {
         public IEnumerable<CustomFieldDefinition> Provide(IEnumerable<JiraField> availableFields)
         {
-
             var definitions = new List<CustomFieldDefinition>();
-            
+
             var userStoryField = availableFields.FirstOrDefault(f => f.Name?.ToLower() == "user story");
 
             if (userStoryField != null)
@@ -26,7 +25,7 @@ namespace Ludwig.IssueManager.Jira.Services
                 };
                 definitions.Add(def);
             }
-            
+
             return definitions;
         }
     }

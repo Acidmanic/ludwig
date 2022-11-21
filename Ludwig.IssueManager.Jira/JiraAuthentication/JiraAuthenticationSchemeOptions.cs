@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Authentication;
 
-namespace Ludwig.Presentation.JiraAuthentication
+namespace Ludwig.IssueManager.Jira.JiraAuthentication
 {
-    public class JiraAuthenticationSchemeOptions:AuthenticationSchemeOptions
+    internal class JiraAuthenticationSchemeOptions : AuthenticationSchemeOptions
     {
         public JiraAuthenticationSchemeOptions()
         {
-            
         }
     }
 }

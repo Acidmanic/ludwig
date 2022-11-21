@@ -1,6 +1,6 @@
 namespace Ludwig.IssueManager.Jira.Models
 {
-    public class JiraPriority
+    internal class JiraPriority
     {
         public string Self { get; set; }
 

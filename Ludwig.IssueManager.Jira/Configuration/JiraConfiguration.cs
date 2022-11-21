@@ -1,6 +1,6 @@
 namespace Ludwig.IssueManager.Jira.Configuration
 {
-    public class JiraConfiguration
+    internal class JiraConfiguration
     {
         public string JiraBackChannelUrl { get; set; }
         

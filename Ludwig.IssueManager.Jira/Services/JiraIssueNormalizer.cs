@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Ludwig.IssueManager.Jira.Models;
 using Newtonsoft.Json.Linq;
 
-namespace Ludwig.Presentation.Services
+namespace Ludwig.IssueManager.Jira.Services
 {
-    public static class JiraIssueNormalizer
+    internal static class JiraIssueNormalizer
     {
         public static void Normalize(JiraIssue issue, IEnumerable<CustomFieldDefinition> definitions = null)
         {
