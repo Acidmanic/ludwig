@@ -44,5 +44,23 @@ namespace Ludwig.Presentation.Controllers
 
             return Ok(users);
         }
+        
+        [HttpGet]
+        [Route("issues")]
+        public async  Task<IActionResult> AllIssues()
+        {
+            var issues = await _issueManager.GetAllIssues();
+            
+            return Ok(issues);
+        }
+        
+        [HttpGet]
+        [Route("issues-by-story/{story}")]
+        public async  Task<IActionResult> IssuesByStory(string story)
+        {
+            var issues = await _issueManager.GetIssuesByUserStory(story);
+            
+            return Ok(issues);
+        }
     }
 }
