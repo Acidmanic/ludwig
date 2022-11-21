@@ -48,5 +48,23 @@ namespace Ludwig.Presentation.Controllers
 
             return Unauthorized(new { message = loggedIn.Secondary });
         }
+
+        [HttpGet]
+        [Route("revoke")]
+        public IActionResult Revoke()
+        {
+            _authenticationManager.Revoke();
+
+            return Ok();
+        }
+        
+        [HttpGet]
+        [Route("revoke/{token}")]
+        public IActionResult Revoke(string token)
+        {
+            _authenticationManager.Revoke(token);
+
+            return Ok();
+        }
     }
 }

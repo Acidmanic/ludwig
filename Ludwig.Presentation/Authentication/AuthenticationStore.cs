@@ -51,5 +51,16 @@ namespace Ludwig.Presentation.Authentication
             return new Result<AuthenticationRecord>().Succeed(record);
         }
         
+        
+        public void RemoveAuthorization(string token)
+        {
+            var record = _repository.GetById(token);
+
+            if (record != null)
+            {
+                _repository.Remove(token);
+            }
+        }
+        
     }
 }

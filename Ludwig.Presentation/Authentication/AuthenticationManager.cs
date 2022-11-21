@@ -110,11 +110,12 @@ namespace Ludwig.Presentation.Authentication
                 backChannelCarrier.InDirectCookies.Add(cookie.Key, cookie.Value);
             }
         }
-
-        public Result<AuthenticationRecord> IsAuthorized()
+        
+        
+        
+        public string ReadAuthorizationToken()
         {
             var context = _httpContextAccessor.HttpContext;
-
 
             var header = context.Request.Headers["Authorization"];
 
@@ -131,15 +132,53 @@ namespace Ludwig.Presentation.Authentication
                             var token = stringValue.Substring(tokenLength, stringValue.Length - tokenLength)
                                 .Trim();
 
-                            var foundRecord = _authenticationStore.FindAuthenticatedLoginMethodName(token);
-
-                            return foundRecord;
+                            if (!string.IsNullOrWhiteSpace(token))
+                            {
+                                return token;
+                            }
                         }
                     }
                 }
             }
 
+            return null;
+        }
+
+        public Result<AuthenticationRecord> IsAuthorized()
+        {
+
+
+            var token = ReadAuthorizationToken();
+
+            if (token != null)
+            {
+                var foundRecord = _authenticationStore.FindAuthenticatedLoginMethodName(token);
+
+                return foundRecord;
+            }
+            
             return new Result<AuthenticationRecord>().FailAndDefaultValue();
+        }
+
+        public void Revoke()
+        {
+            var token = ReadAuthorizationToken();
+
+            Revoke(token);
+        }
+        
+        public void Revoke(string token)
+        {
+            
+            if (token != null)
+            {
+                var foundRecord = _authenticationStore.FindAuthenticatedLoginMethodName(token);
+
+                if (foundRecord)
+                {
+                    _authenticationStore.RemoveAuthorization(token);
+                }
+            }
         }
     }
 }
