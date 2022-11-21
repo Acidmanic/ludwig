@@ -43,7 +43,7 @@ namespace Ludwig.Presentation.Controllers
 
             if (loggedIn)
             {
-                Ok(loggedIn.Primary.AsToken());
+                return Ok(loggedIn.Primary.AsToken());
             }
 
             return Unauthorized(new { message = loggedIn.Secondary });

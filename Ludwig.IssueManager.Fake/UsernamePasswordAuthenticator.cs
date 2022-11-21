@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ludwig.Contracts.Authentication;
+using Ludwig.Contracts.Extensions;
 using Ludwig.Contracts.Models;
 
 namespace Ludwig.IssueManager.Fake
@@ -15,29 +16,26 @@ namespace Ludwig.IssueManager.Fake
         {
             return Task.Run(() =>
             {
-                if (parameters.ContainsKey("Username"))
+
+                var username = parameters.Read("Username");
+                var password = parameters.Read("Password");
+
+                if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
                 {
-                    var username = parameters["Username"];
-
-                    if (parameters.ContainsKey("Password"))
+                    if (username == FakeIssueManager.User.Name && password == FakeIssueManager.User.Name)
                     {
-                        var password = parameters["Password"];
-
-                        if (username == FakeIssueManager.User.Name && password == FakeIssueManager.User.Name)
-                        {
-                            _accessCookie = Guid.NewGuid().ToString();
+                        _accessCookie = Guid.NewGuid().ToString();
                             
-                            return new AuthenticationResult
-                            {
-                                Authenticated = true,
-                                EmailAddress = FakeIssueManager.User.EmailAddress,
-                                SubjectId = FakeIssueManager.User.Name,
-                                SubjectWebPage = ""
-                            };
-                        }
+                        return new AuthenticationResult
+                        {
+                            Authenticated = true,
+                            EmailAddress = FakeIssueManager.User.EmailAddress,
+                            SubjectId = FakeIssueManager.User.Name,
+                            SubjectWebPage = ""
+                        };
                     }
                 }
-
+                
                 return new AuthenticationResult { Authenticated = false };
             });
         }

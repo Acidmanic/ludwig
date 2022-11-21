@@ -10,9 +10,7 @@ namespace Ludwig.IssueManager.Fake
 {
     public class FakeIssueManager : IIssueManager
     {
-        public static IssueManagerUser User { get; } = new IssueManagerUser();
-
-        private static IssueManagerUser TheUser { get; } = new IssueManagerUser
+        public static IssueManagerUser User { get; } = new IssueManagerUser
         {
             Active = true,
             Name = "fake.user",
@@ -28,7 +26,7 @@ namespace Ludwig.IssueManager.Fake
         {
             new Issue
             {
-                Assignee = TheUser,
+                Assignee = User,
                 Description = "This is a fake issue.",
                 Priority = Priority.Medium,
                 Title = "Implement Real Issue Management",
@@ -43,7 +41,7 @@ namespace Ludwig.IssueManager.Fake
             },
             new Issue
             {
-                Assignee = TheUser,
+                Assignee = User,
                 Description = "This is another fake issue.",
                 Priority = Priority.High,
                 Title = "Implement Authorization For Issue Manager",

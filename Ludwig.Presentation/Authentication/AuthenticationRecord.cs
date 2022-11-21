@@ -12,11 +12,23 @@ namespace Ludwig.Presentation.Authentication
         public string SubjectWebPage { get; set; }
 
 
+        [UniqueMember]
+        public string Id
+        {
+            get
+            {
+                return Token;
+            } set
+            {
+                Token = value;
+            }
+        }
+
         public AuthenticationToken AsToken()
         {
             return new AuthenticationToken
             {
-                Token = Token,
+                Token = Id,
                 ExpirationEpoch = ExpirationEpoch,
                 LoginMethodName = LoginMethodName
             };
