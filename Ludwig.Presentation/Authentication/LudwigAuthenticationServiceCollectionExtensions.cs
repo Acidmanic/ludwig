@@ -8,7 +8,7 @@ namespace Ludwig.Presentation.Authentication
         public static IServiceCollection AddLudwigTokenAuthentication(this IServiceCollection services)
         {
             services.AddAuthentication("ludwig-token")
-                .AddScheme<JiraAuthenticationSchemeOptions, JiraAuthenticationHandler>("ludwig-token", null);
+                .AddScheme<LudwigAuthenticationSchemeOptions, LudwigTokenAuthenticationHandler>("ludwig-token", null);
 
             return services;
         }
