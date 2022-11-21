@@ -13,7 +13,7 @@ namespace Ludwig.IssueManager.Jira.Models
         public Dictionary<string, object> Fields { get; set; }
 
 
-        public IssueType IssueType { get; set; }
+        public JiraIssueType IssueType { get; set; }
 
         public string Summary { get; set; }
 

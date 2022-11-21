@@ -137,12 +137,12 @@ namespace Ludwig.IssueManager.Jira.Services
             return new List<JiraIssue>();
         }
 
-        public Task<Result<JiraUser, WebHeaderCollection>> LoggedInUser()
+        public Task<Result<JiraUser, string>> LoggedInUser()
         {
             return LoggedInUser(null);
         }
 
-        private async Task<Result<JiraUser, WebHeaderCollection>> LoggedInUser(string authHeader)
+        private async Task<Result<JiraUser, string>> LoggedInUser(string authHeader)
         {
             var downloader = GetDownloader();
 
@@ -157,13 +157,13 @@ namespace Ludwig.IssueManager.Jira.Services
 
             if (result)
             {
-                return new Result<JiraUser, WebHeaderCollection>(true, result.ResponseHeaders, result.Value);
+                return new Result<JiraUser, string>(true, authHeader, result.Value);
             }
 
-            return new Result<JiraUser, WebHeaderCollection>().FailAndDefaultBothValues();
+            return new Result<JiraUser, string>().FailAndDefaultBothValues();
         }
 
-        public Task<Result<JiraUser, WebHeaderCollection>> LoginByCredentials(string username, string password)
+        public Task<Result<JiraUser, string>> LoginByCredentials(string username, string password)
         {
             var credentials = username + ":" + password;
 

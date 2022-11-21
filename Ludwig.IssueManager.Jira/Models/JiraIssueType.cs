@@ -1,6 +1,6 @@
 namespace Ludwig.IssueManager.Jira.Models
 {
-    internal class IssueType
+    internal class JiraIssueType
     {
         public string Self { get; set; }
 

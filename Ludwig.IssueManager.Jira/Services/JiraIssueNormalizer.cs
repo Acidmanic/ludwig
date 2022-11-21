@@ -9,7 +9,7 @@ namespace Ludwig.IssueManager.Jira.Services
     {
         public static void Normalize(JiraIssue issue, IEnumerable<CustomFieldDefinition> definitions = null)
         {
-            issue.IssueType = Cast<IssueType>(issue, "issuetype");
+            issue.IssueType = Cast<JiraIssueType>(issue, "issuetype");
 
             issue.Summary = Cast<string>(issue, "summary");
 
