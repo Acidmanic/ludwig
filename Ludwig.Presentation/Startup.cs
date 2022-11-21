@@ -58,7 +58,7 @@ namespace Ludwig.Presentation
 
             services.AddTransient<AuthenticationStore>();
             
-            services.AddTransient<AuthenticationManager>();
+            services.AddTransient<Ludwig.Presentation.Authentication.AuthenticationManager>();
 
             services.AddLudwigTokenAuthentication();
 

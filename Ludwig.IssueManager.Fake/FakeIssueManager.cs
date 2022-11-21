@@ -89,6 +89,7 @@ namespace Ludwig.IssueManager.Fake
             });
         }
 
-        public List<IAuthenticator> Authenticators { get; }
+        public List<IAuthenticator> Authenticators { get; } =
+            new List<IAuthenticator> { new UsernamePasswordAuthenticator() };
     }
 }
