@@ -1,9 +1,10 @@
-using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Security.Permissions;
+using System.Linq;
 using System.Threading.Tasks;
-using Ludwig.Presentation.Download;
+using Ludwig.Contracts.Authentication;
+using Ludwig.Contracts.IssueManagement;
+using Ludwig.Contracts.Models;
+using Ludwig.Presentation.Authentication;
 using Ludwig.Presentation.Extensions;
 using Ludwig.Presentation.Models;
 using Ludwig.Presentation.Services;
@@ -11,48 +12,41 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ludwig.Presentation.Controllers
 {
-    
     [ApiController]
     [Route("auth")]
-    public class AuthorizationController:ControllerBase
+    public class AuthorizationController : ControllerBase
     {
+        private readonly AuthenticationManager _authenticationManager;
 
-        private readonly Jira _jira;
-
-        public AuthorizationController(Jira jira)
+        public AuthorizationController(AuthenticationManager authenticationManager)
         {
-            _jira = jira;
+            _authenticationManager = authenticationManager;
+        }
+
+
+        [HttpGet]
+        [Route("login-methods")]
+        public IActionResult GetLoginMethods()
+        {
+            return Ok(new
+            {
+                loginMethods = _authenticationManager.LoginMethods
+            });
         }
 
 
         [HttpPost]
-        [Route("jira/login")]
-        public async Task<IActionResult> JiraLogin(Credentials credentials)
+        [Route("login")]
+        public async Task<IActionResult> Login(LoginParameters parameters)
         {
-
-            var loggedIn = await _jira.LoginByCredentials(credentials.Username, credentials.Password);
+            var loggedIn = await _authenticationManager.Login(parameters);
 
             if (loggedIn)
             {
-                
-                var rawSentCookies = loggedIn.Secondary.RawSentCookies();
-
-                rawSentCookies.ForEach(c => HttpContext.Response.Headers.Add("Set-Cookie",c));
-                
-                return Ok(loggedIn.Primary);
+                Ok(loggedIn.Primary.AsToken());
             }
 
-            return Unauthorized();
+            return Unauthorized(new { message = loggedIn.Secondary });
         }
-        
-        
-        [HttpPost]
-        [Route("admin/login")]
-        public IActionResult AdminLogin(string password)
-        {
-
-            return Unauthorized();
-        }
-        
     }
 }

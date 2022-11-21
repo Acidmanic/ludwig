@@ -14,7 +14,7 @@ namespace Ludwig.Contracts.Di
         public List<Type> Authenticators { get; } = new List<Type>();
         
         public List<Type> AdditionalTransientServices { get; } = new List<Type>();
-        public List<Type> AdditionalSingleTonServices { get; } = new List<Type>();
+        public List<Type> AdditionalSingletonServices { get; } = new List<Type>();
 
         public Dictionary<Type, Type> AdditionalTransientInjections { get; set; } = new Dictionary<Type, Type>();
         public Dictionary<Type, Type> AdditionalSingletonInjections { get; set; } = new Dictionary<Type, Type>();
@@ -37,7 +37,7 @@ namespace Ludwig.Contracts.Di
         
         protected void Singleton<TImplementation>()
         {
-            AdditionalSingleTonServices.Add(typeof(TImplementation));
+            AdditionalSingletonServices.Add(typeof(TImplementation));
         }
 
 

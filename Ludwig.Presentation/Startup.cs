@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EnTier;
 using EnTier.Services;
+using Ludwig.Presentation.Authentication;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.JiraAuthentication;
 using Ludwig.Presentation.Models;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using AuthenticationManager = Microsoft.AspNetCore.Server.HttpSys.AuthenticationManager;
 
 namespace Ludwig.Presentation
 {
@@ -47,11 +49,17 @@ namespace Ludwig.Presentation
 
             services.AddTransient<ILudwigConfigurationProvider, LudwigJsonConfigurationProvider>();
 
-            services.AddJiraAuthentication();
-
             services.AddTransient<ICustomFieldDefinitionProvider, LudwigJiraFieldDefinitionProvider>();
 
             services.AddTransient<IDatabaseExporter, DatabaseExporterV1>();
+
+
+            services.AddTransient<AuthenticationStore>();
+            
+            services.AddTransient<AuthenticationManager>();
+
+            services.AddLudwigTokenAuthentication();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

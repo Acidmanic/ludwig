@@ -10,6 +10,8 @@ namespace Ludwig.Contracts.IssueManagement
     {
 
         Task<List<IssueManagerUser>> GetAllUsers();
+
+        Task<IssueManagerUser> GetCurrentUser();
         
         Task<List<Issue>> GetAllIssues();
 

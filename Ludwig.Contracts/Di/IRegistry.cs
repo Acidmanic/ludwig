@@ -13,7 +13,7 @@ namespace Ludwig.Contracts.Di
         
         List<Type> AdditionalTransientServices { get; }
         
-        List<Type> AdditionalSingleTonServices { get; }
+        List<Type> AdditionalSingletonServices { get; }
         
         Dictionary<Type,Type> AdditionalTransientInjections { get; set; }
         
