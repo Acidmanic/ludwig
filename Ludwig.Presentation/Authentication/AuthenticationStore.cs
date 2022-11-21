@@ -12,10 +12,11 @@ namespace Ludwig.Presentation.Authentication
     {
 
         private readonly ICrudRepository<AuthenticationRecord,string> _repository;
-
+        private readonly IUnitOfWork _unitOfWork;
         public AuthenticationStore(IUnitOfWork unitOfWork)
         {
             _repository = unitOfWork.GetCrudRepository<AuthenticationRecord,string>();
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -34,6 +35,8 @@ namespace Ludwig.Presentation.Authentication
             };
 
             record = _repository.Add(record);
+            
+            _unitOfWork.Complete();
             
             return record;
         }
@@ -59,6 +62,8 @@ namespace Ludwig.Presentation.Authentication
             if (record != null)
             {
                 _repository.Remove(token);
+                
+                _unitOfWork.Complete();
             }
         }
         
