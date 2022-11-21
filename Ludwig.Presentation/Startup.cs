@@ -1,25 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EnTier;
 using EnTier.Services;
 using Ludwig.IssueManager.Fake;
 using Ludwig.Presentation.Authentication;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Extensions;
-using Ludwig.Presentation.JiraAuthentication;
 using Ludwig.Presentation.Models;
 using Ludwig.Presentation.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using AuthenticationManager = Microsoft.AspNetCore.Server.HttpSys.AuthenticationManager;
 
 namespace Ludwig.Presentation
 {
@@ -46,12 +36,6 @@ namespace Ludwig.Presentation
             services.AddTransient<IUserStoryService, UserStoryService>();
 
             services.AddHttpContextAccessor();
-            
-            services.AddTransient<Jira>();
-
-            services.AddTransient<ILudwigConfigurationProvider, LudwigJsonConfigurationProvider>();
-
-            services.AddTransient<ICustomFieldDefinitionProvider, LudwigJiraFieldDefinitionProvider>();
 
             services.AddTransient<IDatabaseExporter, DatabaseExporterV1>();
 

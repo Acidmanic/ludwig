@@ -11,9 +11,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ludwig.Common\Ludwig.Common.csproj" />
     <ProjectReference Include="..\Ludwig.Contracts\Ludwig.Contracts.csproj" />
     <ProjectReference Include="..\Ludwig.IssueManager.Fake\Ludwig.IssueManager.Fake.csproj" />
-    <ProjectReference Include="..\Ludwig.IssueManager.Jira\Ludwig.IssueManager.Jira.csproj" />
+<!--    <ProjectReference Include="..\Ludwig.IssueManager.Jira\Ludwig.IssueManager.Jira.csproj" />-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Configuration" />
   </ItemGroup>
 
 

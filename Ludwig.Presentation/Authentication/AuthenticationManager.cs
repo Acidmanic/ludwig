@@ -1,13 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using EnTier.Results;
+using Ludwig.Common.Download;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
-using Ludwig.Presentation.Download;
 using Ludwig.Presentation.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;

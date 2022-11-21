@@ -1,4 +1,3 @@
-using Ludwig.Presentation.JiraAuthentication;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ludwig.Presentation.Authentication
