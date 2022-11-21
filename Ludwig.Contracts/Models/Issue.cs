@@ -1,4 +1,4 @@
-namespace Ludwig.Contracts.IssueManagement.Models
+namespace Ludwig.Contracts.Models
 {
     public class Issue
     {
@@ -6,7 +6,7 @@ namespace Ludwig.Contracts.IssueManagement.Models
         
         public string Description { get; set; }
         
-        public ImUser Assignee { get; set; }
+        public IssueManagerUser Assignee { get; set; }
         
         public string UserStory { get; set; }
         

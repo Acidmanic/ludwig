@@ -5,7 +5,7 @@ using EnTier.Repositories;
 using EnTier.Repositories.Attributes;
 using EnTier.Results;
 using EnTier.UnitOfWork;
-using Ludwig.Contracts.IssueManagement.Models;
+using Ludwig.Contracts.Models;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Extensions;
 using Ludwig.Presentation.Models;

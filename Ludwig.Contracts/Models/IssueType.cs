@@ -1,4 +1,4 @@
-namespace Ludwig.Contracts.IssueManagement.Models
+namespace Ludwig.Contracts.Models
 {
     public class IssueType
     {

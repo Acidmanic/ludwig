@@ -1,6 +1,6 @@
 using Acidmanic.Utilities.Reflection;
 using EnTier.AutoWrap;
-using Ludwig.Contracts.IssueManagement.Models;
+using Ludwig.Contracts.Models;
 using Ludwig.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;
 

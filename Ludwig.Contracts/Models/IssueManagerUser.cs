@@ -1,6 +1,6 @@
-namespace Ludwig.Contracts.IssueManagement.Models
+namespace Ludwig.Contracts.Models
 {
-    public class ImUser
+    public class IssueManagerUser
     {
         public string Name { get; set; }
         
