@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludwig.Contracts", "Ludwig.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludwig.IssueManager.Jira", "Ludwig.IssueManager.Jira\Ludwig.IssueManager.Jira.csproj", "{B9393A07-5DBC-4F9C-8FF6-890AF0518323}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludwig.IssueManager.Fake", "Ludwig.IssueManager.Fake\Ludwig.IssueManager.Fake.csproj", "{CE196C4D-10D0-4527-A935-A013A54A0A48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,5 +60,17 @@ Global
 		{B9393A07-5DBC-4F9C-8FF6-890AF0518323}.Release|x64.Build.0 = Release|Any CPU
 		{B9393A07-5DBC-4F9C-8FF6-890AF0518323}.Release|x86.ActiveCfg = Release|Any CPU
 		{B9393A07-5DBC-4F9C-8FF6-890AF0518323}.Release|x86.Build.0 = Release|Any CPU
+		{CE196C4D-10D0-4527-A935-A013A54A0A48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE196C4D-10D0-4527-A935-A013A54A0A48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE196C4D-10D0-4527-A935-A013A54A0A48}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CE196C4D-10D0-4527-A935-A013A54A0A48}.Debug|x64.Build.0 = Debug|Any CPU
+		{CE196C4D-10D0-4527-A935-A013A54A0A48}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CE196C4D-10D0-4527-A935-A013A54A0A48}.Debug|x86.Build.0 = Debug|Any CPU
+		{CE196C4D-10D0-4527-A935-A013A54A0A48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE196C4D-10D0-4527-A935-A013A54A0A48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE196C4D-10D0-4527-A935-A013A54A0A48}.Release|x64.ActiveCfg = Release|Any CPU
+		{CE196C4D-10D0-4527-A935-A013A54A0A48}.Release|x64.Build.0 = Release|Any CPU
+		{CE196C4D-10D0-4527-A935-A013A54A0A48}.Release|x86.ActiveCfg = Release|Any CPU
+		{CE196C4D-10D0-4527-A935-A013A54A0A48}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

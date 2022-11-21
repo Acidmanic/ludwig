@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ludwig.Contracts\Ludwig.Contracts.csproj" />
+    <ProjectReference Include="..\Ludwig.IssueManager.Jira\Ludwig.IssueManager.Jira.csproj" />
   </ItemGroup>
 
 
