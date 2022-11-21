@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using EnTier;
 using EnTier.Services;
+using Ludwig.IssueManager.Fake;
 using Ludwig.Presentation.Authentication;
 using Ludwig.Presentation.Contracts;
+using Ludwig.Presentation.Extensions;
 using Ludwig.Presentation.JiraAuthentication;
 using Ludwig.Presentation.Models;
 using Ludwig.Presentation.Services;
@@ -59,6 +61,8 @@ namespace Ludwig.Presentation
             services.AddTransient<AuthenticationManager>();
 
             services.AddLudwigTokenAuthentication();
+
+            services.AddIssueManagerRegistry<FakeIssueManagerRegistry>();
 
         }
 
