@@ -20,6 +20,7 @@ import { CollapsibleComponent } from './collapsible/collapsible.component';
 import { JiraUserViewComponent } from './jira-user-view/jira-user-view.component';
 import { EditablePriorityComponent } from './editable-priority/editable-priority.component';
 import {CookieInterceptor} from "./inteceptors/cookie-interceptor";
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {CookieInterceptor} from "./inteceptors/cookie-interceptor";
     EditableUserStoryComponent,
     CollapsibleComponent,
     JiraUserViewComponent,
-    EditablePriorityComponent
+    EditablePriorityComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
