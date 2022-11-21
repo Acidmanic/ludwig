@@ -21,6 +21,7 @@ import { JiraUserViewComponent } from './jira-user-view/jira-user-view.component
 import { EditablePriorityComponent } from './editable-priority/editable-priority.component';
 import {CookieInterceptor} from "./inteceptors/cookie-interceptor";
 import { LoginComponent } from './pages/login/login.component';
+import { LoginFormComponent } from './login-form/login-form.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { LoginComponent } from './pages/login/login.component';
     CollapsibleComponent,
     JiraUserViewComponent,
     EditablePriorityComponent,
-    LoginComponent
+    LoginComponent,
+    LoginFormComponent
   ],
   imports: [
     BrowserModule,

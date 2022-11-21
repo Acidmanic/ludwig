@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
   constructor(private svcAuth:AuthenticationService,
               private svcWait:WaiterService) {
 
+    this.selectedMethod.description="No Authentication Methods available.";
+    this.selectedMethod.name="";
   }
 
   ngOnInit(): void {
@@ -28,6 +30,14 @@ export class LoginComponent implements OnInit {
         if(methods.length && methods.length>0){
           this.selectedMethod = methods[0];
         }
+        this.loginMethods.push({
+          fields:[{
+            name:'One Time Password',
+            uiProtectedValue:true
+          }],
+          name:'OTP',
+          description:'Please Enter the code you have received.'
+        });
         console.log('methods',methods);
       },
       error: err => {
@@ -37,6 +47,18 @@ export class LoginComponent implements OnInit {
       complete: () => this.svcWait.stop()
     });
 
+  }
+
+
+  activeClass(method:LoginMethodModel):string{
+    if(method){
+      if(this.selectedMethod){
+        if(method.name === this.selectedMethod.name){
+          return "active bg-info"
+        }
+      }
+    }
+    return "";
   }
 
 }

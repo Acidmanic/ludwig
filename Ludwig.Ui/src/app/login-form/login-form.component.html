@@ -1,0 +1,25 @@
+
+
+      <form>
+
+        <div class="alert alert-info">
+          <div>{{method.description}}</div>
+          <div *ngIf="method.link">{{method.link}}</div>
+        </div>
+
+        <div *ngFor="let field of method.fields" class="form-group">
+          <label for="input-{{field.name}}">
+            {{field.name}}
+          </label>
+          <input type="{{inputType(field)}}" class="form-control"
+                 ngModel="{{getValue(field.name)}}"
+                 (ngModelChange)="setValue(field.name,$event)"
+                 id="input-{{field.name}}" aria-describedby="emailHelp"
+                 placeholder="Enter {{field.name}}">
+        </div>
+
+        <div class="d-flex justify-content-around">
+          <button type="submit" class="btn btn-primary" (click)="loginClick()">Login</button>
+        </div>
+
+      </form>
