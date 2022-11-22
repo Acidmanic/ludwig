@@ -3,7 +3,7 @@ import {LoginMethodModel} from "../models/login-method-model";
 import {LoginFieldModel} from "../models/login-field-model";
 
 interface LooseObject {
-  [key: string]: any
+  [key: string]: string
 }
 
 @Component({
@@ -51,8 +51,49 @@ export class LoginFormComponent implements OnInit {
     return "text";
   }
 
+
+  disabledClass():string {
+
+    if(!(this.method) || !(this.method.fields) || this.method.fields.length==0){
+      return 'disabled';
+    }
+
+    for(let field of this.method.fields){
+
+      let name = field.name;
+
+      if(!(this.loginModel[name]) || this.loginModel[name].length<1)
+        return 'disabled';
+
+    }
+
+    return '';
+  }
+
+
+  filterModel():object{
+
+    let model: LooseObject = {};
+
+    for(let field of this.method.fields){
+      var name = field.name;
+      var value = '';
+      if(this.loginModel[name]){
+        value = this.loginModel[name];
+      }
+      name = name.charAt(0).toLowerCase() + name.substring(1,name.length);
+
+      model[name]=value;
+    }
+    return model;
+  }
+
+
   loginClick(){
-    console.log('login model:',this.loginModel);
+
+    let model = this.filterModel();
+
+    this.login.emit(model);
   }
 
 }

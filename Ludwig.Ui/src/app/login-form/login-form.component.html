@@ -7,19 +7,24 @@
           <div *ngIf="method.link">{{method.link}}</div>
         </div>
 
-        <div *ngFor="let field of method.fields" class="form-group">
-          <label for="input-{{field.name}}">
-            {{field.name}}
-          </label>
-          <input type="{{inputType(field)}}" class="form-control"
-                 ngModel="{{getValue(field.name)}}"
-                 (ngModelChange)="setValue(field.name,$event)"
-                 id="input-{{field.name}}" aria-describedby="emailHelp"
-                 placeholder="Enter {{field.name}}">
+        <div class="container">
+          <div *ngFor="let field of method.fields" class="form-group">
+            <label for="input-{{field.name}}">
+              {{field.displayName}}
+            </label>
+            <input type="{{inputType(field)}}" class="form-control"
+                   ngModel="{{getValue(field.name)}}"
+                   (ngModelChange)="setValue(field.name,$event)"
+                   id="input-{{field.name}}" aria-describedby="emailHelp"
+                   placeholder="Enter {{field.name}}">
+            <small *ngIf="field.description" class="form-text text-muted">{{field.description}}</small>
+          </div>
+
+          <div class="d-flex justify-content-around login-button-bar ">
+            <button type="submit" class="btn btn-primary {{disabledClass()}}" (click)="loginClick()">Login</button>
+          </div>
         </div>
 
-        <div class="d-flex justify-content-around">
-          <button type="submit" class="btn btn-primary" (click)="loginClick()">Login</button>
-        </div>
+
 
       </form>

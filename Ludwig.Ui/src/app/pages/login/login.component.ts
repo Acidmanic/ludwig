@@ -32,10 +32,12 @@ export class LoginComponent implements OnInit {
         }
         this.loginMethods.push({
           fields:[{
-            name:'One Time Password',
-            uiProtectedValue:true
+            name:'otp',
+            uiProtectedValue:true,
+            description:'It will expire at 12:23am.',
+            displayName:'One Time Password'
           }],
-          name:'OTP',
+          name:'OTP Authentication',
           description:'Please Enter the code you have received.'
         });
         console.log('methods',methods);
@@ -60,5 +62,18 @@ export class LoginComponent implements OnInit {
     }
     return "";
   }
+
+  headerCaption():string{
+    if(this.loginMethods.length==1){
+      return 'Please Login';
+    }
+    return 'Please Choose Your Authentication Method';
+  }
+
+  loginClicked(model:any){
+
+    console.log('logging in using method: ', this.selectedMethod.name, 'and model: ', model );
+  }
+
 
 }
