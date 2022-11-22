@@ -63,7 +63,7 @@ export class LoginManagerService {
 
   }
 
-  public loadLogin(){
+  private loadLogin(){
     this.me=this.svcStorage.acquireData<IssueManagerUserModel>('LoginManagerService.me');
     this.token=this.svcStorage.acquireData<TokenModel>('LoginManagerService.token');
     this.isLoggedIn=this.svcStorage.acquireData<boolean>('LoginManagerService.isLoggedIn');
@@ -77,4 +77,23 @@ export class LoginManagerService {
     this.svcStorage.removeData('LoginManagerService.isLoggedIn');
   }
 
+
+  public logOut():Observable<undefined>{
+
+    let handler = new Subject<undefined>();
+
+    if(this.isLoggedIn){
+      this.scvAuth.logOut(this.token.token).subscribe({
+        next: () => handler.next(undefined),
+        error: err=>handler.error(err),
+        complete: () => handler.complete()
+      });
+      this.isLoggedIn=false;
+      this.me=new IssueManagerUserModel();
+      this.loginUpdate.next(false);
+      this.clearLogin()
+    }
+
+    return handler;
+  }
 }

@@ -19,7 +19,7 @@ import { EditableUserStoryComponent } from './editable-user-story/editable-user-
 import { CollapsibleComponent } from './collapsible/collapsible.component';
 import { UserViewComponent } from './jira-user-view/user-view.component';
 import { EditablePriorityComponent } from './editable-priority/editable-priority.component';
-import {CookieInterceptor} from "./inteceptors/cookie-interceptor";
+import {AuthorizationInterceptor} from "./inteceptors/authorization-interceptor.service";
 import { LoginComponent } from './pages/login/login.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { LoginButtonComponent } from './login-button/login-button.component';
@@ -52,11 +52,11 @@ import { LoginButtonComponent } from './login-button/login-button.component';
     BrowserAnimationsModule,
   ],
   providers: [
-    // {
-    //   provide:HTTP_INTERCEPTORS,
-    //   useClass:CookieInterceptor,
-    //   multi:true
-    // }
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:AuthorizationInterceptor,
+      multi:true
+    }
   ],
   bootstrap: [AppComponent]
 })

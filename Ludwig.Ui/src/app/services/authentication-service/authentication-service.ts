@@ -49,4 +49,21 @@ export class AuthenticationService{
   }
 
 
+  public logOut(token:string):Observable<undefined>{
+
+    let handle = new Subject<undefined>();
+
+    let url = 'auth/revoke/' + token ;
+
+    this.http.get(url).subscribe({
+      next: () => handle.next(undefined),
+      error: err => handle.error(err),
+      complete:() => handle.complete()
+    });
+
+    return handle;
+
+  }
+
+
 }
