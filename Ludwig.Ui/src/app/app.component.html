@@ -27,10 +27,11 @@
     </ul>
   </div>
 
-  <user-view *ngIf="svcLogin.isLoggedIn" class="nav-user-profile"
-                  size="48" active-user-class="jirauser-active"
-                  [user]="svcLogin.me"
-  ></user-view>
+
+  <login-button class="nav-user-profile"
+                *ngIf="svcLogin.isLoggedIn"
+                [user]="svcLogin.me">
+  </login-button>
 
 </nav>
 

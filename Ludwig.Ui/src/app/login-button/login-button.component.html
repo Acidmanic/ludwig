@@ -1,0 +1,18 @@
+
+
+
+<ng-template #popTitle><b>{{user.displayName}}</b></ng-template>
+<ng-template #popContent>
+  <div class="container d-flex justify-content-center">
+    <div class="row">
+      <button class="btn btn-secondary" (click)="logout()">Logout!</button>
+    </div>
+  </div>
+</ng-template>
+
+<user-view
+           size="48" active-user-class="user-active"
+           [user]="user"
+            [link-profile]="false" 	placement="bottom"
+           [ngbPopover]="popContent" [popoverTitle]="popTitle"
+></user-view>

@@ -14,6 +14,7 @@ export class UserViewComponent implements OnInit {
   @Input('user') user:IssueManagerUserModel=new IssueManagerUserModel();
   @Input('size') size:string ='48';
   @Input('active-user-class') activeUserClass:string='';
+  @Input('link-profile') linkProfile:boolean=true;
 
   constructor() { }
 

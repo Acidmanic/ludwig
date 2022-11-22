@@ -7,7 +7,7 @@ body{
 }
 
 
-:host ::ng-deep .jirauser-active {
+:host ::ng-deep .user-active {
   outline: #66491c double thick;
 }
 

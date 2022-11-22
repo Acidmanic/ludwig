@@ -22,6 +22,7 @@ import { EditablePriorityComponent } from './editable-priority/editable-priority
 import {CookieInterceptor} from "./inteceptors/cookie-interceptor";
 import { LoginComponent } from './pages/login/login.component';
 import { LoginFormComponent } from './login-form/login-form.component';
+import { LoginButtonComponent } from './login-button/login-button.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { LoginFormComponent } from './login-form/login-form.component';
     UserViewComponent,
     EditablePriorityComponent,
     LoginComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    LoginButtonComponent
   ],
   imports: [
     BrowserModule,
