@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {JiraUserModel} from "../models/jira-user-model";
+import {IssueManagerUserModel} from "../models/issue-manager-user-model";
 import {ImageSrcMap} from "../models/image-src-map";
 import {MapIndex} from "../utilities/map-index";
 
@@ -11,32 +11,32 @@ import {MapIndex} from "../utilities/map-index";
 export class JiraUserViewComponent implements OnInit {
 
 
-  @Input('user') user:JiraUserModel=new JiraUserModel();
+  @Input('user') user:IssueManagerUserModel=new IssueManagerUserModel();
   @Input('size') size:string ='48';
   @Input('active-user-class') activeUserClass:string='';
 
-  private avatarMapIndex:MapIndex=new MapIndex();
+  //private avatarMapIndex:MapIndex=new MapIndex();
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
-  profilePicture():string {
-
-    this.avatarMapIndex = MapIndex.fromImageSrcMap(this.user.avatarUrls);
-
-    var src = '';
-
-    if(this.user && this.user.avatarUrls){
-
-      let size = parseInt(this.size);
-
-      src = this.avatarMapIndex.getSrcAnyway(size);
-    }
-
-    return src;
-  }
+  //
+  // profilePicture():string {
+  //
+  //   this.avatarMapIndex = MapIndex.fromImageSrcMap(this.user.avatarUrls);
+  //
+  //   var src = '';
+  //
+  //   if(this.user && this.user.avatarUrls){
+  //
+  //     let size = parseInt(this.size);
+  //
+  //     src = this.avatarMapIndex.getSrcAnyway(size);
+  //   }
+  //
+  //   return src;
+  // }
 
   css():string {
 

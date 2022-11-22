@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {JiraUserModel} from "./models/jira-user-model";
+import {IssueManagerUserModel} from "./models/issue-manager-user-model";
 import {JiraService} from "./services/jira/jira.service";
 import {PriorityModel} from "./models/priority-model";
 import {HttpClient} from "@angular/common/http";
@@ -14,7 +14,7 @@ export class AppComponent implements OnInit{
 
   title = 'Ludwig.Ui';
 
-  loggedInUser:JiraUserModel= new JiraUserModel();
+  loggedInUser:IssueManagerUserModel= new IssueManagerUserModel();
   isLoggedIn:boolean=false;
 
   priorities:PriorityModel[]=[

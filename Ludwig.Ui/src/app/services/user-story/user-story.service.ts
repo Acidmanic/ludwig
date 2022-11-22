@@ -38,7 +38,7 @@ export class UserStoryService {
 
     this.http.get<UserStoryModel[]>(url).subscribe({
       next: model => handle.next(model),
-      error:handle.error,
+      error:err => handle.error(err),
       complete:handle.complete
     });
 

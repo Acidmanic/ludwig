@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ResultOf} from "../../models/result-of";
-import {JiraUserModel} from "../../models/jira-user-model";
+import {IssueManagerUserModel} from "../../models/issue-manager-user-model";
 import {Observable, Subject} from "rxjs";
 
 @Injectable({
@@ -11,12 +11,12 @@ export class JiraService {
 
   constructor(private http:HttpClient) { }
 
-  public loggedIn():Observable<ResultOf<JiraUserModel>>{
+  public loggedIn():Observable<ResultOf<IssueManagerUserModel>>{
 
-    let handle = new Subject<ResultOf<JiraUserModel>>();
+    let handle = new Subject<ResultOf<IssueManagerUserModel>>();
 
     let url = "jira/logged-user"
-    this.http.get<ResultOf<JiraUserModel>>(url).subscribe(
+    this.http.get<ResultOf<IssueManagerUserModel>>(url).subscribe(
       {
         next: result => handle.next(result),
         error: err => handle.error(err),
@@ -27,12 +27,12 @@ export class JiraService {
     return handle;
   }
 
-  public logInByCredentials(username:string,password:string):Observable<ResultOf<JiraUserModel>>{
+  public logInByCredentials(username:string,password:string):Observable<ResultOf<IssueManagerUserModel>>{
 
-    let handle = new Subject<ResultOf<JiraUserModel>>();
+    let handle = new Subject<ResultOf<IssueManagerUserModel>>();
 
     let url = "auth/jira/login"
-    this.http.post<ResultOf<JiraUserModel>>(url,{username:username,password:password}).subscribe(
+    this.http.post<ResultOf<IssueManagerUserModel>>(url,{username:username,password:password}).subscribe(
       {
         next: result => handle.next(result),
         error: err => handle.error(err),
