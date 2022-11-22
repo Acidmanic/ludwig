@@ -16,7 +16,8 @@ namespace Ludwig.IssueManager.Fake
             Name = "fake.user",
             AvatarUrl = "http://localhost:13801/images/profile",
             DisplayName = "Fake User",
-            EmailAddress = "fake@ludwig.user"
+            EmailAddress = "fake@ludwig.user",
+            UserReferenceLink = "users/fake-user"
         };
 
         public static List<Issue> Issues { get; }= new List<Issue>
@@ -34,7 +35,7 @@ namespace Ludwig.IssueManager.Fake
                     IconUrl = "http://localhost:13801/images/icon/task"
                 },
                 UserStory = "Implement Manager",
-                IssueReferenceLink = ""
+                IssueReferenceLink = "issues/fake-issue"
             },
             new Issue
             {
@@ -49,7 +50,7 @@ namespace Ludwig.IssueManager.Fake
                     IconUrl = "http://localhost:13801/images/icon/task"
                 },
                 UserStory = "Implement Authentication",
-                IssueReferenceLink = ""
+                IssueReferenceLink = "issues/fake-issue"
             }
         };
 

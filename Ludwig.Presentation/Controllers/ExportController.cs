@@ -12,8 +12,7 @@ namespace Ludwig.Presentation.Controllers
     
    [ApiController]
    [Route("export")]
-   [Authorize]
-    public class ExportController:ControllerBase
+   public class ExportController:ControllerBase
     {
 
         private readonly IUserStoryService _userStoryService;

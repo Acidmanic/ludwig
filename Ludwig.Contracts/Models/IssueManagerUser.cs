@@ -11,5 +11,7 @@ namespace Ludwig.Contracts.Models
         public bool Active { get; set; }
         
         public string AvatarUrl { get; set; }
+        
+        public string UserReferenceLink { get; set; }
     }
 }
