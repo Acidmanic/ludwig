@@ -72,6 +72,20 @@ export class LoginComponent implements OnInit {
 
   loginClicked(model:any){
 
+    this.svcWait.start();
+
+    this.svcAuth.login(model,this.selectedMethod.name).subscribe({
+      next: token => {
+        console.log('loggedIn with token:',token);
+        this.svcWait.stop();
+      },
+      error: err => {
+        console.log('error logging in:',err);
+        this.svcWait.stop();
+      },
+      complete: () => this.svcWait.stop()
+    });
+
     console.log('logging in using method: ', this.selectedMethod.name, 'and model: ', model );
   }
 

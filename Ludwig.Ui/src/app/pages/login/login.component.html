@@ -1,6 +1,8 @@
 
 
-<div class="card">
+<div class="card bg-light">
+
+  <disabler>
 
     <div class="card-body d-flex justify-content-center" *ngIf="loginMethods.length>0">
       <h5 class="d-flex">
@@ -20,4 +22,7 @@
         <login-form [method]="selectedMethod" (login)="loginClicked($event)"> </login-form>
 
     </div>
+
+  </disabler>
+
 </div>
