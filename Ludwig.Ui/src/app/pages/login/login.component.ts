@@ -3,6 +3,7 @@ import {LoginMethodModel} from "../../models/login-method-model";
 import {AuthenticationService} from "../../services/authentication-service/authentication-service";
 import {WaiterService} from "../../services/waiter.service";
 import {LoginManagerService} from "../../services/login-manager/login-manager.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private svcAuth:AuthenticationService,
               private svcWait:WaiterService,
-              private svcLogin:LoginManagerService) {
+              private svcLogin:LoginManagerService,
+              private router:Router) {
 
     this.selectedMethod.description="No Authentication Methods available.";
     this.selectedMethod.name="";
@@ -42,7 +44,6 @@ export class LoginComponent implements OnInit {
           name:'OTP Authentication',
           description:'Please Enter the code you have received.'
         });
-        console.log('methods',methods);
       },
       error: err => {
         this.svcWait.stop();
@@ -78,17 +79,15 @@ export class LoginComponent implements OnInit {
 
     this.svcLogin.login(model,this.selectedMethod.name).subscribe({
       next: token => {
-        console.log('loggedIn with token:',token);
         this.svcWait.stop();
+        this.router.navigate(['/']);
       },
       error: err => {
-        console.log('error logging in:',err);
         this.svcWait.stop();
       },
       complete: () => this.svcWait.stop()
     });
 
-    console.log('logging in using method: ', this.selectedMethod.name, 'and model: ', model );
   }
 
 

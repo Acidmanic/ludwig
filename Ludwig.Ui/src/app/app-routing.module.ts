@@ -5,10 +5,7 @@ import {NotFoundComponent} from "./pages/not-found/not-found.component";
 import {LoginComponent} from "./pages/login/login.component";
 
 const routes: Routes = [
-  {
-    path:"shoe-box",
-    component:ShoeBoxComponent
-  },
+  {path:"shoe-box", component:ShoeBoxComponent},
   {path:"login", component:LoginComponent},
   {path:"", component:ShoeBoxComponent},
   {path:"#", component:ShoeBoxComponent},
