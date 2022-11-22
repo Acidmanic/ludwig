@@ -18,9 +18,9 @@ export class IssueManagerServiceService {
     let url = "issue-manager/me";
 
     this.http.get<IssueManagerUserModel>(url).subscribe({
-      next:handler.next,
-      error:handler.error,
-      complete:handler.complete
+      next:user=>handler.next(user),
+      error:err=>handler.error(err),
+      complete:()=>handler.complete()
     });
 
     return handler;
@@ -35,9 +35,9 @@ export class IssueManagerServiceService {
     this.http.get<IssueManagerUserModel>(url,{
       headers:{authorization:authorizationHeader}
     }).subscribe({
-      next:handler.next,
-      error:handler.error,
-      complete:handler.complete
+      next:user => handler.next(user),
+      error:err=>handler.error(err),
+      complete:()=>handler.complete()
     });
 
     return handler;

@@ -23,8 +23,8 @@ export class UserStoryService {
 
     this.http.get<UserStoryModel>(url).subscribe({
       next: model => handle.next(model),
-      error:handle.error,
-      complete:handle.complete
+      error:err=>handle.error(err),
+      complete:()=>handle.complete()
     });
 
     return handle;
@@ -39,7 +39,7 @@ export class UserStoryService {
     this.http.get<UserStoryModel[]>(url).subscribe({
       next: model => handle.next(model),
       error:err => handle.error(err),
-      complete:handle.complete
+      complete:() => handle.complete()
     });
 
     return handle;
@@ -53,8 +53,8 @@ export class UserStoryService {
 
     this.http.put<UserStoryModel>(url,story).subscribe({
       next: model => handle.next(model),
-      error:handle.error,
-      complete:handle.complete
+      error:err=>handle.error(err),
+      complete:()=>handle.complete()
     });
 
     return handle;
@@ -69,8 +69,8 @@ export class UserStoryService {
 
     this.http.delete(url).subscribe({
       next: model => handle.next(model),
-      error:handle.error,
-      complete:handle.complete
+      error:err=>handle.error(err),
+      complete:()=>handle.complete()
     });
 
     return handle;
@@ -84,8 +84,8 @@ export class UserStoryService {
 
     this.http.post<UserStoryModel>(url,story).subscribe({
       next: model => handle.next(model),
-      error:handle.error,
-      complete:handle.complete
+      error:err=>handle.error(err),
+      complete:()=>handle.complete()
     });
 
     return handle;

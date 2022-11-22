@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {LoginMethodModel} from "../../models/login-method-model";
 import {AuthenticationService} from "../../services/authentication-service/authentication-service";
 import {WaiterService} from "../../services/waiter.service";
+import {LoginManagerService} from "../../services/login-manager/login-manager.service";
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,8 @@ export class LoginComponent implements OnInit {
   selectedMethod:LoginMethodModel= new LoginMethodModel();
 
   constructor(private svcAuth:AuthenticationService,
-              private svcWait:WaiterService) {
+              private svcWait:WaiterService,
+              private svcLogin:LoginManagerService) {
 
     this.selectedMethod.description="No Authentication Methods available.";
     this.selectedMethod.name="";
@@ -74,7 +76,7 @@ export class LoginComponent implements OnInit {
 
     this.svcWait.start();
 
-    this.svcAuth.login(model,this.selectedMethod.name).subscribe({
+    this.svcLogin.login(model,this.selectedMethod.name).subscribe({
       next: token => {
         console.log('loggedIn with token:',token);
         this.svcWait.stop();

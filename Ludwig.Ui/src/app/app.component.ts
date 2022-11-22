@@ -1,21 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {IssueManagerUserModel} from "./models/issue-manager-user-model";
-import {JiraService} from "./services/jira/jira.service";
 import {PriorityModel} from "./models/priority-model";
-import {HttpClient} from "@angular/common/http";
+import {LoginManagerService} from "./services/login-manager/login-manager.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
-
+export class AppComponent implements OnInit,OnDestroy{
 
   title = 'Ludwig.Ui';
 
-  loggedInUser:IssueManagerUserModel= new IssueManagerUserModel();
-  isLoggedIn:boolean=false;
 
   priorities:PriorityModel[]=[
     {name:'Highest',value:0},
@@ -25,14 +22,31 @@ export class AppComponent implements OnInit{
     {name:'Lowest',value:4},
   ];
 
-  constructor(private svcJira:JiraService,
-              private http:HttpClient) {
+  //
+  // private subscription:Subscription=new Subscription();
+
+  constructor(public svcLogin:LoginManagerService) {
   }
 
 
   ngOnInit(): void {
-
+    // this.subscription=LoginManagerService.loginUpdate.subscribe({
+    //   next: l => {
+    //     this.isLoggedIn=LoginManagerService.isLoggedIn;
+    //     this.me=LoginManagerService.me;
+    //     console.log('login updated:',LoginManagerService.me);
+    //   }
+    // });
   }
+
+  ngOnDestroy(): void {
+    // console.log("destroying app.component");
+    // if(this.subscription){
+    //   this.subscription.unsubscribe();
+    // }
+  }
+
+
 
   //
   // usernameValue:string='Acidmanic';

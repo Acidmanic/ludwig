@@ -14,19 +14,15 @@ export class LoginManagerService {
   constructor(private scvAuth:AuthenticationService,
               private svcIssueManager:IssueManagerServiceService,
               private svcStorage:StructuredLocalStorageService) {
-
-    if(!LoginManagerService.isLoaded){
       this.loadLogin();
-      LoginManagerService.isLoaded=true;
-    }
-
   }
 
 
-  public static isLoggedIn:boolean=false;
-  public static token:TokenModel=new TokenModel();
-  public static me:IssueManagerUserModel=new IssueManagerUserModel();
-  private static isLoaded:boolean = false;
+  public isLoggedIn:boolean=false;
+  public token:TokenModel=new TokenModel();
+  public me:IssueManagerUserModel=new IssueManagerUserModel();
+  public loginUpdate:Subject<boolean>=new Subject<boolean>();
+
 
   public login(model:object,methodName:string):Observable<boolean>{
 
@@ -34,19 +30,26 @@ export class LoginManagerService {
 
     this.scvAuth.login(model,methodName).subscribe({
       next: token => {
+
+        console.log('authorized, going to get logged user');
+
         this.svcIssueManager.getMeBeforeLoggedIn('token ' + token.token)
           .subscribe({
           next: me => {
-            LoginManagerService.me = me;
-            LoginManagerService.token = {...token};
-            LoginManagerService.isLoggedIn = true;
+            console.log('assigning to static varables');
+            this.me = me;
+            this.token = {...token};
+            this.isLoggedIn = true;
+            console.log('saving login.');
             this.saveLogin();
+            console.log('calling subscribers');
+            this.loginUpdate.next(true);
           },
-            error:handler.error,
-            complete:handler.complete
+            error:err=>handler.error(err),
+            complete:()=>handler.complete()
         });
-      },error:handler.error,
-      complete:handler.complete
+      },error:err=>handler.error(err),
+      complete:()=>handler.complete()
     });
 
     return handler;
@@ -54,16 +57,18 @@ export class LoginManagerService {
 
   private saveLogin(){
 
-    this.svcStorage.storeData('LoginManagerService.me',LoginManagerService.me);
-    this.svcStorage.storeData('LoginManagerService.isLoggedIn',LoginManagerService.isLoggedIn);
-    this.svcStorage.storeData('LoginManagerService.token',LoginManagerService.token);
+    this.svcStorage.storeData('LoginManagerService.me',this.me);
+    this.svcStorage.storeData('LoginManagerService.isLoggedIn',this.isLoggedIn);
+    this.svcStorage.storeData('LoginManagerService.token',this.token);
 
   }
 
-  private loadLogin(){
-    LoginManagerService.me=this.svcStorage.acquireData<IssueManagerUserModel>('LoginManagerService.me');
-    LoginManagerService.token=this.svcStorage.acquireData<TokenModel>('LoginManagerService.token');
-    LoginManagerService.isLoggedIn=this.svcStorage.acquireData<boolean>('LoginManagerService.isLoggedIn');
+  public loadLogin(){
+    this.me=this.svcStorage.acquireData<IssueManagerUserModel>('LoginManagerService.me');
+    this.token=this.svcStorage.acquireData<TokenModel>('LoginManagerService.token');
+    this.isLoggedIn=this.svcStorage.acquireData<boolean>('LoginManagerService.isLoggedIn');
+
+    this.loginUpdate.next(this.isLoggedIn);
   }
 
   private clearLogin(){
