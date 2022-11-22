@@ -28,7 +28,7 @@ namespace Ludwig.Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            
 
             services.AddJsonFileUnitOfWork();
 
@@ -47,6 +47,8 @@ namespace Ludwig.Presentation
             services.AddLudwigTokenAuthentication();
 
             services.AddIssueManagerRegistry<FakeIssueManagerRegistry>();
+            
+            services.AddControllers();
 
         }
 

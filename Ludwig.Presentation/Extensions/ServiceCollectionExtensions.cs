@@ -1,6 +1,7 @@
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.Di;
 using Ludwig.Contracts.IssueManagement;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ludwig.Presentation.Extensions
@@ -43,6 +44,9 @@ namespace Ludwig.Presentation.Extensions
             {
                 services.AddSingleton(service);
             }
+
+            services.AddMvc().AddApplicationPart(typeof(TRegistry).Assembly);
+            
             return services;
         }
     }
