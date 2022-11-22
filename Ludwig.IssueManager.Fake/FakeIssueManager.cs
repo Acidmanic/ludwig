@@ -81,6 +81,10 @@ namespace Ludwig.IssueManager.Fake
         }
 
         public List<IAuthenticator> Authenticators { get; } =
-            new List<IAuthenticator> { new UsernamePasswordAuthenticator() };
+            new List<IAuthenticator>
+            {
+                new UsernamePasswordAuthenticator() ,
+                new OtpAuthenticator()
+            };
     }
 }
