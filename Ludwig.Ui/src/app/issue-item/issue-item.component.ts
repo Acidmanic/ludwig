@@ -16,4 +16,13 @@ export class IssueItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  caption(issue:IssueModel):string{
+    var caption = issue.title;
+
+    if(caption && caption.length>25){
+      caption = caption.substring(0,22) + '...';
+    }
+    return caption;
+  }
+
 }

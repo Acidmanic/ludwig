@@ -1,7 +1,7 @@
-<div class="row row-issue">
+<div class="row row-issue d-flex" ngbTooltip="{{issue.description}}">
   <user-view  class="icn-issue" *ngIf="issue.assignee" [user]="issue.assignee" size="16"></user-view>
-  <img class="icn-issue" src="{{issue.priority.iconUrl}}" alt="{{issue.priority.name}}" >
+  <img class="icn-issue" src="assets/images/priorities/priority-{{issue.priority.name.toLowerCase()}}.png"
+       alt="{{issue.priority.name}}" >
   <img class="icn-issue" src="{{issue.issueType.iconUrl}}" alt="{{issue.issueType.name}}">
-  <a class="txt-issue" href="http://litbid.ir:8888/projects/LIT/issues/{{issue.key}}">{{issue.key}}</a>
-  <span class="txt-issue">{{issue.summary}}</span>
+  <a class="txt-issue text-issue" href="{{issue.issueReferenceLink}}">{{caption(issue)}}</a>
 </div>

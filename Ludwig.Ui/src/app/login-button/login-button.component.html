@@ -13,6 +13,7 @@
 <user-view
            size="48" active-user-class="user-active"
            [user]="user"
+           ngbTooltip="{{user.displayName}}"
             [link-profile]="false" 	placement="bottom"
            [ngbPopover]="popContent" [popoverTitle]="popTitle"
 ></user-view>

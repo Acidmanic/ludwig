@@ -2,18 +2,17 @@ import {IssueTypeModel} from "./issue-type-model";
 import {ProjectModel} from "./project-model";
 import {JiraPriorityModel} from "./jira-priority-model";
 import {IssueManagerUserModel} from "./issue-manager-user-model";
+import {PriorityModel} from "./priority-model";
 
 
 export class IssueModel{
 
-  id:number=0;
-  self:string="";
-  key:string="";
+  issueReferenceLink:string="";
   issueType:IssueTypeModel=new IssueTypeModel();
-  summary:string="";
+  title:string="";
   description:string="";
   project:ProjectModel=new ProjectModel();
-  priority:JiraPriorityModel=new JiraPriorityModel();
+  priority:PriorityModel=new PriorityModel();
   assignee:IssueManagerUserModel=new IssueManagerUserModel();
   userStory:string="";
 }

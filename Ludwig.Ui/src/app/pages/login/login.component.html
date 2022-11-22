@@ -15,7 +15,8 @@
 
         <ul class="nav nav-tabs">
           <li *ngFor="let method of loginMethods" class="nav-item">
-            <a class="nav-link {{activeClass(method)}}" aria-current="page" (click)="selectedMethod=method;">{{method.name}}</a>
+            <a class="nav-link {{activeClass(method)}}" aria-current="page"
+               (click)="selectedMethod=method;">{{method.name}}</a>
           </li>
         </ul>
 

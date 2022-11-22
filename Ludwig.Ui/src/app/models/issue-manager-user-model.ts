@@ -8,5 +8,6 @@ export class IssueManagerUserModel {
   emailAddress:string="";
   avatarUrl:string="";
   active:boolean=false;
+  userReferenceLink:string="";
 
 }

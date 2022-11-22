@@ -1,15 +1,14 @@
 
 
 
-<a *ngIf="linkProfile" href="{{user.avatarUrl}}" style="display: flex">
-    <img ngbTooltip="{{user.displayName}}"
-         src="{{user.avatarUrl}}"
+<a *ngIf="linkProfile" href="{{user.userReferenceLink}}" style="display: flex">
+    <img src="{{user.avatarUrl}}"
          class="img-user img-user img-user-{{size}} {{css()}}"
          alt="{{user.displayName}} - Profile Picture">
 </a>
 
 
-<img *ngIf="!linkProfile" ngbTooltip="{{user.displayName}}"
+<img *ngIf="!linkProfile"
      src="{{user.avatarUrl}}"
      class="img-user img-user img-user-{{size}} {{css()}}"
      alt="{{user.displayName}} - Profile Picture">
