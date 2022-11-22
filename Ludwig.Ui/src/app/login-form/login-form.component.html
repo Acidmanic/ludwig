@@ -7,6 +7,14 @@
           <div *ngIf="method.link">{{method.link}}</div>
         </div>
 
+        <div *ngIf="loginError" class="alert alert-danger">
+          <span class="material-symbols-outlined">
+            error
+          </span>
+          Unable to authorize using given information,
+          Please make sure your authorization information is correct.
+        </div>
+
         <div class="container">
           <div *ngFor="let field of method.fields" class="form-group">
             <label for="input-{{field.name}}">

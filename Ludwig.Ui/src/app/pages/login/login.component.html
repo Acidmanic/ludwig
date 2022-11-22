@@ -16,11 +16,14 @@
         <ul class="nav nav-tabs">
           <li *ngFor="let method of loginMethods" class="nav-item">
             <a class="nav-link {{activeClass(method)}}" aria-current="page"
-               (click)="selectedMethod=method;">{{method.name}}</a>
+               (click)="selectedMethod=method;loginError=false;">{{method.name}}</a>
           </li>
         </ul>
 
-        <login-form [method]="selectedMethod" (login)="loginClicked($event)"> </login-form>
+        <login-form [method]="selectedMethod"
+                    [login-error]="loginError"
+                    (login)="loginClicked($event)">
+        </login-form>
 
     </div>
 

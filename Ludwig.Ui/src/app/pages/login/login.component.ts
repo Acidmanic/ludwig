@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
 
   loginMethods:LoginMethodModel[]=new Array<LoginMethodModel>();
   selectedMethod:LoginMethodModel= new LoginMethodModel();
+  loginError:boolean=false;
 
   constructor(private svcAuth:AuthenticationService,
               private svcWait:WaiterService,
@@ -34,16 +35,6 @@ export class LoginComponent implements OnInit {
         if(methods.length && methods.length>0){
           this.selectedMethod = methods[0];
         }
-        this.loginMethods.push({
-          fields:[{
-            name:'otp',
-            uiProtectedValue:true,
-            description:'It will expire at 12:23am.',
-            displayName:'One Time Password'
-          }],
-          name:'OTP Authentication',
-          description:'Please Enter the code you have received.'
-        });
       },
       error: err => {
         this.svcWait.stop();
@@ -75,6 +66,8 @@ export class LoginComponent implements OnInit {
 
   loginClicked(model:any){
 
+    this.loginError = false;
+
     this.svcWait.start();
 
     this.svcLogin.login(model,this.selectedMethod.name).subscribe({
@@ -84,6 +77,7 @@ export class LoginComponent implements OnInit {
       },
       error: err => {
         this.svcWait.stop();
+        this.loginError = true;
       },
       complete: () => this.svcWait.stop()
     });

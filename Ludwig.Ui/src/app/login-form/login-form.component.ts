@@ -15,7 +15,7 @@ export class LoginFormComponent implements OnInit {
 
   @Input('method') method:LoginMethodModel=new LoginMethodModel();
   @Output('login') login:EventEmitter<object>= new EventEmitter<object>();
-
+  @Input('login-error') loginError:boolean=false;
 
 
   loginModel:LooseObject={};
