@@ -1,32 +1,49 @@
 
 
-<div class="card bg-light">
 
-  <disabler>
+<div class="container">
 
-    <div class="card-body d-flex justify-content-center" *ngIf="loginMethods.length>0">
-      <h5 class="d-flex">
-        <span class="material-symbols-outlined">policy</span>
-            {{headerCaption()}}
-      </h5>
+  <div class="row justify-content-center">
+
+    <div class="col-12 col-sm-11 col-md-10 col-lg-8 col-xl-6">
+
+      <div class="card bg-light">
+
+        <disabler>
+
+          <div class="card-body d-flex justify-content-center" *ngIf="loginMethods.length>0">
+            <h5 class="d-flex">
+              <span class="material-symbols-outlined">policy</span>
+              {{headerCaption()}}
+            </h5>
+          </div>
+
+          <div class="col">
+
+            <ul class="nav nav-tabs">
+              <li *ngFor="let method of loginMethods" class="nav-item">
+                <a class="nav-link {{activeClass(method)}}" aria-current="page"
+                   (click)="selectedMethod=method;loginError=false;">{{method.name}}</a>
+              </li>
+            </ul>
+
+            <login-form [method]="selectedMethod"
+                        [login-error]="loginError"
+                        (login)="loginClicked($event)">
+            </login-form>
+
+          </div>
+
+        </disabler>
+
+      </div>
+
     </div>
 
-      <div class="col">
-
-        <ul class="nav nav-tabs">
-          <li *ngFor="let method of loginMethods" class="nav-item">
-            <a class="nav-link {{activeClass(method)}}" aria-current="page"
-               (click)="selectedMethod=method;loginError=false;">{{method.name}}</a>
-          </li>
-        </ul>
-
-        <login-form [method]="selectedMethod"
-                    [login-error]="loginError"
-                    (login)="loginClicked($event)">
-        </login-form>
-
-    </div>
-
-  </disabler>
+  </div>
 
 </div>
+
+
+
+
