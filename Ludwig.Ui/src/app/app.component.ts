@@ -1,8 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {IssueManagerUserModel} from "./models/issue-manager-user-model";
 import {PriorityModel} from "./models/priority-model";
 import {LoginManagerService} from "./services/login-manager/login-manager.service";
-import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -22,28 +20,17 @@ export class AppComponent implements OnInit,OnDestroy{
     {name:'Lowest',value:4},
   ];
 
-  //
-  // private subscription:Subscription=new Subscription();
 
   constructor(public svcLogin:LoginManagerService) {
   }
 
 
   ngOnInit(): void {
-    // this.subscription=LoginManagerService.loginUpdate.subscribe({
-    //   next: l => {
-    //     this.isLoggedIn=LoginManagerService.isLoggedIn;
-    //     this.me=LoginManagerService.me;
-    //     console.log('login updated:',LoginManagerService.me);
-    //   }
-    // });
+
   }
 
   ngOnDestroy(): void {
-    // console.log("destroying app.component");
-    // if(this.subscription){
-    //   this.subscription.unsubscribe();
-    // }
+
   }
 
 

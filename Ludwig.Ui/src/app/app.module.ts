@@ -17,7 +17,7 @@ import { MessageBoxComponent } from './message-box/message-box.component';
 import { EditableTextBoxComponent } from './editable-text-box/editable-text-box.component';
 import { EditableUserStoryComponent } from './editable-user-story/editable-user-story.component';
 import { CollapsibleComponent } from './collapsible/collapsible.component';
-import { JiraUserViewComponent } from './jira-user-view/jira-user-view.component';
+import { UserViewComponent } from './jira-user-view/user-view.component';
 import { EditablePriorityComponent } from './editable-priority/editable-priority.component';
 import {CookieInterceptor} from "./inteceptors/cookie-interceptor";
 import { LoginComponent } from './pages/login/login.component';
@@ -36,7 +36,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
     EditableTextBoxComponent,
     EditableUserStoryComponent,
     CollapsibleComponent,
-    JiraUserViewComponent,
+    UserViewComponent,
     EditablePriorityComponent,
     LoginComponent,
     LoginFormComponent
