@@ -66,15 +66,16 @@ namespace Ludwig.IssueManager.Jira.Adapter
                 return new AuthenticationResult { Authenticated = false };
         }
 
-        public Task<RequestUpdate> GrantAccess(RequestUpdate requestUpdate)
+        public Task<List<RequestUpdate>> GrantAccess()
         {
-            return Task.Run(() =>
+            return Task.Run(() => new List<RequestUpdate>
             {
-                var update = new RequestUpdate();
-                
-                update.Headers.Add("Authorization",_persistantGrantRecord.Value.Token);
-
-                return update;
+                new RequestUpdate
+                {
+                    Key = "Authorization",
+                    Value=_persistantGrantRecord.Value.Token,
+                    Type = RequestUpdate.RequestUpdateTypeHeader
+                }
             });
         }
 

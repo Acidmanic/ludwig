@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using EnTier.Repositories;
 using EnTier.Results;
@@ -22,7 +23,8 @@ namespace Ludwig.Presentation.Authentication
         public AuthenticationRecord GenerateToken(
             string loginMethodName, 
             AuthenticationResult result,
-            string requestOrigin)
+            string requestOrigin,
+            List<RequestUpdate> grantBackAccessUpdates)
         {
             var token = Guid.NewGuid().ToString();
             var cookie = Guid.NewGuid().ToString();
@@ -36,7 +38,8 @@ namespace Ludwig.Presentation.Authentication
                 LoginMethodName = loginMethodName,
                 SubjectId = result.SubjectId,
                 EmailAddress = result.EmailAddress,
-                SubjectWebPage = result.SubjectWebPage
+                SubjectWebPage = result.SubjectWebPage,
+                BackChannelGrantAccessUpdates = grantBackAccessUpdates
             };
 
             record = _repository.Add(record);

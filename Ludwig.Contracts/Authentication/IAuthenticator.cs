@@ -9,7 +9,7 @@ namespace Ludwig.Contracts.Authentication
 
         Task<AuthenticationResult> Authenticate(Dictionary<string,string> parameters);
 
-        Task<RequestUpdate> GrantAccess(RequestUpdate requestUpdate);
+        Task<List<RequestUpdate>> GrantAccess();
         
         LoginMethod LoginMethod { get; }
     }

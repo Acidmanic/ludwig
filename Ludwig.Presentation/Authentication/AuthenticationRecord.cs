@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using Acidmanic.Utilities.Reflection.Attributes;
+using Ludwig.Contracts.Models;
 
 namespace Ludwig.Presentation.Authentication
 {
@@ -12,6 +14,8 @@ namespace Ludwig.Presentation.Authentication
         public string SubjectWebPage { get; set; }
 
         public string Cookie { get; set; }
+        
+        public List<RequestUpdate> BackChannelGrantAccessUpdates { get; set; }
 
         [UniqueMember]
         [AutoValuedMember]

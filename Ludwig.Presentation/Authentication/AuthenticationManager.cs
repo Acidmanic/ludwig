@@ -27,8 +27,6 @@ namespace Ludwig.Presentation.Authentication
         public ReadOnlyDictionary<string, LoginMethod> LoginMethodsByMethodName { get; private set; }
 
 
-        private Task<RequestUpdate> _grantAccessTask = new Task<RequestUpdate>(() => new RequestUpdate());
-
         public AuthenticationManager(IIssueManager issueManager, AuthenticationStore authenticationStore,
             IHttpContextAccessor httpContextAccessor)
         {
@@ -81,11 +79,11 @@ namespace Ludwig.Presentation.Authentication
                 if (authResult.Authenticated)
                 {
                     var requestOrigin = _httpContextAccessor.HttpContext.Request.Host.Host;
+
+                    var updates = await authenticator.GrantAccess();
                     
                     var record = _authenticationStore.GenerateToken(
-                        authenticator.LoginMethod.Name, authResult,requestOrigin);
-
-                    _grantAccessTask = authenticator.GrantAccess(new RequestUpdate());
+                        authenticator.LoginMethod.Name, authResult,requestOrigin,updates);
 
                     return new Result<AuthenticationRecord, string>(true, "Success", record);
                 }
@@ -99,21 +97,30 @@ namespace Ludwig.Presentation.Authentication
         }
 
 
-        public async Task GrantBackChannelAccess(PatientDownloader backChannelCarrier)
+        public Task GrantBackChannelAccess(PatientDownloader backChannelCarrier)
         {
-            var requestUpdates = await _grantAccessTask;
-
-            foreach (var header in requestUpdates.Headers)
+            return Task.Run(() =>
             {
-                backChannelCarrier.Headers.Add(header.Key, header.Value);
-            }
+                var authorized = IsAuthorized();
 
-            foreach (var cookie in requestUpdates.Cookies)
-            {
-                backChannelCarrier.InDirectCookies.Add(cookie.Key, cookie.Value);
-            }
+                if (authorized)
+                {
+                    var requestUpdates = authorized.Value.BackChannelGrantAccessUpdates;
+
+                    foreach (var update in requestUpdates)
+                    {
+                        if (update.IsHeader())
+                        {
+                            backChannelCarrier.Headers.Add(update.Key, update.Value);    
+                        }
+                        if (update.IsCookie())
+                        {
+                            backChannelCarrier.InDirectCookies.Add(update.Key, update.Value);    
+                        }
+                    }
+                }
+            });
         }
-
 
         private string ReadAuthorizationCookie()
         {

@@ -33,9 +33,9 @@ namespace Ludwig.IssueManager.Fake
             });
         }
 
-        public Task<RequestUpdate> GrantAccess(RequestUpdate requestUpdate)
+        public Task<List<RequestUpdate>> GrantAccess()
         {
-            return Task.Run(() => requestUpdate);
+            return Task.Run(() => new List<RequestUpdate>());
         }
 
 

@@ -40,15 +40,19 @@ namespace Ludwig.IssueManager.Fake
             });
         }
 
-        public Task<RequestUpdate> GrantAccess(RequestUpdate requestUpdate)
+        public Task<List<RequestUpdate>> GrantAccess()
         {
             return Task.Run(() =>
             {
-                var update = new RequestUpdate();
-                
-                update.Cookies.Add("FAKE_AUTH_ID",_accessCookie);
-
-                return update;
+                return new List<RequestUpdate>
+                {
+                    new RequestUpdate
+                    {
+                        Key = "FAKE_AUTH_ID",
+                        Value = _accessCookie,
+                        Type = RequestUpdate.RequestUpdateTypeCookie
+                    }
+                };
             });
         }
 
