@@ -54,7 +54,7 @@ export class LoginFormComponent implements OnInit {
 
   disabledClass():string {
 
-    if(!(this.method) || !(this.method.fields) || this.method.fields.length==0){
+    if(!(this.method) || !(this.method.fields)){
       return 'disabled';
     }
 
