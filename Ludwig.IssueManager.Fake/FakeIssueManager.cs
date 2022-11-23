@@ -76,7 +76,7 @@ namespace Ludwig.IssueManager.Fake
         {
             return Task.Run(() =>
             {
-                return Issues.Where(i => i.Title == userStory).ToList();
+                return Issues.Where(i => i.UserStory == userStory).ToList();
             });
         }
 
