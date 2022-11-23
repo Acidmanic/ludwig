@@ -24,7 +24,7 @@ namespace Ludwig.Presentation.Services
         //private readonly Jira _jira;
 
 
-        public UserStoryService(IUnitOfWork unitOfWork,  IIssueManager issueManager)
+        public UserStoryService(IUnitOfWork unitOfWork, IIssueManager issueManager)
         {
             _unitOfWork = unitOfWork;
             _issueManager = issueManager;
@@ -58,7 +58,7 @@ namespace Ludwig.Presentation.Services
         private void ReadIssuesInto(UserStory item)
         {
             var issues = _issueManager.GetIssuesByUserStory(item.Title).Result;
-            
+
             item.Issues = issues;
         }
 
@@ -66,12 +66,11 @@ namespace Ludwig.Presentation.Services
         [KeepProperty(typeof(Priority))]
         public UserStory Add(UserStory value)
         {
-
             if (value.Priority == null)
             {
-                value.Priority=Priority.Medium;
+                value.Priority = Priority.Medium;
             }
-            
+
             var inserted = _userStoryRepository.Add(value);
 
             WriteFullTree(inserted);
@@ -110,64 +109,35 @@ namespace Ludwig.Presentation.Services
         private void WriteFullTree(UserStory value)
         {
             var insertee = Clone(value);
-            
+
             if (insertee.StoryUser != null)
             {
-                var foundUser = FindUser(insertee.StoryUser);
+                var incomingUser = insertee.StoryUser;
 
-                StoryUser user = null;
+                var foundUser = _storyUserRepository.Find(u =>
+                        u.Name != null && incomingUser.Name != null
+                                       && u.Name.Trim().ToLower() == incomingUser.Name.Trim().ToLower())
+                    .FirstOrDefault();
 
-                if (foundUser)
+                StoryUser usingUser = null;
+                
+                if (foundUser!=null)
                 {
-                    user = foundUser.Primary;
-                }
-                else if (foundUser.Secondary)
-                {
-                    user = _storyUserRepository.Add(foundUser.Primary);
-                }
-
-                if (user != null)
-                {
-                    insertee.StoryUser = user;
-                    insertee.StoryUserId = user.Id;
-
-                    _userStoryRepository.Update(insertee);
-                }
-            }
-        }
-
-        private Result<StoryUser, bool> FindUser(StoryUser insertedStoryUser)
-        {
-            if (insertedStoryUser != null && !string.IsNullOrEmpty(insertedStoryUser.Name) &&
-                !string.IsNullOrWhiteSpace(insertedStoryUser.Name))
-            {
-                if (insertedStoryUser.Id > 0)
-                {
-                    var user = _storyUserRepository.GetById(insertedStoryUser.Id);
-
-                    if (user != null)
-                    {
-                        return new Result<StoryUser, bool>(true, false, user);
-                    }
+                    usingUser = foundUser;
                 }
                 else
                 {
-                    var user = _storyUserRepository.Find(u =>
-                            u.Name != null && insertedStoryUser.Name != null
-                                           && u.Name.Trim().ToLower() == insertedStoryUser.Name.Trim().ToLower())
-                        .FirstOrDefault();
-
-                    if (user != null)
-                    {
-                        return new Result<StoryUser, bool>(true, false, user);
-                    }
+                    //abandon last user in db, and create new user with given name
+                    usingUser = _storyUserRepository.Add(insertee.StoryUser);
                 }
+                
+                if (usingUser != null)
+                {
+                    insertee.StoryUser = usingUser;
+                    insertee.StoryUserId = usingUser.Id;
 
-                return new Result<StoryUser, bool>(false, true, insertedStoryUser);
-            }
-            else
-            {
-                return new Result<StoryUser, bool>(false, false, null);
+                    _userStoryRepository.Update(insertee);
+                }
             }
         }
 
@@ -177,10 +147,10 @@ namespace Ludwig.Presentation.Services
             value.StoryUser = _storyUserRepository.GetById(value.StoryUserId);
 
             ReadIssuesInto(value);
-            
+
             if (value.Priority == null)
             {
-                value.Priority=Priority.Medium;
+                value.Priority = Priority.Medium;
             }
         }
 
@@ -189,9 +159,9 @@ namespace Ludwig.Presentation.Services
         {
             if (value.Priority == null)
             {
-                value.Priority=Priority.Medium;
+                value.Priority = Priority.Medium;
             }
-            
+
             var updated = _userStoryRepository.Update(value);
 
             WriteFullTree(updated);
@@ -217,6 +187,5 @@ namespace Ludwig.Presentation.Services
         {
             return _userStoryRepository.Remove(id);
         }
-        
     }
 }
