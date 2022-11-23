@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Jira.Interfaces;
@@ -16,7 +15,7 @@ namespace Ludwig.IssueManager.Jira.Adapter
         private readonly Services.Jira _jira;
         private readonly string _jiraBase;
         
-        public JiraIssueManager(IAuthenticator userPassAuth, Services.Jira jira, IJiraConfigurationProvider configurationProvider)
+        public JiraIssueManager(Services.Jira jira, IJiraConfigurationProvider configurationProvider)
         {
             _jira = jira;
 
@@ -29,7 +28,6 @@ namespace Ludwig.IssueManager.Jira.Adapter
 
             _jiraBase = jiraBase;
             
-            Authenticators.Add(userPassAuth);
         }
 
 
@@ -118,7 +116,6 @@ namespace Ludwig.IssueManager.Jira.Adapter
 
             return issues;
         }
-
-        public List<IAuthenticator> Authenticators { get; } = new List<IAuthenticator>();
+        
     }
 }

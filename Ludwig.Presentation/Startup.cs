@@ -39,13 +39,14 @@ namespace Ludwig.Presentation
             services.AddHttpContextAccessor();
 
             services.AddTransient<IDatabaseExporter, DatabaseExporterV1>();
-
-
+            
             services.AddTransient<AuthenticationStore>();
             
             services.AddTransient<AuthenticationManager>();
 
             services.AddLudwigTokenAuthentication();
+            
+            services.AddTransient<AuthenticatorsListReference>();
 
             services.AddIssueManagerRegistry<FakeIssueManagerRegistry>();
 
@@ -77,6 +78,8 @@ namespace Ludwig.Presentation
             _frontEndServer.ConfigureMappings(app, env);
 
             app.IntroduceDotnetResolverToEnTier();
+
+            app.UseAuthenticators<FakeIssueManagerRegistry>();
         }
     }
 }

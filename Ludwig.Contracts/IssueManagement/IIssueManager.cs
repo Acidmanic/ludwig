@@ -16,8 +16,6 @@ namespace Ludwig.Contracts.IssueManagement
         Task<List<Issue>> GetAllIssues();
 
         Task<List<Issue>> GetIssuesByUserStory(string userStory);
-        
-        List<IAuthenticator> Authenticators { get; } 
 
     }
 }

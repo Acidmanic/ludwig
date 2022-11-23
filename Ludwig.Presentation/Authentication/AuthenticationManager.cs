@@ -27,7 +27,9 @@ namespace Ludwig.Presentation.Authentication
         public ReadOnlyDictionary<string, LoginMethod> LoginMethodsByMethodName { get; private set; }
 
 
-        public AuthenticationManager(IIssueManager issueManager, AuthenticationStore authenticationStore,
+        public AuthenticationManager(
+            AuthenticatorsListReference authenticatorsListReference,
+            AuthenticationStore authenticationStore,
             IHttpContextAccessor httpContextAccessor)
         {
             _authenticationStore = authenticationStore;
@@ -39,7 +41,7 @@ namespace Ludwig.Presentation.Authentication
             // Add any other authenticators
             AddAdditionalAuthenticators(authenticators);
 
-            authenticators.AddRange(issueManager.Authenticators);
+            authenticators.AddRange(authenticatorsListReference.Authenticators);
 
             var authByName = new Dictionary<string, IAuthenticator>();
             var loginByName = new Dictionary<string, LoginMethod>();
