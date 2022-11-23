@@ -14,22 +14,16 @@ namespace Ludwig.Presentation.Authentication
         public string Cookie { get; set; }
 
         [UniqueMember]
-        public string Id
-        {
-            get
-            {
-                return Token;
-            } set
-            {
-                Token = value;
-            }
-        }
+        [AutoValuedMember]
+        public long Id { get; set; }
+
+        public string RequestOrigin { get; set; }
 
         public AuthenticationToken AsToken()
         {
             return new AuthenticationToken
             {
-                Token = Id,
+                Token = Token,
                 ExpirationEpoch = ExpirationEpoch,
                 LoginMethodName = LoginMethodName
             };

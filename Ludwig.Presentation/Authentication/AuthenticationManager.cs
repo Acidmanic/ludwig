@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -15,9 +16,8 @@ namespace Ludwig.Presentation.Authentication
     public class AuthenticationManager
     {
 
-        public static readonly string CookieAuthorizationField = "Ludwig.Session"; 
-        
-        private readonly IIssueManager _issueManager;
+        public static readonly string CookieAuthorizationField = "Ludwig.Session";
+
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AuthenticationStore _authenticationStore;
         
@@ -32,7 +32,6 @@ namespace Ludwig.Presentation.Authentication
         public AuthenticationManager(IIssueManager issueManager, AuthenticationStore authenticationStore,
             IHttpContextAccessor httpContextAccessor)
         {
-            _issueManager = issueManager;
             _authenticationStore = authenticationStore;
             _httpContextAccessor = httpContextAccessor;
 
@@ -42,7 +41,7 @@ namespace Ludwig.Presentation.Authentication
             // Add any other authenticators
             AddAdditionalAuthenticators(authenticators);
 
-            authenticators.AddRange(_issueManager.Authenticators);
+            authenticators.AddRange(issueManager.Authenticators);
 
             var authByName = new Dictionary<string, IAuthenticator>();
             var loginByName = new Dictionary<string, LoginMethod>();
@@ -81,7 +80,10 @@ namespace Ludwig.Presentation.Authentication
 
                 if (authResult.Authenticated)
                 {
-                    var record = _authenticationStore.GenerateToken(authenticator.LoginMethod.Name, authResult);
+                    var requestOrigin = _httpContextAccessor.HttpContext.Request.Host.Host;
+                    
+                    var record = _authenticationStore.GenerateToken(
+                        authenticator.LoginMethod.Name, authResult,requestOrigin);
 
                     _grantAccessTask = authenticator.GrantAccess(new RequestUpdate());
 
@@ -160,29 +162,53 @@ namespace Ludwig.Presentation.Authentication
 
         public Result<AuthenticationRecord> IsAuthorized()
         {
-            
+            var foundRecord = new Result<AuthenticationRecord>().FailAndDefaultValue();
             
             var token = ReadAuthorizationToken();
 
             if (token != null)
             {
-                var foundRecord = _authenticationStore.IsTokenRegistered(token);
+                foundRecord = _authenticationStore.IsTokenRegistered(token);
+            }
 
-                if (foundRecord)
+            if (!foundRecord)
+            {
+                var cookie = ReadAuthorizationCookie();
+                
+                if (cookie != null)
                 {
-                    return foundRecord;
+                    foundRecord = _authenticationStore.IsCookieRegistered(cookie);
+                }    
+            }
+
+            if (foundRecord)
+            {
+                foundRecord = VerifyRecord(foundRecord.Value);
+            }
+
+            return foundRecord;
+        }
+
+        private Result<AuthenticationRecord> VerifyRecord(AuthenticationRecord record)
+        {
+            if (record != null)
+            {
+                var nowEpoch = DateTime.Now.Ticks;
+
+                if (record.ExpirationEpoch > nowEpoch)
+                {
+                    var host = _httpContextAccessor.HttpContext.Request.Host.Host.ToLower();
+
+                    if (!string.IsNullOrWhiteSpace(record.RequestOrigin))
+                    {
+                        if (record.RequestOrigin.ToLower() == host)
+                        {
+                            return new Result<AuthenticationRecord>(true, record);
+                        }
+                    }   
                 }
             }
 
-            var cookie = ReadAuthorizationCookie();
-
-            if (cookie != null)
-            {
-                var foundRecord = _authenticationStore.IsCookieRegistered(cookie);
-
-                return foundRecord;
-            }
-            
             return new Result<AuthenticationRecord>().FailAndDefaultValue();
         }
 
