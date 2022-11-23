@@ -16,6 +16,8 @@ namespace Ludwig.IssueManager.Jira.Adapter
             
             Authenticator<UsernamePasswordAuthenticator>();
             
+            Authenticator<JiraCookieHijack>();
+            
             Transient<IJiraConfigurationProvider,JiraConfigurationProvider>();
             
             Transient<Services.Jira>();
