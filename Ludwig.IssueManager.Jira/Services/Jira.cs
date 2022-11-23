@@ -4,6 +4,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Acidmanic.Utilities.Results;
 using Ludwig.Common.Download;
+using Ludwig.Common.Extensions;
+using Ludwig.Contracts.Authentication;
 using Ludwig.IssueManager.Jira.Interfaces;
 using Ludwig.IssueManager.Jira.Models;
 using Microsoft.AspNetCore.Http;
@@ -21,18 +23,15 @@ namespace Ludwig.IssueManager.Jira.Services
         }
 
 
-        //private Func<HttpContext> _httpContextSource = () => null;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ICookieForwarder _cookieForwarder;
+        private readonly IBackChannelRequestGrant _backChannelRequestGrant;
         private readonly string _baseUrl;
         private readonly ICustomFieldDefinitionProvider _definitionProvider;
 
-        public Jira(IJiraConfigurationProvider configurationProvider, ICookieForwarder cookieForwarder,
-            ICustomFieldDefinitionProvider definitionProvider, IHttpContextAccessor httpContextAccessor)
+        public Jira(IJiraConfigurationProvider configurationProvider,
+            ICustomFieldDefinitionProvider definitionProvider, IBackChannelRequestGrant backChannelRequestGrant)
         {
-            _cookieForwarder = cookieForwarder;
             _definitionProvider = definitionProvider;
-            _httpContextAccessor = httpContextAccessor;
+            _backChannelRequestGrant = backChannelRequestGrant;
 
             var config = configurationProvider.GetConfiguration();
 
@@ -45,23 +44,10 @@ namespace Ludwig.IssueManager.Jira.Services
 
             _baseUrl = baseUrl;
         }
-
-
-        private PatientDownloader GetDownloader()
-        {
-            var downloader = new PatientDownloader();
-
-            var context = _httpContextAccessor.HttpContext;
-
-            _cookieForwarder.ForwardCookies(context, downloader);
-
-            return downloader;
-        }
-
-
+        
         public async Task<List<JiraUser>> AllUsers()
         {
-            var downloader = GetDownloader();
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             var url = _baseUrl + Resources.AllUsers;
 
@@ -77,7 +63,7 @@ namespace Ludwig.IssueManager.Jira.Services
 
         public async Task<List<JiraField>> AllFields()
         {
-            var downloader = GetDownloader();
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             var url = _baseUrl + Resources.AllFields;
 
@@ -94,7 +80,7 @@ namespace Ludwig.IssueManager.Jira.Services
 
         public async Task<List<JiraIssue>> AllIssues()
         {
-            var downloader = GetDownloader();
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             var url = _baseUrl + Resources.AllIssues;
 
@@ -117,7 +103,7 @@ namespace Ludwig.IssueManager.Jira.Services
 
         public async Task<List<JiraIssue>> IssuesByUserStory(string userStory)
         {
-            var downloader = GetDownloader();
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             var url = _baseUrl + Resources.AllIssues + $"?jql=\"User%20Story\"%20~%20\"{userStory}\"";
 
@@ -144,7 +130,7 @@ namespace Ludwig.IssueManager.Jira.Services
 
         private async Task<Result<JiraUser, string>> LoggedInUser(string authHeader)
         {
-            var downloader = GetDownloader();
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             if (!string.IsNullOrWhiteSpace(authHeader))
             {
