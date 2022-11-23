@@ -35,7 +35,14 @@ namespace Ludwig.IssueManager.Fake
 
         public Task<List<RequestUpdate>> GrantAccess()
         {
-            return Task.Run(() => new List<RequestUpdate>());
+            return Task.Run(() => new List<RequestUpdate>
+            {
+                new RequestUpdate
+                {
+                    Key = "OTP_SESSION_ID",
+                    Value = Code
+                }
+            });
         }
 
 

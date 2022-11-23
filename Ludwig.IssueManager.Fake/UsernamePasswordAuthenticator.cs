@@ -48,7 +48,7 @@ namespace Ludwig.IssueManager.Fake
                 {
                     new RequestUpdate
                     {
-                        Key = "FAKE_AUTH_ID",
+                        Key = "HEADER_SESSION_ID",
                         Value = _accessCookie,
                         Type = RequestUpdate.RequestUpdateTypeCookie
                     }

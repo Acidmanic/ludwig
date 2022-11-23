@@ -21,7 +21,7 @@ namespace Ludwig.Presentation.Extensions
             if (authenticatorsReference == null)
             {
                 throw new Exception("Please register AuthenticatorsListReference class in di, at" +
-                                    " startup class");
+                                    " startup class. IT MUST BE SINGLETON");
             }
             
             var reg = new TRegistry();

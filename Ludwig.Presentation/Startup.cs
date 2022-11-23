@@ -46,7 +46,7 @@ namespace Ludwig.Presentation
 
             services.AddLudwigTokenAuthentication();
             
-            services.AddTransient<AuthenticatorsListReference>();
+            services.AddSingleton<AuthenticatorsListReference>();
 
             services.AddIssueManagerRegistry<FakeIssueManagerRegistry>();
 
