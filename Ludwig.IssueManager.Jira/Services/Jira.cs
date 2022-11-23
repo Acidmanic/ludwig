@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using Acidmanic.Utilities.Results;
-using Ludwig.Common.Download;
 using Ludwig.Common.Extensions;
 using Ludwig.Contracts.Authentication;
 using Ludwig.IssueManager.Jira.Interfaces;
 using Ludwig.IssueManager.Jira.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace Ludwig.IssueManager.Jira.Services
 {

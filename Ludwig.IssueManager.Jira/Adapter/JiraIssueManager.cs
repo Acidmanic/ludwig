@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
+using Ludwig.IssueManager.Jira.Extensions;
 using Ludwig.IssueManager.Jira.Interfaces;
 using Ludwig.IssueManager.Jira.Models;
 using IssueType = Ludwig.Contracts.Models.IssueType;
@@ -38,7 +39,7 @@ namespace Ludwig.IssueManager.Jira.Adapter
                 Active = jiraUser.Active,
                 Name = jiraUser.Name,
                 DisplayName = jiraUser.DisplayName,
-                AvatarUrl = jiraUser.AvatarUrls["48x48"],
+                AvatarUrl = jiraUser.ProxiedAvatarUrl(),
                 EmailAddress = jiraUser.EmailAddress
             };
         }
@@ -58,7 +59,7 @@ namespace Ludwig.IssueManager.Jira.Adapter
             {
                 Description = jiraIssueType.Description,
                 Name = jiraIssueType.Name,
-                IconUrl = jiraIssueType.IconUrl
+                IconUrl = jiraIssueType.ProxiedIcon()
             };
         }
         
