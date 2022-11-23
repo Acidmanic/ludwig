@@ -81,9 +81,9 @@ namespace Ludwig.IssueManager.Jira.Adapter
 
         public LoginMethod LoginMethod { get; } = new LoginMethod
         {
-            Description = $"Please use your Jira username and password to login. I know it's nopt secure but " +
+            Description = $"Please use your Jira username and password to login. I know it's not secure, but " +
                           $"that is all we can do while using Basic Authorization!",
-            Name = "UsernamePassword",
+            Name = "By Jira Credentials",
             Fields = new List<LoginField>
             {
                 LoginField.Username,
