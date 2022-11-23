@@ -1,4 +1,5 @@
 using EnTier.Services;
+using Ludwig.Contracts.Authentication;
 using Ludwig.IssueManager.Fake;
 using Ludwig.Presentation.Authentication;
 using Ludwig.Presentation.Contracts;
@@ -42,11 +43,13 @@ namespace Ludwig.Presentation
 
             services.AddTransient<AuthenticationStore>();
             
-            services.AddTransient<Ludwig.Presentation.Authentication.AuthenticationManager>();
+            services.AddTransient<AuthenticationManager>();
 
             services.AddLudwigTokenAuthentication();
 
             services.AddIssueManagerRegistry<FakeIssueManagerRegistry>();
+
+            services.AddTransient<IBackChannelRequestGrant, AuthenticationManager>();
             
             services.AddControllers();
 

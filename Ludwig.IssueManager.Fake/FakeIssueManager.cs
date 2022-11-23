@@ -1,7 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Acidmanic.Utilities.Results;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
@@ -10,6 +10,16 @@ namespace Ludwig.IssueManager.Fake
 {
     public class FakeIssueManager : IIssueManager
     {
+
+
+        private readonly IBackChannelRequestGrant _backChannelRequestGrant;
+
+        public FakeIssueManager(IBackChannelRequestGrant backChannelRequestGrant)
+        {
+            _backChannelRequestGrant = backChannelRequestGrant;
+        }
+
+
         public static IssueManagerUser User { get; } = new IssueManagerUser
         {
             Active = true,
@@ -54,13 +64,31 @@ namespace Ludwig.IssueManager.Fake
             }
         };
 
+
+
+        private void LogGrant(string label)
+        {
+            var updates = _backChannelRequestGrant.GetGrantRequestUpdates();
+
+            Console.WriteLine($"accessing {label}, using grant updates:");
+            
+            foreach (var update in updates)
+            {
+                Console.WriteLine($"{update.Key}:{update.Value} - {update.Type}");
+            }
+        }
+        
+        
         public Task<List<IssueManagerUser>> GetAllUsers()
         {
+            LogGrant("All Users");
+            
             return Task.Run(() => { return new List<IssueManagerUser> { User }; });
         }
 
         public Task<IssueManagerUser> GetCurrentUser()
         {
+            LogGrant("Current User");
             return Task.Run(() =>
             {
                 return User;
@@ -69,11 +97,13 @@ namespace Ludwig.IssueManager.Fake
 
         public Task<List<Issue>> GetAllIssues()
         {
+            LogGrant("All Issues");
             return Task.Run(() => Issues);
         }
 
         public Task<List<Issue>> GetIssuesByUserStory(string userStory)
         {
+            LogGrant("IssuesByStory");
             return Task.Run(() =>
             {
                 return Issues.Where(i => i.UserStory == userStory).ToList();

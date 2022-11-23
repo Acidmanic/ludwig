@@ -13,7 +13,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace Ludwig.Presentation.Authentication
 {
-    public class AuthenticationManager
+    public class AuthenticationManager:IBackChannelRequestGrant
     {
 
         public static readonly string CookieAuthorizationField = "Ludwig.Session";
@@ -97,30 +97,6 @@ namespace Ludwig.Presentation.Authentication
         }
 
 
-        public Task GrantBackChannelAccess(PatientDownloader backChannelCarrier)
-        {
-            return Task.Run(() =>
-            {
-                var authorized = IsAuthorized();
-
-                if (authorized)
-                {
-                    var requestUpdates = authorized.Value.BackChannelGrantAccessUpdates;
-
-                    foreach (var update in requestUpdates)
-                    {
-                        if (update.IsHeader())
-                        {
-                            backChannelCarrier.Headers.Add(update.Key, update.Value);    
-                        }
-                        if (update.IsCookie())
-                        {
-                            backChannelCarrier.InDirectCookies.Add(update.Key, update.Value);    
-                        }
-                    }
-                }
-            });
-        }
 
         private string ReadAuthorizationCookie()
         {
@@ -238,6 +214,18 @@ namespace Ludwig.Presentation.Authentication
                     _authenticationStore.RemoveAuthorization(token);
                 }
             }
+        }
+
+        public List<RequestUpdate> GetGrantRequestUpdates()
+        {
+            var authorized = IsAuthorized();
+
+            if (authorized)
+            {
+                return authorized.Value.BackChannelGrantAccessUpdates;
+            }
+
+            return new List<RequestUpdate>();
         }
     }
 }
