@@ -1,0 +1,23 @@
+
+:host ::ng-deep login-button{
+  cursor: pointer;
+}
+
+:host ::ng-deep .popover-body{
+  background-color: #7c777e;
+}
+
+
+:host ::ng-deep .popover-body a{
+  color: white;
+  text-decoration: none;
+  margin-bottom: 5px;
+}
+
+:host ::ng-deep .popover-body .btn-outline-warning{
+  border-color: #bb9665;
+}
+
+:host ::ng-deep .popover-header{
+  background-color: #b9b5ba;
+}

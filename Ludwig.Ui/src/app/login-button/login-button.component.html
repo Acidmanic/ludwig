@@ -3,14 +3,26 @@
 
 <ng-template #popTitle><b>{{user.displayName}}</b></ng-template>
 <ng-template #popContent>
-  <div class="container d-flex justify-content-center">
-    <div class="row">
-      <button class="btn btn-secondary" (click)="logout()">Logout!</button>
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <a href="{{user.userReferenceLink}}" target="_blank">
+        <span class="material-symbols-outlined xs">
+          open_in_new
+        </span>
+        Profile
+      </a>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <hr>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <button class="btn btn-outline-warning btn-sm" (click)="logout()">Logout!</button>
     </div>
   </div>
 </ng-template>
 
 <user-view
+          style="cursor: pointer"
            size="48" active-user-class="user-active"
            [user]="user"
            ngbTooltip="{{user.displayName}}"

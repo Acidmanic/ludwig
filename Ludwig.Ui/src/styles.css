@@ -46,3 +46,10 @@ button.btn.btn-icon {
   outline: 0 none;
 }
 
+.material-symbols-outlined.xs{
+  font-size: 0.95em;
+}
+
+.material-symbols-outlined.s{
+  font-size: 1.1em;
+}
