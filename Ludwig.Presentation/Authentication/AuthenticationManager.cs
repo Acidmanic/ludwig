@@ -14,10 +14,13 @@ namespace Ludwig.Presentation.Authentication
 {
     public class AuthenticationManager
     {
+
+        public static readonly string CookieAuthorizationField = "Ludwig.Session"; 
+        
         private readonly IIssueManager _issueManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AuthenticationStore _authenticationStore;
-
+        
         public IReadOnlyList<IAuthenticator> Authenticators { get; private set; }
         public IReadOnlyList<LoginMethod> LoginMethods { get; private set; }
         public ReadOnlyDictionary<string, IAuthenticator> AuthenticatorsByMethodName { get; private set; }
@@ -108,10 +111,23 @@ namespace Ludwig.Presentation.Authentication
                 backChannelCarrier.InDirectCookies.Add(cookie.Key, cookie.Value);
             }
         }
-        
-        
-        
-        public string ReadAuthorizationToken()
+
+
+        private string ReadAuthorizationCookie()
+        {
+            var context = _httpContextAccessor.HttpContext;
+
+            if (context.Request.Cookies.TryGetValue(CookieAuthorizationField, out var cookie))
+            {
+                if (!string.IsNullOrWhiteSpace(cookie))
+                {
+                    return cookie;
+                }
+            }
+            return null;
+        }
+
+        private string ReadAuthorizationToken()
         {
             var context = _httpContextAccessor.HttpContext;
 
@@ -144,13 +160,25 @@ namespace Ludwig.Presentation.Authentication
 
         public Result<AuthenticationRecord> IsAuthorized()
         {
-
-
+            
+            
             var token = ReadAuthorizationToken();
 
             if (token != null)
             {
-                var foundRecord = _authenticationStore.FindAuthenticatedLoginMethodName(token);
+                var foundRecord = _authenticationStore.IsTokenRegistered(token);
+
+                if (foundRecord)
+                {
+                    return foundRecord;
+                }
+            }
+
+            var cookie = ReadAuthorizationCookie();
+
+            if (cookie != null)
+            {
+                var foundRecord = _authenticationStore.IsCookieRegistered(cookie);
 
                 return foundRecord;
             }
@@ -170,7 +198,7 @@ namespace Ludwig.Presentation.Authentication
             
             if (token != null)
             {
-                var foundRecord = _authenticationStore.FindAuthenticatedLoginMethodName(token);
+                var foundRecord = _authenticationStore.IsTokenRegistered(token);
 
                 if (foundRecord)
                 {

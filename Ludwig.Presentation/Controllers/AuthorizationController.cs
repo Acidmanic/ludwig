@@ -8,7 +8,9 @@ using Ludwig.Presentation.Authentication;
 using Ludwig.Presentation.Extensions;
 using Ludwig.Presentation.Models;
 using Ludwig.Presentation.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 
 namespace Ludwig.Presentation.Controllers
 {
@@ -43,6 +45,13 @@ namespace Ludwig.Presentation.Controllers
 
             if (loggedIn)
             {
+
+                
+                var key = AuthenticationManager.CookieAuthorizationField;
+                var value = loggedIn.Primary.Cookie;
+
+                HttpContext.Response.Cookies.Append(key,value);
+
                 return Ok(loggedIn.Primary.AsToken());
             }
 
@@ -57,7 +66,7 @@ namespace Ludwig.Presentation.Controllers
 
             return Ok();
         }
-        
+
         [HttpGet]
         [Route("revoke/{token}")]
         public IActionResult Revoke(string token)

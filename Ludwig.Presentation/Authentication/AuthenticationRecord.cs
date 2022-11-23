@@ -11,6 +11,7 @@ namespace Ludwig.Presentation.Authentication
 
         public string SubjectWebPage { get; set; }
 
+        public string Cookie { get; set; }
 
         [UniqueMember]
         public string Id

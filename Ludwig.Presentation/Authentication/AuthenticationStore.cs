@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using EnTier.Repositories;
 using EnTier.Results;
 using EnTier.UnitOfWork;
@@ -21,10 +22,12 @@ namespace Ludwig.Presentation.Authentication
         public AuthenticationRecord GenerateToken(string loginMethodName, AuthenticationResult result)
         {
             var token = Guid.NewGuid().ToString();
-
+            var cookie = Guid.NewGuid().ToString();
+            
             var record = new AuthenticationRecord
             {
                 Token = token,
+                Cookie = cookie,
                 ExpirationEpoch = DateTime.Now.AddDays(7).Ticks,
                 LoginMethodName = loginMethodName,
                 SubjectId = result.SubjectId,
@@ -40,9 +43,23 @@ namespace Ludwig.Presentation.Authentication
         }
 
 
-        public Result<AuthenticationRecord> FindAuthenticatedLoginMethodName(string token)
+        public Result<AuthenticationRecord> IsTokenRegistered(string token)
         {
             var record = _repository.GetById(token);
+
+            if (record == null)
+            {
+                return new Result<AuthenticationRecord>().FailAndDefaultValue();
+            }
+
+            return new Result<AuthenticationRecord>().Succeed(record);
+        }
+        
+        public Result<AuthenticationRecord> IsCookieRegistered(string cookie)
+        {
+            var record = 
+                _repository.Find(r => r.Cookie == cookie)
+                    .FirstOrDefault();
 
             if (record == null)
             {

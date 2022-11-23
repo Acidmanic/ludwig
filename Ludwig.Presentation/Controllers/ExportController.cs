@@ -12,6 +12,7 @@ namespace Ludwig.Presentation.Controllers
     
    [ApiController]
    [Route("export")]
+   [Authorize]
    public class ExportController:ControllerBase
     {
 
