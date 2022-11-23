@@ -5,17 +5,17 @@ using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Jira.Extensions;
 using Ludwig.IssueManager.Jira.Interfaces;
+using Ludwig.IssueManager.Jira.Mapping;
 using Ludwig.IssueManager.Jira.Models;
 using IssueType = Ludwig.Contracts.Models.IssueType;
 
 namespace Ludwig.IssueManager.Jira.Adapter
 {
-    internal class JiraIssueManager:IIssueManager
+    internal class JiraIssueManager : IIssueManager
     {
-
         private readonly Services.Jira _jira;
-        private readonly string _jiraBase;
-        
+        private readonly JiraModelMapper _mapper;
+
         public JiraIssueManager(Services.Jira jira, IJiraConfigurationProvider configurationProvider)
         {
             _jira = jira;
@@ -27,64 +27,16 @@ namespace Ludwig.IssueManager.Jira.Adapter
                 jiraBase = jiraBase + "/";
             }
 
-            _jiraBase = jiraBase;
-            
+            _mapper = new JiraModelMapper(jiraBase);
         }
 
 
-        private IssueManagerUser Map(JiraUser jiraUser)
-        {
-            return new IssueManagerUser
-            {
-                Active = jiraUser.Active,
-                Name = jiraUser.Name,
-                DisplayName = jiraUser.DisplayName,
-                AvatarUrl = jiraUser.ProxiedAvatarUrl(),
-                EmailAddress = jiraUser.EmailAddress
-            };
-        }
-        
-        private Priority Map(JiraPriority jiraPriority)
-        {
-            return new Priority()
-            {
-                Name = jiraPriority.Name,
-                Value = 0,
-            };
-        }
-        
-        private IssueType Map(JiraIssueType jiraIssueType)
-        {
-            return new IssueType
-            {
-                Description = jiraIssueType.Description,
-                Name = jiraIssueType.Name,
-                IconUrl = jiraIssueType.ProxiedIcon()
-            };
-        }
-        
-        private Issue Map(JiraIssue jiraIssue)
-        {
-            return new Issue
-            {
-                Assignee = Map(jiraIssue.Assignee),
-                Description = jiraIssue.Description,
-                Priority = Map(jiraIssue.Priority),
-                Title = jiraIssue.Summary,
-                UserStory = jiraIssue.UserStory,
-                IssueReferenceLink = _jiraBase + "projects/" + jiraIssue.Project.Key +
-                                     "issues/" + jiraIssue.Key,
-                IssueType = Map(jiraIssue.IssueType)
-            };
-        }
-        
-        
-        public async  Task<List<IssueManagerUser>> GetAllUsers()
+        public async Task<List<IssueManagerUser>> GetAllUsers()
         {
             var jiraUsers = await _jira.AllUsers();
 
-            var users = jiraUsers.Select(Map).ToList();
-            
+            var users = jiraUsers.Select(_mapper.Map).ToList();
+
             return users;
         }
 
@@ -94,7 +46,7 @@ namespace Ludwig.IssueManager.Jira.Adapter
 
             if (currentUser)
             {
-                return Map(currentUser.Primary);
+                return _mapper.Map(currentUser.Primary);
             }
 
             return null;
@@ -104,7 +56,7 @@ namespace Ludwig.IssueManager.Jira.Adapter
         {
             var jiraIssues = await _jira.AllIssues();
 
-            var issues = jiraIssues.Select(Map).ToList();
+            var issues = jiraIssues.Select(_mapper.Map).ToList();
 
             return issues;
         }
@@ -113,10 +65,9 @@ namespace Ludwig.IssueManager.Jira.Adapter
         {
             var jiraIssues = await _jira.IssuesByUserStory(userStory);
 
-            var issues = jiraIssues.Select(Map).ToList();
+            var issues = jiraIssues.Select(_mapper.Map).ToList();
 
             return issues;
         }
-        
     }
 }
