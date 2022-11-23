@@ -20,26 +20,38 @@ namespace Ludwig.IssueManager.Jira.Controllers
 
 
         [HttpGet]
-        [Route("image")]
-        public async Task<IActionResult> Image([FromQuery] string url)
+        [Route("image/{*_}")]
+        public async Task<IActionResult> Image(string _)
         {
-            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
-            var downloadedImage = await downloader.DownloadFile(url, 1000, 2);
+            var queryString = Request.QueryString.Value;
 
-
-            if (downloadedImage)
+            if (!string.IsNullOrWhiteSpace(queryString))
             {
-
-                var contentType = downloadedImage.ResponseHeaders["Content-Type"];
-
-                if (string.IsNullOrWhiteSpace(contentType))
+                if (queryString.ToLower().StartsWith("?url="))
                 {
-                    contentType = "image/jpeg";
-                }
+                    var url = queryString.Substring(5, queryString.Length - 5);
+                    
+                    var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
+
+                    var downloadedImage = await downloader.DownloadFile(url, 1000, 2);
+                    
+                    if (downloadedImage)
+                    {
+
+                        var contentType = downloadedImage.ResponseHeaders["Content-Type"];
+
+                        if (string.IsNullOrWhiteSpace(contentType))
+                        {
+                            contentType = "image/jpeg";
+                        }
                 
-                return new FileStreamResult(new MemoryStream(downloadedImage.Value), contentType);
+                        return new FileStreamResult(new MemoryStream(downloadedImage.Value), contentType);
+                    }
+                }
             }
+            
+            
 
             return NotFound();
         }

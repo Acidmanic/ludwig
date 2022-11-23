@@ -17,18 +17,28 @@ namespace Ludwig.IssueManager.Jira.Mapping
 
         public IssueManagerUser Map(JiraUser jiraUser)
         {
+            if (jiraUser == null)
+            {
+                return null;
+            }
+            
             return new IssueManagerUser
             {
                 Active = jiraUser.Active,
                 Name = jiraUser.Name,
                 DisplayName = jiraUser.DisplayName,
                 AvatarUrl = jiraUser.ProxiedAvatarUrl(),
-                EmailAddress = jiraUser.EmailAddress
+                EmailAddress = jiraUser.EmailAddress,
+                UserReferenceLink = _jiraBase+"secure/ViewProfile.jspa?name="+jiraUser.Name
             };
         }
         
         public Priority Map(JiraPriority jiraPriority)
         {
+            if (jiraPriority == null)
+            {
+                return null;
+            }
             return new Priority()
             {
                 Name = jiraPriority.Name,
@@ -38,6 +48,10 @@ namespace Ludwig.IssueManager.Jira.Mapping
         
         public IssueType Map(JiraIssueType jiraIssueType)
         {
+            if (jiraIssueType == null)
+            {
+                return null;
+            }
             return new IssueType
             {
                 Description = jiraIssueType.Description,
@@ -48,6 +62,10 @@ namespace Ludwig.IssueManager.Jira.Mapping
         
         public Issue Map(JiraIssue jiraIssue)
         {
+            if (jiraIssue == null)
+            {
+                return null;
+            }
             return new Issue
             {
                 Assignee = Map(jiraIssue.Assignee),
@@ -56,7 +74,7 @@ namespace Ludwig.IssueManager.Jira.Mapping
                 Title = jiraIssue.Summary,
                 UserStory = jiraIssue.UserStory,
                 IssueReferenceLink = _jiraBase + "projects/" + jiraIssue.Project.Key +
-                                     "issues/" + jiraIssue.Key,
+                                     "/issues/" + jiraIssue.Key,
                 IssueType = Map(jiraIssue.IssueType)
             };
         }

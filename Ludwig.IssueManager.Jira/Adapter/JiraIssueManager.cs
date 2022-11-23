@@ -3,11 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
-using Ludwig.IssueManager.Jira.Extensions;
 using Ludwig.IssueManager.Jira.Interfaces;
 using Ludwig.IssueManager.Jira.Mapping;
-using Ludwig.IssueManager.Jira.Models;
-using IssueType = Ludwig.Contracts.Models.IssueType;
 
 namespace Ludwig.IssueManager.Jira.Adapter
 {

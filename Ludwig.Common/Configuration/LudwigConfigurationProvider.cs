@@ -42,6 +42,8 @@ namespace Ludwig.Common.Configuration
                     if (!File.Exists(_configurationFile))
                     {
                         var defaultConfigurations = new T();
+                        
+                        OnFirstWrite(defaultConfigurations);
 
                         var json = JsonConvert.SerializeObject(defaultConfigurations);
 
@@ -78,6 +80,11 @@ namespace Ludwig.Common.Configuration
             }
 
             File.WriteAllText(_configurationFile, json);
+        }
+
+        protected virtual void OnFirstWrite(T configuration)
+        {
+            
         }
     }
 }

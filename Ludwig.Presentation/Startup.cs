@@ -1,6 +1,7 @@
 using EnTier.Services;
 using Ludwig.Contracts.Authentication;
 using Ludwig.IssueManager.Fake;
+using Ludwig.IssueManager.Jira.Adapter;
 using Ludwig.Presentation.Authentication;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Extensions;
@@ -48,7 +49,7 @@ namespace Ludwig.Presentation
             
             services.AddSingleton<AuthenticatorsListReference>();
 
-            services.AddIssueManagerRegistry<FakeIssueManagerRegistry>();
+            services.AddIssueManagerRegistry<JiraIssueManagementRegistry>();
 
             services.AddTransient<IBackChannelRequestGrant, AuthenticationManager>();
             
@@ -79,7 +80,7 @@ namespace Ludwig.Presentation
 
             app.IntroduceDotnetResolverToEnTier();
 
-            app.UseAuthenticators<FakeIssueManagerRegistry>();
+            app.UseAuthenticators<JiraIssueManagementRegistry>();
         }
     }
 }
