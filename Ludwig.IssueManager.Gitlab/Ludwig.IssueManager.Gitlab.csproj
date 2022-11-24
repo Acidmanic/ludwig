@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ludwig.Common\Ludwig.Common.csproj" />
+    <ProjectReference Include="..\Ludwig.Contracts\Ludwig.Contracts.csproj" />
+  </ItemGroup>
+
+
+</Project>
