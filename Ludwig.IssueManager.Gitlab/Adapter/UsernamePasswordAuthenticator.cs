@@ -136,7 +136,7 @@ namespace Ludwig.IssueManager.Gitlab
                 {
                     Description = "Secrete from application you created in gitlab",
                     Name = "clientSecret",
-                    DisplayName = "APPLICATION-ID"
+                    DisplayName = "Secret"
                 }
             }
         };
