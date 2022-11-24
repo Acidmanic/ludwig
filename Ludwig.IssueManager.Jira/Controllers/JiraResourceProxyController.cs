@@ -23,7 +23,6 @@ namespace Ludwig.IssueManager.Jira.Controllers
         [Route("image/{*_}")]
         public async Task<IActionResult> Image(string _)
         {
-
             var queryString = Request.QueryString.Value;
 
             if (!string.IsNullOrWhiteSpace(queryString))
@@ -38,7 +37,6 @@ namespace Ludwig.IssueManager.Jira.Controllers
                     
                     if (downloadedImage)
                     {
-
                         var contentType = downloadedImage.ResponseHeaders["Content-Type"];
 
                         if (string.IsNullOrWhiteSpace(contentType))

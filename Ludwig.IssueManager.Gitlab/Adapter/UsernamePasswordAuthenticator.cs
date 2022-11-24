@@ -11,7 +11,7 @@ using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Gitlab.Configurations;
 using Newtonsoft.Json;
 
-namespace Ludwig.IssueManager.Gitlab
+namespace Ludwig.IssueManager.Gitlab.Adapter
 {
     public class UsernamePasswordAuthenticator : IAuthenticator
     {
@@ -31,7 +31,6 @@ namespace Ludwig.IssueManager.Gitlab
 
         private readonly Persistant<AuthHeader> _authHeaderPersistant = new Persistant<AuthHeader>();
         private readonly GitlabConfigurationProvider _configurationProvider;
-
 
         public UsernamePasswordAuthenticator(GitlabConfigurationProvider configurationProvider)
         {
@@ -80,8 +79,8 @@ namespace Ludwig.IssueManager.Gitlab
                         {
                             var header = "Bearer " + token.AccessToken;
 
-                            _authHeaderPersistant.Value=new AuthHeader { Headervalue = header };
-                            
+                            _authHeaderPersistant.Value = new AuthHeader { Headervalue = header };
+
                             _authHeaderPersistant.Save();
 
                             return new AuthenticationResult
@@ -90,13 +89,12 @@ namespace Ludwig.IssueManager.Gitlab
                                 EmailAddress = "",
                                 SubjectId = username,
                                 SubjectWebPage = url + username
-                                
                             };
                         }
-                        
-                        
                     }
-                    catch (Exception) { }
+                    catch (Exception)
+                    {
+                    }
                 }
             }
 
@@ -110,35 +108,53 @@ namespace Ludwig.IssueManager.Gitlab
                 new RequestUpdate
                 {
                     Key = "Authorization",
-                    Value=_authHeaderPersistant.Value.Headervalue,
+                    Value = _authHeaderPersistant.Value.Headervalue,
                     Type = RequestUpdate.RequestUpdateTypeHeader
                 }
             });
         }
 
-        public LoginMethod LoginMethod { get; } = new LoginMethod
+        public LoginMethod LoginMethod
         {
-            Description = "You can create an application in your jira instance, and use it's" +
-                          " application-id and secrete here alongside with your gitlab Username and Password." +
-                          "Ludwig will use these information to connect with gitlab.",
-            Name = "Gitlab Oauth2.0 as Client",
-            Fields = new List<LoginField>
+            get
             {
-                LoginField.Username,
-                LoginField.Password,
-                new LoginField
+                var method = new LoginMethod
                 {
-                    Description = "Application-Id from application you created in gitlab",
-                    Name = "applicationId",
-                    DisplayName = "APPLICATION-ID"
-                },
-                new LoginField
+                    Description = "You can create an application in your jira instance, and use it's" +
+                                  " application-id and secrete here alongside with your gitlab Username and Password." +
+                                  "Ludwig will use these information to connect with gitlab.",
+                    Name = "Gitlab Oauth2.0 as Client",
+                    Fields = new List<LoginField>
+                    {
+                        LoginField.Username,
+                        LoginField.Password
+                    }
+                };
+
+                var configuration = _configurationProvider.GetConfiguration();
+
+                if (string.IsNullOrWhiteSpace(configuration.ClientId))
                 {
-                    Description = "Secrete from application you created in gitlab",
-                    Name = "clientSecret",
-                    DisplayName = "Secret"
+                    method.Fields.Add(new LoginField
+                    {
+                        Description = "Application-Id from application you created in gitlab",
+                        Name = "applicationId",
+                        DisplayName = "APPLICATION-ID"
+                    });
                 }
+
+                if (string.IsNullOrWhiteSpace(configuration.ClientSecret))
+                {
+                    method.Fields.Add(new LoginField
+                    {
+                        Description = "Secrete from application you created in gitlab",
+                        Name = "clientSecret",
+                        DisplayName = "Secret"
+                    });
+                }
+
+                return method;
             }
-        };
+        }
     }
 }

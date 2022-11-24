@@ -11,6 +11,9 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             Transient<GitlabConfigurationProvider>();
             
             Authenticator<UsernamePasswordAuthenticator>();
+            
+            AddIssueManager<GitlabIssueManager>();
+            
         }
     }
 }

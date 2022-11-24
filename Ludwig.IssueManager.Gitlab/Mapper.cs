@@ -6,7 +6,7 @@ using Ludwig.IssueManager.Gitlab.Models;
 
 namespace Ludwig.IssueManager.Gitlab
 {
-    public class Mapper
+    public static class Mapper
     {
         public static IssueManagerUser Map(GitlabUser user)
         {
@@ -52,7 +52,7 @@ namespace Ludwig.IssueManager.Gitlab
                 {
                     Description = "Gitlab Issue",
                     Name = "Issue",
-                    IconUrl = "" // TODO
+                    IconUrl = "images/svg/task.svg"
                 },
                 IssueReferenceLink = issue.WebUrl
             };
