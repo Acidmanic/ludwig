@@ -26,3 +26,11 @@ jira-user-view.icn-issue{
   margin: 0px;
   padding: 0px;
 }
+
+user-view.icn-issue.item-issue-overlap{
+  margin-left: -10px;
+}
+
+user-view.icn-issue.item-issue-overlap:first-child{
+  margin-left: 2px;
+}

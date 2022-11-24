@@ -13,6 +13,6 @@ export class IssueModel{
   description:string="";
   project:ProjectModel=new ProjectModel();
   priority:PriorityModel=new PriorityModel();
-  assignee:IssueManagerUserModel=new IssueManagerUserModel();
+  assignees:IssueManagerUserModel[]=[];
   userStory:string="";
 }
