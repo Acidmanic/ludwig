@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Ludwig.IssueManager.Gitlab.Models
 {
@@ -14,7 +15,7 @@ namespace Ludwig.IssueManager.Gitlab.Models
         public GitlabUser Author { get; set; }
         
         
-        [JsonPropertyName("web_url")]
+        [JsonProperty("web_url")]
         public string WebUrl { get; set; }
 
     }

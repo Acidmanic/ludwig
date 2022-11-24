@@ -1,6 +1,7 @@
 using EnTier.Services;
 using Ludwig.Contracts.Authentication;
 using Ludwig.IssueManager.Fake;
+using Ludwig.IssueManager.Gitlab.Adapter;
 using Ludwig.IssueManager.Jira.Adapter;
 using Ludwig.Presentation.Authentication;
 using Ludwig.Presentation.Contracts;
@@ -49,7 +50,7 @@ namespace Ludwig.Presentation
             
             services.AddSingleton<AuthenticatorsListReference>();
 
-            services.AddIssueManagerRegistry<JiraIssueManagementRegistry>();
+            services.AddIssueManagerRegistry<GitlabIssueManagerRegistry>();
 
             services.AddTransient<IBackChannelRequestGrant, AuthenticationManager>();
             
@@ -80,7 +81,7 @@ namespace Ludwig.Presentation
 
             app.IntroduceDotnetResolverToEnTier();
 
-            app.UseAuthenticators<JiraIssueManagementRegistry>();
+            app.UseAuthenticators<GitlabIssueManagerRegistry>();
         }
     }
 }

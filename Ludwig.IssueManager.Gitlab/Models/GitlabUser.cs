@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Ludwig.IssueManager.Gitlab.Models
 {
@@ -10,10 +11,10 @@ namespace Ludwig.IssueManager.Gitlab.Models
         
         public string State { get; set; }
         
-        [JsonPropertyName("avatar_url")]
+        [JsonProperty("avatar_url")]
         public string AvatarUrl { get; set; }
         
-        [JsonPropertyName("web_url")]
+        [JsonProperty("web_url")]
         public string WebUrl { get; set; }
         
         public string Email { get; set; }

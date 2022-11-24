@@ -5,6 +5,7 @@ using Ludwig.Common.Extensions;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
+using Ludwig.IssueManager.Gitlab.Configurations;
 using Ludwig.IssueManager.Gitlab.Models;
 
 namespace Ludwig.IssueManager.Gitlab.Adapter
@@ -14,10 +15,12 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 
 
         private readonly IBackChannelRequestGrant _backChannelRequestGrant;
+        private readonly string _backChannelUrl;
 
-        public GitlabIssueManager(IBackChannelRequestGrant backChannelRequestGrant)
+        public GitlabIssueManager(IBackChannelRequestGrant backChannelRequestGrant, GitlabConfigurationProvider configurationProvider)
         {
             _backChannelRequestGrant = backChannelRequestGrant;
+            _backChannelUrl = configurationProvider.GetConfiguration().GitlabInstanceBackChannel.Slashend();
         }
 
         public async Task<List<IssueManagerUser>> GetAllUsers()
@@ -25,7 +28,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             var users = await downloader.DownloadObject<List<GitlabUser>>
-                ("api/v4/users", 400, 3);
+                (_backChannelUrl+"api/v4/users", 400, 3);
 
             if (users)
             {
@@ -42,7 +45,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             var me = await downloader.DownloadObject<GitlabUser>
-                ("api/v4/user", 400, 3);
+                (_backChannelUrl+"api/v4/user", 400, 3);
 
             if (me)
             {
@@ -57,7 +60,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             var gitlabIssues = await downloader.DownloadObject<List<GitlabIssue>>
-                ("api/v4/issues", 400, 3);
+                (_backChannelUrl+"api/v4/issues", 400, 3);
 
             if (gitlabIssues)
             {
@@ -74,7 +77,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             var gitlabIssues = await downloader.DownloadObject<List<GitlabIssue>>
-                ("api/v4/search?scope=issues&search=$"+userStory, 400, 3);
+                (_backChannelUrl+"api/v4/search?scope=issues&search=$"+userStory, 400, 3);
 
             if (gitlabIssues)
             {

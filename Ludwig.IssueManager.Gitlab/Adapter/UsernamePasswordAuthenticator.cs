@@ -22,11 +22,11 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 
         private class GitlabToken
         {
-            [JsonPropertyName("access_token")] public string AccessToken { get; set; }
-            [JsonPropertyName("token_type")] public string TokenType { get; set; }
-            [JsonPropertyName("refresh_token")] public string RefreshToken { get; set; }
-            [JsonPropertyName("scope")] public string Scope { get; set; }
-            [JsonPropertyName("created_at")] public long CreatedAt { get; set; }
+            [JsonProperty("access_token")] public string AccessToken { get; set; }
+            [JsonProperty("token_type")] public string TokenType { get; set; }
+            [JsonProperty("refresh_token")] public string RefreshToken { get; set; }
+            [JsonProperty("scope")] public string Scope { get; set; }
+            [JsonProperty("created_at")] public long CreatedAt { get; set; }
         }
 
         private readonly Persistant<AuthHeader> _authHeaderPersistant = new Persistant<AuthHeader>();
@@ -57,7 +57,8 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                     { "username", username },
                     { "password", password },
                     { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_secret", clientSecret },
+                    { "grant_type", "password" }
                 });
 
                 var http = new HttpClient

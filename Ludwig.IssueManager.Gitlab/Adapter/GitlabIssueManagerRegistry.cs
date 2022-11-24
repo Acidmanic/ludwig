@@ -3,10 +3,10 @@ using Ludwig.IssueManager.Gitlab.Configurations;
 
 namespace Ludwig.IssueManager.Gitlab.Adapter
 {
-    public class LudwigIssueManagerRegistry:RegistryBase
+    public class GitlabIssueManagerRegistry:RegistryBase
     {
 
-        public LudwigIssueManagerRegistry()
+        public GitlabIssueManagerRegistry()
         {
             Transient<GitlabConfigurationProvider>();
             
