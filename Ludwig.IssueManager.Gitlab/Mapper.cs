@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Gitlab.Extensions;
 using Ludwig.IssueManager.Gitlab.Models;
@@ -12,6 +14,7 @@ namespace Ludwig.IssueManager.Gitlab
             {
                 return null;
             }
+
             return new IssueManagerUser
             {
                 Active = "active".Equals(user.State?.ToLower()),
@@ -31,9 +34,16 @@ namespace Ludwig.IssueManager.Gitlab
                 return null;
             }
 
+            List<IssueManagerUser> assignees = new List<IssueManagerUser>();
+
+            if (issue.Assignees != null)
+            {
+                assignees.AddRange(issue.Assignees.Select(Map));
+            }
+
             return new Issue
             {
-                Assignee = Map(issue.Author),
+                Assignees = assignees,
                 Description = issue.Description,
                 Priority = Priority.Medium,
                 Title = issue.Title,

@@ -34,7 +34,7 @@ namespace Ludwig.IssueManager.Fake
         {
             new Issue
             {
-                Assignee = User,
+                Assignees = new List<IssueManagerUser>{User},
                 Description = "This is a fake issue.",
                 Priority = Priority.Medium,
                 Title = "Implement Real Issue Management",
@@ -49,7 +49,7 @@ namespace Ludwig.IssueManager.Fake
             },
             new Issue
             {
-                Assignee = User,
+                Assignees = new List<IssueManagerUser>{User},
                 Description = "This is another fake issue.",
                 Priority = Priority.High,
                 Title = "Implement Authorization For Issue Manager",

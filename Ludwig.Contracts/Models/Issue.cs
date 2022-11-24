@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Ludwig.Contracts.Models
 {
     public class Issue
@@ -6,7 +8,7 @@ namespace Ludwig.Contracts.Models
         
         public string Description { get; set; }
         
-        public IssueManagerUser Assignee { get; set; }
+        public List<IssueManagerUser> Assignees { get; set; }
         
         public string UserStory { get; set; }
         

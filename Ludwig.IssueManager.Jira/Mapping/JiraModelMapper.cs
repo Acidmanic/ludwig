@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Jira.Extensions;
 using Ludwig.IssueManager.Jira.Models;
@@ -66,9 +67,17 @@ namespace Ludwig.IssueManager.Jira.Mapping
             {
                 return null;
             }
+
+            List<IssueManagerUser> assignees = new List<IssueManagerUser>();
+
+            if (jiraIssue.Assignee != null)
+            {
+                assignees.Add(Map(jiraIssue.Assignee));
+            }
+
             return new Issue
             {
-                Assignee = Map(jiraIssue.Assignee),
+                Assignees = assignees,
                 Description = jiraIssue.Description,
                 Priority = Map(jiraIssue.Priority),
                 Title = jiraIssue.Summary,
