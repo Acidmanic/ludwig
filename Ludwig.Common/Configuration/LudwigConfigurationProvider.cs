@@ -1,5 +1,6 @@
 using System.IO;
 using System.Reflection;
+using Ludwig.Common.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -10,8 +11,9 @@ namespace Ludwig.Common.Configuration
     {
         private static readonly object Locker;
         public static bool ConfigurationRead { get; private set; }
-        private static JObject _configuration;
+        private static T _configuration;
         private static string _configurationFile;
+        private static string _configurationsDirectory;
 
         public LudwigConfigurationProvider()
         {
@@ -21,7 +23,7 @@ namespace Ludwig.Common.Configuration
         {
             Locker = new object();
             ConfigurationRead = false;
-            _configuration = new JObject();
+            _configuration = new T();
         }
 
 
@@ -31,12 +33,16 @@ namespace Ludwig.Common.Configuration
             {
                 if (!ConfigurationRead)
                 {
-                    _configurationFile =
-                        new FileInfo(Assembly.GetEntryAssembly()?.Location ?? "").Directory?.FullName ?? "";
 
-                    _configurationFile = Path.Join(_configurationFile, "Ludwig.Config.Json");
+                    _configurationsDirectory = this.FilePathInExecutionDirectory("Ludwig.Config");
 
-
+                    if (!Directory.Exists(_configurationsDirectory))
+                    {
+                        Directory.CreateDirectory(_configurationsDirectory);
+                    }
+                    
+                    _configurationFile = Path.Join(_configurationsDirectory,typeof(T).FullName + ".json");
+                    
                     ConfigurationRead = true;
 
                     if (!File.Exists(_configurationFile))
@@ -53,24 +59,25 @@ namespace Ludwig.Common.Configuration
                     {
                         var json = File.ReadAllText(_configurationFile);
 
-                        _configuration = JsonConvert.DeserializeObject<JObject>(json);
+                        _configuration = JsonConvert.DeserializeObject<T>(json);
                     }
                 }
             }
         }
 
-        public T GetConfiguration()
+        public T Configuration
         {
-            CheckConfigurationsBeRead();
+            get
+            {
+                CheckConfigurationsBeRead();
 
-            return _configuration.ToObject<T>();
+                return _configuration;
+            }
         }
 
-        public void SaveConfigurationChanges(T config)
+        public void SaveConfigurationChanges()
         {
             CheckConfigurationsBeRead();
-
-            _configuration.Merge(config);
 
             var json = JsonConvert.SerializeObject(_configuration);
 

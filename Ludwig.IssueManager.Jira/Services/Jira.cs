@@ -28,18 +28,10 @@ namespace Ludwig.IssueManager.Jira.Services
             ICustomFieldDefinitionProvider definitionProvider, IBackChannelRequestGrant backChannelRequestGrant)
         {
             _definitionProvider = definitionProvider;
+            
             _backChannelRequestGrant = backChannelRequestGrant;
 
-            var config = configurationProvider.GetConfiguration();
-
-            var baseUrl = config.JiraBackChannelUrl;
-
-            if (!baseUrl.EndsWith("/"))
-            {
-                baseUrl += "/";
-            }
-
-            _baseUrl = baseUrl;
+            _baseUrl = configurationProvider.Configuration.JiraBackChannelUrl.Slashend();
         }
         
         public async Task<List<JiraUser>> AllUsers()

@@ -20,7 +20,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
         public GitlabIssueManager(IBackChannelRequestGrant backChannelRequestGrant, GitlabConfigurationProvider configurationProvider)
         {
             _backChannelRequestGrant = backChannelRequestGrant;
-            _backChannelUrl = configurationProvider.GetConfiguration().GitlabInstanceBackChannel.Slashend();
+            _backChannelUrl = configurationProvider.Configuration.GitlabInstanceBackChannel.Slashend();
         }
 
         public async Task<List<IssueManagerUser>> GetAllUsers()

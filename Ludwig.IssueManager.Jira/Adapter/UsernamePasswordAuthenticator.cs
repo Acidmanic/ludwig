@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ludwig.Common.Extensions;
 using Ludwig.Common.Utilities;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.Extensions;
@@ -44,13 +45,8 @@ namespace Ludwig.IssueManager.Jira.Adapter
                     if (loggedIn)
                     {
 
-                        var frontChannel = _configurationProvider.GetConfiguration().JiraFrontChannelUrl;
-
-                        if (!frontChannel.EndsWith("/"))
-                        {
-                            frontChannel = frontChannel + "/";
-                        }
-
+                        var frontChannel = _configurationProvider.Configuration.JiraFrontChannelUrl.Slashend();
+                        
                         _persistantGrantRecord.Value.Token = loggedIn.Secondary;
                         _persistantGrantRecord.Save();
                         return new AuthenticationResult

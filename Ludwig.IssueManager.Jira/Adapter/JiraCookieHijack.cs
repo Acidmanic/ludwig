@@ -98,7 +98,7 @@ namespace Ludwig.IssueManager.Jira.Adapter
 
             if (loggedIn)
             {
-                var frontChannel = _configurationProvider.GetConfiguration().JiraFrontChannelUrl;
+                var frontChannel = _configurationProvider.Configuration.JiraFrontChannelUrl;
 
                 if (!frontChannel.EndsWith("/"))
                 {

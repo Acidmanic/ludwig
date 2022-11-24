@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ludwig.Common.Extensions;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Jira.Interfaces;
@@ -17,13 +18,8 @@ namespace Ludwig.IssueManager.Jira.Adapter
         {
             _jira = jira;
 
-            var jiraBase = configurationProvider.GetConfiguration().JiraFrontChannelUrl;
-
-            if (!jiraBase.EndsWith("/"))
-            {
-                jiraBase = jiraBase + "/";
-            }
-
+            var jiraBase = configurationProvider.Configuration.JiraFrontChannelUrl.Slashend();
+            
             _mapper = new JiraModelMapper(jiraBase);
         }
 

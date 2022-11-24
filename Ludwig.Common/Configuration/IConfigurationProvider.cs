@@ -2,8 +2,8 @@ namespace Ludwig.Common.Configuration
 {
     public interface IConfigurationProvider<T>
     {
-        T GetConfiguration();
+        T Configuration { get; }
 
-        void SaveConfigurationChanges(T config);
+        void SaveConfigurationChanges();
     }
 }

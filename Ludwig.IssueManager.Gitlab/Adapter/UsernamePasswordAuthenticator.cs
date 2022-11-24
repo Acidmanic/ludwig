@@ -41,12 +41,12 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 
         public async Task<AuthenticationResult> Authenticate(Dictionary<string, string> parameters)
         {
-            var url = _configurationProvider.GetConfiguration().GitlabInstanceBackChannel.Slashend();
+            var url = _configurationProvider.Configuration.GitlabInstanceBackChannel.Slashend();
 
             var username = parameters.Read("username");
             var password = parameters.Read("password");
-            var clientId = parameters.Read("applicationId");
-            var clientSecret = parameters.Read("clientSecret");
+            var clientId = _configurationProvider.Configuration.ClientId ??  parameters.Read("applicationId");
+            var clientSecret = _configurationProvider.Configuration.ClientSecret ?? parameters.Read("clientSecret");
 
             if (username.HasValue(password, clientId, clientSecret))
             {
@@ -83,6 +83,11 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                             _authHeaderPersistant.Value = new AuthHeader { Headervalue = header };
 
                             _authHeaderPersistant.Save();
+
+                            _configurationProvider.Configuration.ClientId = clientId;
+                            _configurationProvider.Configuration.ClientSecret = clientSecret;
+                            
+                            _configurationProvider.SaveConfigurationChanges();
 
                             return new AuthenticationResult
                             {
@@ -132,7 +137,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                     }
                 };
 
-                var configuration = _configurationProvider.GetConfiguration();
+                var configuration = _configurationProvider.Configuration;
 
                 if (string.IsNullOrWhiteSpace(configuration.ClientId))
                 {
