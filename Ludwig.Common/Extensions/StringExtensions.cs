@@ -63,5 +63,39 @@ namespace Ludwig.Common.Extensions
 
             return result;
         }
+
+
+        public static string Slashend(this string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return "/";
+            }
+
+            if (!value.EndsWith("/"))
+            {
+                value += "/";
+            }
+
+            return value;
+        }
+
+        public static bool HasValue(this string first, params string[] others)
+        {
+            if (string.IsNullOrWhiteSpace(first))
+            {
+                return false;
+            }
+
+            foreach (var other in others)
+            {
+                if (string.IsNullOrWhiteSpace(other))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
