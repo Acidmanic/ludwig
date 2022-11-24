@@ -94,7 +94,6 @@ export class ShoeBoxComponent implements OnInit {
     if(story.id>0){
       this.svcStory.deleteStory(story).subscribe({
         next:updated => {
-          this.svcWaiter.stop();
           this.refreshShoeBox();
         },
         error:err=>{
@@ -117,7 +116,6 @@ export class ShoeBoxComponent implements OnInit {
     this.svcStory.getAllStories().subscribe({
       next:stories => {
         this.stories = stories;
-        this.svcWaiter.stop();
       },
       error:err=>{
         this.svcWaiter.stop();
@@ -143,13 +141,15 @@ export class ShoeBoxComponent implements OnInit {
 
     handle.subscribe({
       next:updated => {
-        this.svcWaiter.stop();
+        console.log('UPDATE RESULT RECEIVED');
         this.refreshShoeBox();
       },
       error:err=>{
+        console.log('UPDATE RESULT ERROR');
         this.svcWaiter.stop();
       },
       complete:()=>{
+        console.log('UPDATE RESULT COMPLETED');
         this.svcWaiter.stop();
       }
     });

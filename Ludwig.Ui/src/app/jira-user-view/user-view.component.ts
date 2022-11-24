@@ -14,6 +14,7 @@ export class UserViewComponent implements OnInit {
   @Input('user') user:IssueManagerUserModel=new IssueManagerUserModel();
   @Input('size') size:string ='48';
   @Input('active-user-class') activeUserClass:string='';
+  @Input('inactive-user-class') inactiveUserClass:string='';
   @Input('link-profile') linkProfile:boolean=true;
 
   constructor() { }
@@ -26,7 +27,7 @@ export class UserViewComponent implements OnInit {
     var css ='';
 
     if(!this.activeUserClass || this.activeUserClass.length==0){
-      css+= ' auto-outline';
+      css+= ' ' +this.inactiveUserClass;
     }
 
     if(this.user.active){

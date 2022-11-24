@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {UserStoryModel} from "../models/user-story.model";
 
 @Component({
@@ -11,6 +11,8 @@ export class IssueFoldBoxComponent implements OnInit {
   constructor() { }
 
   @Input('story') story:UserStoryModel=new UserStoryModel();
+  @ViewChild('outerbody') outerBody?:ElementRef;
+
 
   folded:boolean=true;
 
@@ -29,5 +31,11 @@ export class IssueFoldBoxComponent implements OnInit {
       }
     }
     return 0;
+  }
+
+  getWidth(){
+    if(this.outerBody){
+      return this.outerBody.nativeElement.offsetWidth;
+    }
   }
 }
