@@ -52,14 +52,38 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             return null;
         }
 
-        public Task<List<Issue>> GetAllIssues()
+        public async Task<List<Issue>> GetAllIssues()
         {
-            throw new System.NotImplementedException();
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
+
+            var gitlabIssues = await downloader.DownloadObject<List<GitlabIssue>>
+                ("api/v4/issues", 400, 3);
+
+            if (gitlabIssues)
+            {
+                var issues = gitlabIssues.Value.Select(Mapper.Map).ToList();
+
+                return issues;
+            }
+
+            return new List<Issue>();
         }
 
-        public Task<List<Issue>> GetIssuesByUserStory(string userStory)
+        public  async Task<List<Issue>> GetIssuesByUserStory(string userStory)
         {
-            throw new System.NotImplementedException();
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
+
+            var gitlabIssues = await downloader.DownloadObject<List<GitlabIssue>>
+                ("api/v4/search?scope=issues&search=$"+userStory, 400, 3);
+
+            if (gitlabIssues)
+            {
+                var issues = gitlabIssues.Value.Select(Mapper.Map).ToList();
+
+                return issues;
+            }
+
+            return new List<Issue>();
         }
     }
 }

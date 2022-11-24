@@ -16,6 +16,9 @@ namespace Ludwig.IssueManager.Gitlab.Models
         [JsonPropertyName("web_url")]
         public string WebUrl { get; set; }
         
+        public string Email { get; set; }
+        
+        
         
     }
 }
