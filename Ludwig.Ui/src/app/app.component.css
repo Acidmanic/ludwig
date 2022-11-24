@@ -14,23 +14,23 @@ body{
 
 
 :host ::ng-deep .priority-highest{
-  background-color: #efe5a3;
+  background-color: #f4e685;
 }
 
 :host ::ng-deep .priority-high{
-  background-color: #efe5bd;
+  background-color: #ddd078;
 }
 
 
 :host ::ng-deep .priority-medium{
-  background-color: #dbd5a9;
+  background-color: #c2b76b;
 }
 
 :host ::ng-deep .priority-low{
-  background-color: #beb997;
+  background-color: #aba373;
 }
 
 :host ::ng-deep .priority-lowest{
-  background-color: #a8a394;
+  background-color: #989376;
   color: black;
 }
