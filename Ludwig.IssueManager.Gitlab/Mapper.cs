@@ -27,35 +27,39 @@ namespace Ludwig.IssueManager.Gitlab
         }
 
 
-        public static Issue Map(GitlabIssue issue)
+        public static Issue Map(GitlabIssue value)
         {
-            if (issue == null)
+            if (value == null)
             {
                 return null;
             }
 
             List<IssueManagerUser> assignees = new List<IssueManagerUser>();
 
-            if (issue.Assignees != null)
+            if (value.Assignees != null)
             {
-                assignees.AddRange(issue.Assignees.Select(Map));
+                assignees.AddRange(value.Assignees.Select(Map));
             }
 
-            return new Issue
+            var issue =  new Issue
             {
                 Assignees = assignees,
-                Description = issue.Description,
+                Description = value.Description,
                 Priority = Priority.Medium,
-                Title = issue.Title,
-                UserStory = issue.Description.ExtractStory(),
+                Title = value.Title,
+                UserStory = "Story",
                 IssueType = new IssueType
                 {
                     Description = "Gitlab Issue",
                     Name = "Issue",
                     IconUrl = "images/svg/task.svg"
                 },
-                IssueReferenceLink = issue.WebUrl
+                IssueReferenceLink = value.WebUrl
             };
+
+            value.Description.UpdateStoryAndDescription(issue);
+            
+            return issue;
         }
     }
 }
