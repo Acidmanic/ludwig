@@ -48,7 +48,7 @@ namespace Ludwig.IssueManager.Fake
 
         private static readonly LoginMethod Method = new LoginMethod
         {
-            Fields = new List<LoginField>
+            TextInputFields = new List<LoginField>
             {
                 LoginField.Otp
             },

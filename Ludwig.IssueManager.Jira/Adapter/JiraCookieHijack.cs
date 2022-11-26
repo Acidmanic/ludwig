@@ -131,7 +131,7 @@ namespace Ludwig.IssueManager.Jira.Adapter
             Description = $"Make Sure you have already been logged-in, in your main jira account, then just hit Login. " +
                           $"(This only works when you are serving ludwig under the same domain as your jira instance)",
             Name = "Hijack Jira Auth",
-            Fields = new List<LoginField> { }
+            TextInputFields = new List<LoginField> { }
         };
     }
 }
