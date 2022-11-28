@@ -93,5 +93,47 @@ namespace Ludwig.Common.Configuration
         {
             
         }
+
+        public TProperty ReadByName<TProperty>(string name, TProperty defaultValue = default)
+        {
+            var propertyType = typeof(TProperty);
+            
+            var properties = typeof(T).GetProperties();
+            
+            foreach (var property in properties)
+            {
+                if (property.Name == name && property.PropertyType == propertyType)
+                {
+                    if (property.CanRead)
+                    {
+                        var conf = Configuration;
+
+                        return (TProperty)property.GetValue(conf);
+                    }
+                }
+            }
+
+            return defaultValue;
+        }
+        
+        public void WriteByName(string name, object value)
+        {
+            var properties = typeof(T).GetProperties();
+            
+            foreach (var property in properties)
+            {
+                if (property.Name == name)
+                {
+                    if (property.CanWrite)
+                    {
+                        var conf = Configuration;
+
+                        property.SetValue(conf,value);
+                        
+                        SaveConfigurationChanges();
+                    }
+                }
+            }
+        }
     }
 }
