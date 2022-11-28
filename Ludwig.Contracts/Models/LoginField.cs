@@ -7,7 +7,6 @@ namespace Ludwig.Contracts.Models
 
         public bool UiProtectedValue { get; set; }
         
-        
         public string Description { get; set; }
         
         public string DisplayName { get; set; }

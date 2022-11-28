@@ -8,6 +8,9 @@ namespace Ludwig.Contracts.Models
 
         public List<LoginQuery> Queries { get; set; } = new List<LoginQuery>();
 
+        public List<ConfigurationRequirement> ConfigurationRequirements { get; set; } =
+            new List<ConfigurationRequirement>();
+
         public string Description { get; set; }
 
         public UiLink Link { get; set; }

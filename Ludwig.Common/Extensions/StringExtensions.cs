@@ -8,7 +8,7 @@ namespace Ludwig.Common.Extensions
         public static Dictionary<string, string> LoadHeaders(this string headersString)
         {
             var headers = new Dictionary<string, string>();
-            
+
             if (!string.IsNullOrEmpty(headersString))
             {
                 var items = headersString.Split("\n", StringSplitOptions.RemoveEmptyEntries);
@@ -21,7 +21,7 @@ namespace Ludwig.Common.Extensions
                     {
                         var name = item.Substring(0, st).Trim();
 
-                        var value = item.Substring(st + 1, item.Length - st -1).Trim();
+                        var value = item.Substring(st + 1, item.Length - st - 1).Trim();
 
                         if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(value))
                         {
@@ -79,7 +79,7 @@ namespace Ludwig.Common.Extensions
 
             return value;
         }
-        
+
         public static string UnSlashend(this string value)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -89,7 +89,7 @@ namespace Ludwig.Common.Extensions
 
             if (value.EndsWith("/"))
             {
-                value =value.Substring(0,value.Length-1);
+                value = value.Substring(0, value.Length - 1);
             }
 
             return value;
@@ -111,6 +111,29 @@ namespace Ludwig.Common.Extensions
             }
 
             return true;
+        }
+
+        public static string CamelCase(this string value)
+        {
+            return Case(value, false);
+        }
+
+        public static string PascalCase(this string value)
+        {
+            return Case(value, true);
+        }
+
+        private static string Case(string value, bool upper)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return value;
+            }
+
+            var first = value.Substring(0, 1);
+            var rest = value.Substring(1, value.Length - 1);
+            first = upper ? first.ToUpper() : first.ToLower();
+            return first + rest;
         }
     }
 }
