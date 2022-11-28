@@ -80,7 +80,7 @@ namespace Ludwig.IssueManager.Jira.Adapter
             Description = $"Please use your Jira username and password to login. I know it's not secure, but " +
                           $"that is all we can do while using Basic Authorization!",
             Name = "By Jira Credentials",
-            TextInputFields = new List<LoginField>
+            Fields = new List<LoginField>
             {
                 LoginField.Username,
                 LoginField.Password

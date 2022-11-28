@@ -64,15 +64,15 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                           "&response_type=code",
                 },
                 Name = "OAuth - Secure",
-                TextInputFields = new List<LoginField>(),
-                QueryFields = new List<LoginField>
+                Fields = new List<LoginField>(),
+                Queries = new List<LoginQuery>
                 {
-                    new LoginField
+                    new LoginQuery
                     {
-                        Description = "Authorization Token",
-                        Name = "token",
-                        DisplayName = "Token",
-                        UiProtectedValue = true
+                        Name = "Authorization Code",
+                        QueryKey = "code",
+                        ProvidedStateDescription = "Authorization Code Received",
+                        NotProvidedStateDescription = "AuthorizationCode Needed"
                     }
                 }
             };

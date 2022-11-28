@@ -2,6 +2,7 @@ namespace Ludwig.Contracts.Models
 {
     public class LoginField
     {
+        
         public string Name { get; set; }
 
         public bool UiProtectedValue { get; set; }

@@ -60,7 +60,7 @@ namespace Ludwig.IssueManager.Fake
         {
             Description = $"Please use {FakeIssueManager.User.Name} as both Username and Password",
             Name = "UsernamePassword",
-            TextInputFields = new List<LoginField>
+            Fields = new List<LoginField>
             {
                 LoginField.Username,
                 LoginField.Password

@@ -4,9 +4,9 @@ namespace Ludwig.Contracts.Models
 {
     public class LoginMethod
     {
-        public List<LoginField> TextInputFields { get; set; }
-        
-        public List<LoginField> QueryFields { get; set; }
+        public List<LoginField> Fields { get; set; } = new List<LoginField>();
+
+        public List<LoginQuery> Queries { get; set; } = new List<LoginQuery>();
 
         public string Description { get; set; }
 
@@ -19,14 +19,14 @@ namespace Ludwig.Contracts.Models
         {
             return new LoginMethod
             {
-                TextInputFields = new List<LoginField>
+                Fields = new List<LoginField>
                 {
                     LoginField.Username,
                     LoginField.Password
                 },
                 Description = $"Please Enter your {name} Username and password to log in.",
                 Name = "UsernamePassword",
-                QueryFields = new List<LoginField>()
+                Queries = new List<LoginQuery>()
             };
         }
         
@@ -34,7 +34,7 @@ namespace Ludwig.Contracts.Models
         {
             return new LoginMethod
             {
-                TextInputFields = new List<LoginField>
+                Fields = new List<LoginField>
                 {
                     LoginField.Username,
                     LoginField.Password
@@ -46,7 +46,7 @@ namespace Ludwig.Contracts.Models
                     Title = $"{name} Login Page.",
                     Url = loginUrl
                 },
-                QueryFields = new List<LoginField>()
+                Queries = new List<LoginQuery>()
             };
         }
     }

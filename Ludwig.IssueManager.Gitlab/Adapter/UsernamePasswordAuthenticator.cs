@@ -124,7 +124,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                                   " application-id and secrete here alongside with your gitlab Username and Password." +
                                   "Ludwig will use these information to connect with gitlab.",
                     Name = "Gitlab Oauth2.0 as Client",
-                    TextInputFields = new List<LoginField>
+                    Fields = new List<LoginField>
                     {
                         LoginField.Username,
                         LoginField.Password
@@ -135,7 +135,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 
                 if (string.IsNullOrWhiteSpace(configuration.ClientId))
                 {
-                    method.TextInputFields.Add(new LoginField
+                    method.Fields.Add(new LoginField
                     {
                         Description = "Application-Id from application you created in gitlab",
                         Name = "applicationId",
@@ -145,7 +145,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 
                 if (string.IsNullOrWhiteSpace(configuration.ClientSecret))
                 {
-                    method.TextInputFields.Add(new LoginField
+                    method.Fields.Add(new LoginField
                     {
                         Description = "Secrete from application you created in gitlab",
                         Name = "clientSecret",
