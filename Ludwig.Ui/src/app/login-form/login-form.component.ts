@@ -94,6 +94,19 @@ export class LoginFormComponent implements OnInit {
 
       model[name]=value;
     }
+
+    for(let query of this.method.queries){
+
+      var name = query.queryKey;
+      var value = '';
+      if(this.loginModel[name]){
+        value = this.loginModel[name];
+      }
+      name = name.charAt(0).toLowerCase() + name.substring(1,name.length);
+
+      model[name]=value;
+    }
+
     return model;
   }
 
@@ -101,6 +114,8 @@ export class LoginFormComponent implements OnInit {
   loginClick(){
 
     let model = this.filterModel();
+
+    console.log('login info returned:',this.loginModel,model);
 
     this.login.emit(model);
   }
