@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ludwig.Common.Extensions;
+using Ludwig.Common.Utilities;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.Extensions;
 using Ludwig.Contracts.Models;
@@ -11,11 +12,12 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
     public class OpenIdAuthenticator : IAuthenticator
     {
         private readonly GitlabConfigurationProvider _configurationProvider;
+        private readonly ConfigureByLogin<GitlabConfigurations> _configureByLogin;
 
         public OpenIdAuthenticator(GitlabConfigurationProvider configurationProvider)
         {
             _configurationProvider = configurationProvider;
-
+            _configureByLogin = new ConfigureByLogin<GitlabConfigurations>(_configurationProvider);
             SetupLoginMethod();
         }
 
@@ -37,6 +39,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             throw new System.NotImplementedException();
         }
 
+      
         public LoginMethod LoginMethod { get; private set; }
 
 
@@ -47,7 +50,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 
             var ludwigLogin = conf.LudwigAddress.Slashend()+"login";
             
-            LoginMethod = new LoginMethod
+            var originalMethod = new LoginMethod
             {
                 Description =
                     "Please Use The Link below to allow Ludwig to your Gitlab instance. and login to ludwig using " +
@@ -59,7 +62,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                 {
                     Title = "Login With Gitlab",
                     Url = conf.GitlabInstanceFrontChannel.Slashend()+
-                          "/oauth/authorize?client_id="+conf.ClientId + 
+                          "oauth/authorize?client_id="+conf.ClientId + 
                           "&redirect_uri=" + ludwigLogin +
                           "&response_type=code",
                 },
@@ -74,8 +77,19 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                         ProvidedStateDescription = "Authorization Code Received",
                         NotProvidedStateDescription = "AuthorizationCode Needed"
                     }
+                },
+                ConfigurationRequirements = new List<ConfigurationRequirement>
+                {
+                    new ConfigurationRequirement
+                    {
+                        Description = "Application-Id from application you created in gitlab",
+                        DisplayName = "APPLICATION-ID",
+                        ConfigurationName = nameof(GitlabConfigurations.ClientId)
+                    }
                 }
             };
+
+            LoginMethod = _configureByLogin.EquipForUi(originalMethod);
         }
     }
 }

@@ -94,7 +94,7 @@ namespace Ludwig.Common.Utilities
         public string ReadConfigurationFirst(Dictionary<string, string> parameters,string name)
         {
 
-            var value = _configurationProvider.ReadByName<string>(name);
+            var value = _configurationProvider.ReadByName<string>(name.PascalCase());
 
             if (string.IsNullOrWhiteSpace(value))
             {
