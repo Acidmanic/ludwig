@@ -1,0 +1,10 @@
+
+
+.query-input{
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.query-input .material-symbols-outlined{
+  display: inline;
+}

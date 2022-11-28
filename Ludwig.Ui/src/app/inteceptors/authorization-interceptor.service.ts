@@ -23,10 +23,17 @@ export class AuthorizationInterceptor implements HttpInterceptor{
           authorization:'token ' + this.svcLoginManager.token.token
         },
       });
-
       return next.handle(newReq);
     }else{
-      this.router.navigateByUrl('/login');
+
+      if(this.router.url.toLowerCase().startsWith("/login")){
+
+        return next.handle(req);
+      }else{
+        console.log('Redirected because of 401',this.router.url.toLowerCase());
+
+        this.router.navigateByUrl('/login');
+      }
     }
     return next.handle(req);
   }

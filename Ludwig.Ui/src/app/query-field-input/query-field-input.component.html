@@ -1,8 +1,14 @@
 
 
-<div class="alert alert-danger" *ngIf="!value">
-  {{queryInput.notProvidedStateDescription}}
+<div class="alert alert-danger query-input d-flex" *ngIf="!value">
+  <span class="material-symbols-outlined">
+  download_for_offline
+  </span>
+  | {{queryInput.notProvidedStateDescription}}
 </div>
-<div class="alert alert-info" *ngIf="value">
-  {{queryInput.providedStateDescription}}
+<div class="alert alert-success query-input d-flex" *ngIf="value">
+  <span class="material-symbols-outlined">
+  check_circle
+  </span>
+   | {{queryInput.providedStateDescription}}
 </div>

@@ -67,6 +67,15 @@ export class LoginFormComponent implements OnInit {
 
     }
 
+    for(let query of this.method.queries){
+
+      let name = query.queryKey;
+
+      if(!(this.loginModel[name]) || this.loginModel[name].length<1)
+        return 'disabled';
+
+    }
+
     return '';
   }
 

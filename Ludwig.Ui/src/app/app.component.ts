@@ -26,7 +26,7 @@ export class AppComponent implements OnInit,OnDestroy{
 
 
   ngOnInit(): void {
-
+    console.log("Main Component Initialized");
   }
 
   ngOnDestroy(): void {
