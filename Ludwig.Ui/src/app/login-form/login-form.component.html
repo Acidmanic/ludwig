@@ -19,6 +19,12 @@
         </div>
 
         <div class="container">
+
+          <query-field-input *ngFor="let query of  method.queries"
+                             [query-input]="query"
+                             (query-value)="setValue(query.queryKey,$event)">
+          </query-field-input>
+
           <div *ngFor="let field of method.fields" class="form-group">
             <label for="input-{{field.name}}">
               {{field.displayName}}

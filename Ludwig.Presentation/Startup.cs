@@ -97,9 +97,9 @@ namespace Ludwig.Presentation
 
             app.UseAuthenticators<GitlabIssueManagerRegistry>();
             
-            var serverDealer = app.ApplicationServices.GetService(typeof(ServerDealer)) as ServerDealer;
+            //var serverDealer = app.ApplicationServices.GetService(typeof(ServerDealer)) as ServerDealer;
             
-            serverDealer?.StartAsync();
+            //serverDealer?.StartAsync();
         }
     }
 }

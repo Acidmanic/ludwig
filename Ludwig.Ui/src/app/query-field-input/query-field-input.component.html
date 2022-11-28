@@ -1,0 +1,8 @@
+
+
+<div class="alert alert-danger" *ngIf="!value">
+  {{queryInput.notProvidedStateDescription}}
+</div>
+<div class="alert alert-info" *ngIf="value">
+  {{queryInput.providedStateDescription}}
+</div>

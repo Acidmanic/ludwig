@@ -23,6 +23,7 @@ import {AuthorizationInterceptor} from "./inteceptors/authorization-interceptor.
 import { LoginComponent } from './pages/login/login.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { LoginButtonComponent } from './login-button/login-button.component';
+import { QueryFieldInputComponent } from './query-field-input/query-field-input.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { LoginButtonComponent } from './login-button/login-button.component';
     EditablePriorityComponent,
     LoginComponent,
     LoginFormComponent,
-    LoginButtonComponent
+    LoginButtonComponent,
+    QueryFieldInputComponent
   ],
   imports: [
     BrowserModule,
