@@ -1,0 +1,59 @@
+
+
+HOST_SSH=root@litbid.ir
+
+
+# LOCAL CLEAN
+
+rm -rf publish/*
+
+#dotnet publish --output publish --self-contained false --runtime linux-x64 --framework netcoreapp3.1 -p:PublishReadyToRun=true -p:PublishSingleFile=true
+
+# LOCAL BUILD
+
+dotnet publish --output publish --self-contained false --runtime linux-x64 --framework netcoreapp3.1 -p:PublishReadyToRun=true
+
+
+# LOCAL ADD SCRIPTS
+
+echo 'sdk/dotnet ApiEmbassy.dll &' >> publish/start
+
+echo 'RESULT=$(ps aux | grep ApiEmbassy)' >> publish/kill
+echo 'IFS=' ' read -r -a array <<< "$RESULT"' >> publish/kill
+echo 'kill -9 ${array[1]}' >> publish/kill
+
+
+
+
+chmod +x publish/start
+chmod +x publish/kill
+
+
+# LOCAL PACK
+
+(cd publish && zip -r api-embassy.zip ./)
+
+# KILL
+
+ssh $HOST_SSH "(cd ~/api-embassy && ./kill)"
+
+# CLEAN
+
+ssh $HOST_SSH "(cd ~/api-embassy && rm -rf *.dll *.pdb *.json *.config ApiEmbassy api-embassi.zip start stop)"
+
+# PUSH
+
+scp publish/api-embassy.zip $HOST_SSH:~/api-embassy/
+
+
+ssh $HOST_SSH "(cd ~/api-embassy && unzip -o api-embassy.zip)"
+
+
+ssh $HOST_SSH "(cd ~/api-embassy && ./start)"
+
+
+
+
+
+
+

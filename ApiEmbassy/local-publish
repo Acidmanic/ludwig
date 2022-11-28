@@ -1,0 +1,2 @@
+dotnet pack
+cp bin/Debug/*.nupkg ~/.LocalNugetSource/

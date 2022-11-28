@@ -4,7 +4,9 @@
 
         <div class="alert alert-info">
           <div>{{method.description}}</div>
-          <div *ngIf="method.link">{{method.link}}</div>
+          <div *ngIf="method.link">
+            <a href="{{method.link.url}}">{{method.link.title}}</a>
+          </div>
         </div>
 
         <div *ngIf="loginError" class="alert alert-danger">

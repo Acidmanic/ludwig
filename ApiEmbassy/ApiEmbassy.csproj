@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>true</IsPackable>
+
+    <Authors>Mani Moayedi</Authors>
+    <Version>1.0.8</Version>
+    <Company>Acidmanic</Company>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Acidmanic.MSLogging.LightWeight" Version="1.0.1" />
+    <PackageReference Include="EnTier" Version="2.6.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+  
+
+</Project>

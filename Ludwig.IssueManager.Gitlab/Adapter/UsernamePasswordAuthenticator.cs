@@ -9,6 +9,7 @@ using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.Extensions;
 using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Gitlab.Configurations;
+using Ludwig.IssueManager.Gitlab.Models;
 using Newtonsoft.Json;
 
 namespace Ludwig.IssueManager.Gitlab.Adapter
@@ -20,14 +21,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             public string Headervalue { get; set; }
         }
 
-        private class GitlabToken
-        {
-            [JsonProperty("access_token")] public string AccessToken { get; set; }
-            [JsonProperty("token_type")] public string TokenType { get; set; }
-            [JsonProperty("refresh_token")] public string RefreshToken { get; set; }
-            [JsonProperty("scope")] public string Scope { get; set; }
-            [JsonProperty("created_at")] public long CreatedAt { get; set; }
-        }
+        
 
         private readonly Persistant<AuthHeader> _authHeaderPersistant = new Persistant<AuthHeader>();
         private readonly GitlabConfigurationProvider _configurationProvider;

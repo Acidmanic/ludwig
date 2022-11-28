@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Acidmanic.MSLogging.LightWeight" Version="1.0.1" />
     <PackageReference Include="Acidmanic.Utilities.Reflections" Version="1.0.5" />
+    <PackageReference Include="ApiEmbassy" Version="1.0.9" />
     <PackageReference Include="EnTier" Version="2.6.2" />
   </ItemGroup>
 
@@ -16,7 +17,6 @@
     <ProjectReference Include="..\Ludwig.IssueManager.Fake\Ludwig.IssueManager.Fake.csproj" />
     <ProjectReference Include="..\Ludwig.IssueManager.Gitlab\Ludwig.IssueManager.Gitlab.csproj" />
     <ProjectReference Include="..\Ludwig.IssueManager.Jira\Ludwig.IssueManager.Jira.csproj" />
-<!--    <ProjectReference Include="..\Ludwig.IssueManager.Jira\Ludwig.IssueManager.Jira.csproj" />-->
   </ItemGroup>
 
   <ItemGroup>

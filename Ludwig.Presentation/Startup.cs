@@ -1,3 +1,5 @@
+using ApiEmbassy.Services;
+using EnTier.Extensions;
 using EnTier.Services;
 using Ludwig.Contracts.Authentication;
 using Ludwig.IssueManager.Fake;
@@ -13,6 +15,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.LightWeight;
 
 namespace Ludwig.Presentation
 {
@@ -53,6 +57,16 @@ namespace Ludwig.Presentation
             services.AddIssueManagerRegistry<GitlabIssueManagerRegistry>();
 
             services.AddTransient<IBackChannelRequestGrant, AuthenticationManager>();
+
+            services.AddTransient<ServerDealer>();
+            
+            var logger = new ConsoleLogger().EnableAll();
+
+            _frontEndServer.UseLogger(logger);
+            
+            logger.UseLoggerForEnTier();
+
+            services.AddTransient<ILogger>(p => logger);
             
             services.AddControllers();
 
@@ -82,6 +96,10 @@ namespace Ludwig.Presentation
             app.IntroduceDotnetResolverToEnTier();
 
             app.UseAuthenticators<GitlabIssueManagerRegistry>();
+            
+            var serverDealer = app.ApplicationServices.GetService(typeof(ServerDealer)) as ServerDealer;
+            
+            serverDealer?.StartAsync();
         }
     }
 }

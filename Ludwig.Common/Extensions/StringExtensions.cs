@@ -67,7 +67,7 @@ namespace Ludwig.Common.Extensions
 
         public static string Slashend(this string value)
         {
-            if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrWhiteSpace(value))
             {
                 return "/";
             }
@@ -75,6 +75,21 @@ namespace Ludwig.Common.Extensions
             if (!value.EndsWith("/"))
             {
                 value += "/";
+            }
+
+            return value;
+        }
+        
+        public static string UnSlashend(this string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return "";
+            }
+
+            if (value.EndsWith("/"))
+            {
+                value =value.Substring(0,value.Length-1);
             }
 
             return value;

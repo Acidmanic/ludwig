@@ -12,5 +12,8 @@ namespace Ludwig.IssueManager.Gitlab.Configurations
         public string ClientId { get; set; }
         
         public string ClientSecret { get; set; }
+        
+        public string LudwigAddress { get; set; }
+        
     }
 }
