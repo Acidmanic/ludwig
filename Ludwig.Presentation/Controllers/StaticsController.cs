@@ -7,7 +7,6 @@ namespace Ludwig.Presentation.Controllers
 {
     [ApiController]
     [Route("statics")]
-    [Authorize]
     public class StaticsController:ControllerBase
     {
 

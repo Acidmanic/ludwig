@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EnTier.Controllers;
+using Ludwig.Presentation.Authentication.Attributes;
 using Ludwig.Presentation.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ namespace Ludwig.Presentation.Controllers
 {
     [ApiController]
     [Route("story-users")]
-    [Authorize]
+    [AuthorizeIssueManagers]
     public class StoryUsersController : CrudControllerBase<StoryUser,long>
     {
         

@@ -36,8 +36,16 @@ namespace Ludwig.Presentation.Authentication
                     {
                         new Claim(ClaimTypes.Email,logged.Value.EmailAddress),
                         new Claim(ClaimTypes.Sid,logged.Value.SubjectId),
-                        new Claim(ClaimTypes.Webpage,logged.Value.SubjectWebPage)
+                        new Claim(ClaimTypes.Webpage,logged.Value.SubjectWebPage),
                     };
+                    if (logged.Value.IsAdministrator)
+                    {
+                        claims.Add(new Claim(LudwigClaimTypes.Administrator,"true"));
+                    }
+                    if (logged.Value.IsIssueManager)
+                    {
+                        claims.Add(new Claim(LudwigClaimTypes.IssueManager,"true"));
+                    }
                     var identity = new ClaimsIdentity(claims, Scheme.Name);
                     var principal = new GenericPrincipal(identity, null);
                     var ticket = new AuthenticationTicket(principal, Scheme.Name);

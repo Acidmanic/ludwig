@@ -3,7 +3,7 @@ using Acidmanic.Utilities.Reflection.Attributes;
 
 namespace Ludwig.Presentation.Authentication
 {
-    public class AuthenticationToken
+    public class AuthorizationToken
     {
         
         [UniqueMember]

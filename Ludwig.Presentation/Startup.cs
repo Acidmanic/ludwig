@@ -32,11 +32,10 @@ namespace Ludwig.Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
-
             services.AddJsonFileUnitOfWork();
 
             services.AddTransient<ICrudService<UserStory, long>, UserStoryService>();
+            
             services.AddTransient<IUserStoryService, UserStoryService>();
 
             services.AddHttpContextAccessor();
@@ -66,6 +65,15 @@ namespace Ludwig.Presentation
             services.AddControllers();
 
             services.AddTransient<Storage.Storage>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(LudwigPolicies.AdministratorsOnly,
+                    p => p.RequireClaim(LudwigClaimTypes.Administrator));
+                options.AddPolicy(LudwigPolicies.IssueManagersOnly,
+                    p => p.RequireClaim(LudwigClaimTypes.IssueManager));
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -66,7 +66,7 @@ namespace Ludwig.Presentation.Authentication
 
 
         // set grant access
-        public async Task<Result<AuthenticationRecord, string>> Login(LoginParameters parameters)
+        public async Task<Result<AuthorizationRecord, string>> Login(LoginParameters parameters)
         {
             // getAuthenticator
 
@@ -87,14 +87,14 @@ namespace Ludwig.Presentation.Authentication
                     var record = _authenticationStore.GenerateToken(
                         authenticator.LoginMethod.Name, authResult,requestOrigin,updates);
 
-                    return new Result<AuthenticationRecord, string>(true, "Success", record);
+                    return new Result<AuthorizationRecord, string>(true, "Success", record);
                 }
 
-                return new Result<AuthenticationRecord, string>
+                return new Result<AuthorizationRecord, string>
                     (false, $"{loginName} Unable to authenticate successfully.", null);
             }
 
-            return new Result<AuthenticationRecord, string>
+            return new Result<AuthorizationRecord, string>
                 (false, $"Could not find login method: {loginName}.", null);
         }
 
@@ -145,9 +145,9 @@ namespace Ludwig.Presentation.Authentication
             return null;
         }
 
-        public Result<AuthenticationRecord> IsAuthorized()
+        public Result<AuthorizationRecord> IsAuthorized()
         {
-            var foundRecord = new Result<AuthenticationRecord>().FailAndDefaultValue();
+            var foundRecord = new Result<AuthorizationRecord>().FailAndDefaultValue();
             
             var token = ReadAuthorizationToken();
 
@@ -174,7 +174,7 @@ namespace Ludwig.Presentation.Authentication
             return foundRecord;
         }
 
-        private Result<AuthenticationRecord> VerifyRecord(AuthenticationRecord record)
+        private Result<AuthorizationRecord> VerifyRecord(AuthorizationRecord record)
         {
             if (record != null)
             {
@@ -188,13 +188,13 @@ namespace Ludwig.Presentation.Authentication
                     {
                         if (record.RequestOrigin.ToLower() == host)
                         {
-                            return new Result<AuthenticationRecord>(true, record);
+                            return new Result<AuthorizationRecord>(true, record);
                         }
                     }   
                 }
             }
 
-            return new Result<AuthenticationRecord>().FailAndDefaultValue();
+            return new Result<AuthorizationRecord>().FailAndDefaultValue();
         }
 
         public void Revoke()

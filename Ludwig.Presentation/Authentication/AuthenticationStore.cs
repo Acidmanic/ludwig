@@ -10,17 +10,17 @@ namespace Ludwig.Presentation.Authentication
 {
     public class AuthenticationStore
     {
-        private readonly ICrudRepository<AuthenticationRecord, long> _repository;
+        private readonly ICrudRepository<AuthorizationRecord, long> _repository;
         private readonly IUnitOfWork _unitOfWork;
 
         public AuthenticationStore(IUnitOfWork unitOfWork)
         {
-            _repository = unitOfWork.GetCrudRepository<AuthenticationRecord, long>();
+            _repository = unitOfWork.GetCrudRepository<AuthorizationRecord, long>();
             _unitOfWork = unitOfWork;
         }
 
 
-        public AuthenticationRecord GenerateToken(
+        public AuthorizationRecord GenerateToken(
             string loginMethodName, 
             AuthenticationResult result,
             string requestOrigin,
@@ -29,7 +29,7 @@ namespace Ludwig.Presentation.Authentication
             var token = Guid.NewGuid().ToString();
             var cookie = Guid.NewGuid().ToString();
             
-            var record = new AuthenticationRecord
+            var record = new AuthorizationRecord
             {
                 RequestOrigin = requestOrigin,
                 Token = token,
@@ -50,7 +50,7 @@ namespace Ludwig.Presentation.Authentication
         }
 
 
-        public Result<AuthenticationRecord> IsTokenRegistered(string token)
+        public Result<AuthorizationRecord> IsTokenRegistered(string token)
         {
             var record = 
                 _repository.Find(r => r.Token == token)
@@ -58,13 +58,13 @@ namespace Ludwig.Presentation.Authentication
 
             if (record == null)
             {
-                return new Result<AuthenticationRecord>().FailAndDefaultValue();
+                return new Result<AuthorizationRecord>().FailAndDefaultValue();
             }
 
-            return new Result<AuthenticationRecord>().Succeed(record);
+            return new Result<AuthorizationRecord>().Succeed(record);
         }
         
-        public Result<AuthenticationRecord> IsCookieRegistered(string cookie)
+        public Result<AuthorizationRecord> IsCookieRegistered(string cookie)
         {
             var record = 
                 _repository.Find(r => r.Cookie == cookie)
@@ -72,10 +72,10 @@ namespace Ludwig.Presentation.Authentication
 
             if (record == null)
             {
-                return new Result<AuthenticationRecord>().FailAndDefaultValue();
+                return new Result<AuthorizationRecord>().FailAndDefaultValue();
             }
 
-            return new Result<AuthenticationRecord>().Succeed(record);
+            return new Result<AuthorizationRecord>().Succeed(record);
         }
 
 

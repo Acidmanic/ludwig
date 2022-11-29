@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Linq;
+using Ludwig.Presentation.Authentication;
+using Ludwig.Presentation.Authentication.Attributes;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Utilities;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +14,7 @@ namespace Ludwig.Presentation.Controllers
     
    [ApiController]
    [Route("export")]
-   [Authorize]
+   [AuthorizeIssueManagers]
    public class ExportController:ControllerBase
     {
 
