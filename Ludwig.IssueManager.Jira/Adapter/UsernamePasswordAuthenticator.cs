@@ -55,7 +55,9 @@ namespace Ludwig.IssueManager.Jira.Adapter
                             Authenticated = true,
                             EmailAddress = loggedIn.Primary.EmailAddress,
                             SubjectId = loggedIn.Primary.Name,
-                            SubjectWebPage = frontChannel + "secure/ViewProfile.jspa?name=" + loggedIn.Primary.Name
+                            SubjectWebPage = frontChannel + "secure/ViewProfile.jspa?name=" + loggedIn.Primary.Name,
+                            IsAdministrator = false,
+                            IsIssueManager = true
                         };
                     }
                 }

@@ -39,7 +39,9 @@ namespace Ludwig.Presentation.Authentication
                 SubjectId = result.SubjectId,
                 EmailAddress = result.EmailAddress,
                 SubjectWebPage = result.SubjectWebPage,
-                BackChannelGrantAccessUpdates = grantBackAccessUpdates
+                BackChannelGrantAccessUpdates = grantBackAccessUpdates,
+                IsAdministrator = result.IsAdministrator,
+                IsIssueManager = result.IsIssueManager
             };
 
             record = _repository.Add(record);

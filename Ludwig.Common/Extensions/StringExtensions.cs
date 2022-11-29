@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace Ludwig.Common.Extensions
 {
@@ -134,6 +135,20 @@ namespace Ludwig.Common.Extensions
             var rest = value.Substring(1, value.Length - 1);
             first = upper ? first.ToUpper() : first.ToLower();
             return first + rest;
+        }
+
+
+        public static string ToSh256(this string value)
+        {
+            var sha = SHA256.Create();
+
+            var valueBytes = System.Text.Encoding.UTF8.GetBytes(value);
+
+            var digested = sha.ComputeHash(valueBytes);
+
+            var hashed = Convert.ToBase64String(digested);
+
+            return hashed;
         }
     }
 }

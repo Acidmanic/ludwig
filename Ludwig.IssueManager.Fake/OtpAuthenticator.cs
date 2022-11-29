@@ -26,6 +26,8 @@ namespace Ludwig.IssueManager.Fake
                             EmailAddress = FakeIssueManager.User.EmailAddress,
                             SubjectId = FakeIssueManager.User.Name,
                             SubjectWebPage = "/profiles/"+FakeIssueManager.User.Name,
+                            IsAdministrator = true,
+                            IsIssueManager = true
                         };
                     }
                 }

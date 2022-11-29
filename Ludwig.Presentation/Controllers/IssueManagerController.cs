@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Presentation.Authentication.Attributes;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ludwig.Presentation.Controllers

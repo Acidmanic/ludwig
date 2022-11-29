@@ -128,7 +128,9 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                             .Where( c => c.Type?.Trim().ToLower()=="email")
                             .Select(c => c.Value).FirstOrDefault(),
                         SubjectId = jwtSecurityToken.Subject,
-                        SubjectWebPage = url.Slashend()
+                        SubjectWebPage = url.Slashend(),
+                        IsAdministrator = false,
+                        IsIssueManager = true
                     };    
                 }
             }
@@ -139,7 +141,9 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                 Authenticated = true,
                 EmailAddress = "",
                 SubjectId = readUsername,
-                SubjectWebPage = url.Slashend() + readUsername
+                SubjectWebPage = url.Slashend() + readUsername,
+                IsAdministrator = false,
+                IsIssueManager = true
             };
             
         }

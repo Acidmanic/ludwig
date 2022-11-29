@@ -32,7 +32,9 @@ namespace Ludwig.IssueManager.Fake
                             Authenticated = true,
                             EmailAddress = FakeIssueManager.User.EmailAddress,
                             SubjectId = FakeIssueManager.User.Name,
-                            SubjectWebPage = ""
+                            SubjectWebPage = "",
+                            IsAdministrator = false,
+                            IsIssueManager = true
                         };
                     }
                 }

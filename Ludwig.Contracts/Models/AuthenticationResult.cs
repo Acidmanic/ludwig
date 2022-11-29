@@ -10,7 +10,9 @@ namespace Ludwig.Contracts.Models
         
         public string SubjectWebPage { get; set; }
         
+        public bool IsIssueManager { get; set; } 
         
+        public bool IsAdministrator { get; set; }
         
         
     }

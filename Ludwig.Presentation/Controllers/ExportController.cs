@@ -1,11 +1,9 @@
 using System;
 using System.IO;
 using System.Linq;
-using Ludwig.Presentation.Authentication;
 using Ludwig.Presentation.Authentication.Attributes;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Utilities;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 

@@ -61,7 +61,7 @@ namespace Ludwig.Presentation.Authentication
 
         private void AddAdditionalAuthenticators(List<IAuthenticator> authenticators)
         {
-            //
+            authenticators.Add(new SimpleAdministratorAuthenticator());
         }
 
 
