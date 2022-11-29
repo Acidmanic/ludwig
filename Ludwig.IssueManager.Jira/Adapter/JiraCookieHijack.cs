@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ludwig.Common.Utilities;
+using Ludwig.Contracts;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.Extensions;
 using Ludwig.Contracts.Models;
@@ -133,5 +134,9 @@ namespace Ludwig.IssueManager.Jira.Adapter
             Name = "Hijack Jira Auth",
             Fields = new List<LoginField> { }
         };
+
+        public void UseStorage(IStorage storage)
+        {
+        }
     }
 }

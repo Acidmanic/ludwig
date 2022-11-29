@@ -24,6 +24,7 @@ namespace Ludwig.Presentation.Authentication
         public ReadOnlyDictionary<string, IAuthenticator> AuthenticatorsByMethodName { get; private set; }
         public ReadOnlyDictionary<string, LoginMethod> LoginMethodsByMethodName { get; private set; }
 
+        
 
         public AuthenticationManager(
             AuthenticatorsListReference authenticatorsListReference,
@@ -49,6 +50,7 @@ namespace Ludwig.Presentation.Authentication
                 authByName.Add(a.LoginMethod.Name, a);
                 loginByName.Add(a.LoginMethod.Name, a.LoginMethod);
                 logins.Add(a.LoginMethod);
+                
             });
 
             Authenticators = authenticators;

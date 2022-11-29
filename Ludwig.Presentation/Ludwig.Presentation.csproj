@@ -7,7 +7,6 @@
   <ItemGroup>
     <PackageReference Include="Acidmanic.MSLogging.LightWeight" Version="1.0.1" />
     <PackageReference Include="Acidmanic.Utilities.Reflections" Version="1.0.5" />
-    <PackageReference Include="ApiEmbassy" Version="1.0.9" />
     <PackageReference Include="EnTier" Version="2.6.2" />
   </ItemGroup>
 

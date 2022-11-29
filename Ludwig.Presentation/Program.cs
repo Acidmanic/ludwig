@@ -1,4 +1,5 @@
 using System;
+using Ludwig.Common.Utilities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,6 +10,12 @@ namespace Ludwig.Presentation
     {
         public static void Main(string[] args)
         {
+
+            var c = Pkce.CreateNew("mani","ks02i3jdikdo2k0dkfodf3m39rjfjsdk0wk349rj3jrhf");
+
+            Console.WriteLine(c.Challenge);
+            Console.WriteLine("2i0WFA-0AerkjQm4X4oDEhqA17QIAKNjXpagHBXmO_U");
+            
             CreateHostBuilder(args).Build().Run();
         }
 

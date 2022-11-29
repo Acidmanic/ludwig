@@ -1,121 +1,98 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
+using System.Linq;
+using Acidmanic.Utilities.Reflection.Attributes;
+using Acidmanic.Utilities.Results;
+using EnTier.UnitOfWork;
 using Ludwig.Common.Extensions;
 using Ludwig.Common.Utilities;
-using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.Extensions;
 using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Gitlab.Configurations;
-using Ludwig.IssueManager.Gitlab.Models;
-using Newtonsoft.Json;
 
 namespace Ludwig.IssueManager.Gitlab.Adapter
 {
     public class OpenIdAuthenticator : GitlabAuthenticatorBase
     {
-        // private readonly GitlabConfigurationProvider _configurationProvider;
-        // private readonly ConfigureByLogin<GitlabConfigurations> _configureByLogin;
-        //
-        // public OpenIdAuthenticator(GitlabConfigurationProvider configurationProvider)
-        // {
-        //     _configurationProvider = configurationProvider;
-        //     _configureByLogin = new ConfigureByLogin<GitlabConfigurations>(_configurationProvider);
-        //     SetupLoginMethod();
-        // }
-        //
-        // public async  Task<AuthenticationResult> Authenticate(Dictionary<string, string> parameters)
-        // {
-        //     var code = parameters.Read("code");
-        //     var clientId = _configureByLogin.ReadConfigurationFirst(parameters, "clientId");
-        //     
-        //     if (code.HasValue(clientId))
-        //     {
-        //         
-        //         var request = new HttpRequestMessage(HttpMethod.Post, "oauth/token");
-        //         
-        //         request.Content = new FormUrlEncodedContent(new Dictionary<string, string>
-        //         {
-        //             { "code", code },
-        //             { "client_id", clientId },
-        //             { "grant_type", "authorization_code" },
-        //         });
-        //
-        //         var http = new HttpClient
-        //         {
-        //             BaseAddress = new Uri(_configurationProvider.Configuration.GitlabInstanceBackChannel, UriKind.Absolute)
-        //         };
-        //
-        //         var response = await http.SendAsync(request);
-        //
-        //         if (response.IsSuccessStatusCode)
-        //         {
-        //             var json = await response.Content.ReadAsStringAsync();
-        //
-        //             try
-        //             {
-        //                 var token = JsonConvert.DeserializeObject<GitlabToken>(json);
-        //
-        //                 if (token != null)
-        //                 {
-        //                     var header = "Bearer " + token.AccessToken;
-        //
-        //                     _authHeaderPersistant.Value = new AuthHeader { Headervalue = header };
-        //
-        //                     _authHeaderPersistant.Save();
-        //
-        //                     _configureByLogin.HarvestConfigurations(parameters);
-        //
-        //                     return new AuthenticationResult
-        //                     {
-        //                         Authenticated = true,
-        //                         EmailAddress = "",
-        //                         SubjectId = username,
-        //                         SubjectWebPage = url + username
-        //                     };
-        //                 }
-        //             }
-        //             catch (Exception)
-        //             {
-        //             }
-        //         }
-        //     }
-        //
-        //     return new AuthenticationResult() { Authenticated = false };
-        // }
-        //
-        // public Task<List<RequestUpdate>> GrantAccess()
-        // {
-        //     throw new System.NotImplementedException();
-        // }
-        //
-        //
-        // public LoginMethod LoginMethod { get; private set; }
-        //
-        //
-        // private void SetupLoginMethod()
-        
         public OpenIdAuthenticator(GitlabConfigurationProvider configurationProvider) : base(configurationProvider)
         {
+        }
+
+        private class PkceRecord : Pkce
+        {
+            [AutoValuedMember] [UniqueMember] public long Id { get; set; }
+
+            public static PkceRecord FromPkce(Pkce pkce)
+            {
+                return new PkceRecord
+                {
+                    Challenge = pkce.Challenge,
+                    State = pkce.State,
+                    Verifier = pkce.Verifier
+                };
+            }
         }
 
         protected override Dictionary<string, string> TokenCallFormEncodedParams(Dictionary<string, string> parameters)
         {
             var code = parameters.Read("code");
             var clientId = ConfigureByLogin.ReadConfigurationFirst(parameters, "clientId");
+
+            var foundVerifier = GetVerifierForState(parameters);
+            
             
             return new Dictionary<string, string>
             {
                 { "code", code },
                 { "client_id", clientId },
                 { "grant_type", "authorization_code" },
+                { "redirect_uri", "http://localhost:13801/login" },
+                { "code_verifier", foundVerifier.Value }
             };
         }
 
+
+        private string CreateStateParams(GitlabConfigurations configurations)
+        {
+            var pkce = Pkce.CreateNew();
+
+            var parameters = "state=" + pkce.State
+                                      + "&challenge=" + pkce.Challenge
+                                      + "&code_challenge_method=S256";
+
+            Storage.Store(PkceRecord.FromPkce(pkce));
+
+            return parameters;
+        }
+
+
+        protected override Result PreValidateCollectedInformation(Dictionary<string, string> parameters)
+        {
+            var foundVerifier = GetVerifierForState(parameters);
+
+            return foundVerifier;
+        }
+        
+        private Result<string> GetVerifierForState(Dictionary<string, string> parameters)
+        {
+            var state = parameters.Read("state");
+
+            if (!string.IsNullOrWhiteSpace(state))
+            {
+                var found = Storage.Find<PkceRecord>(p => p.State == state)
+                    .FirstOrDefault();
+
+                if (found!=null)
+                {
+                    return new Result<string>(true, found.Verifier);
+                }    
+            }
+            return new Result<string>().FailAndDefaultValue();
+        }
+
+
         protected override LoginMethod CreateLoginMethod()
         {
-        
             var conf = ConfigurationProvider.Configuration;
 
 
@@ -125,8 +102,9 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             {
                 server = "http://localhost:13801";
             }
-            var ludwigLogin = server.Slashend()+"login";
-            
+
+            var ludwigLogin = server.Slashend() + "login";
+
             return new LoginMethod
             {
                 Description =
@@ -138,10 +116,11 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                 Link = new UiLink
                 {
                     Title = "Login With Gitlab",
-                    Url = conf.GitlabInstanceFrontChannel.Slashend()+
-                          "oauth/authorize?client_id="+conf.ClientId + 
+                    Url = conf.GitlabInstanceFrontChannel.Slashend() +
+                          "oauth/authorize?client_id=" + conf.ClientId +
                           "&redirect_uri=" + ludwigLogin +
-                          "&response_type=code",
+                          "&scope=api read_api read_user openid profile email" +
+                          "&response_type=code&" + CreateStateParams(conf),
                 },
                 Name = "OAuth - Secure",
                 Fields = new List<LoginField>(),
@@ -153,6 +132,13 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                         QueryKey = "code",
                         ProvidedStateDescription = "Authorization Code Received",
                         NotProvidedStateDescription = "AuthorizationCode Needed"
+                    },
+                    new LoginQuery
+                    {
+                        Name = "Client State",
+                        QueryKey = "state",
+                        ProvidedStateDescription = "Client State Is Present",
+                        NotProvidedStateDescription = "Client State Is Needed"
                     }
                 },
                 ConfigurationRequirements = new List<ConfigurationRequirement>

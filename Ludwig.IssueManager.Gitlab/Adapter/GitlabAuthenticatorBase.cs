@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Net.Http;
-using System.Reflection.Metadata.Ecma335;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Acidmanic.Utilities.Results;
 using Ludwig.Common.Extensions;
 using Ludwig.Common.Utilities;
+using Ludwig.Contracts;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.Extensions;
 using Ludwig.Contracts.Models;
@@ -27,15 +26,10 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
         protected GitlabConfigurationProvider ConfigurationProvider { get; }
         protected ConfigureByLogin<GitlabConfigurations> ConfigureByLogin { get;  }
         
-        private readonly LoginMethod _originalLoginMethod;
-        
-        
         protected GitlabAuthenticatorBase(GitlabConfigurationProvider configurationProvider)
         {
             ConfigurationProvider = configurationProvider;
             ConfigureByLogin = new ConfigureByLogin<GitlabConfigurations>(ConfigurationProvider);
-            // ReSharper disable once VirtualMemberCallInConstructor
-            _originalLoginMethod = CreateLoginMethod();
         }
 
 
@@ -45,6 +39,15 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
         protected abstract LoginMethod CreateLoginMethod();
         
 
+        protected IStorage Storage { get; set; }
+
+
+
+        protected virtual Result PreValidateCollectedInformation(Dictionary<string, string> parameters)
+        {
+            return new Result().Succeed();
+        }
+        
         protected async Task<AuthenticationResult> CallForToken(
             Dictionary<string,string> parameters,
             Dictionary<string,string> formParams)
@@ -102,9 +105,14 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
         public Task<AuthenticationResult> Authenticate(Dictionary<string, string> parameters)
         {
 
-            var formEncodedParams = TokenCallFormEncodedParams(parameters);
+            if (PreValidateCollectedInformation(parameters))
+            {
+                var formEncodedParams = TokenCallFormEncodedParams(parameters);
 
-            return CallForToken(parameters, formEncodedParams);
+                return CallForToken(parameters, formEncodedParams);    
+            }
+
+            return Task.Run(() => new AuthenticationResult { Authenticated = false });
         }
 
         public Task<List<RequestUpdate>> GrantAccess()
@@ -119,8 +127,18 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                 }
             });
         }
-        
+
+
+        private LoginMethod _originalLoginMethod;
+
 
         public LoginMethod LoginMethod => ConfigureByLogin.EquipForUi(_originalLoginMethod);
+
+        public void UseStorage(IStorage storage)
+        {
+            Storage = storage;
+            
+            _originalLoginMethod = CreateLoginMethod();
+        }
     }
 }

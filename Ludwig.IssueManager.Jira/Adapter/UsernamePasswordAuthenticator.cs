@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ludwig.Common.Extensions;
 using Ludwig.Common.Utilities;
+using Ludwig.Contracts;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.Extensions;
 using Ludwig.Contracts.Models;
@@ -86,5 +87,9 @@ namespace Ludwig.IssueManager.Jira.Adapter
                 LoginField.Password
             }
         };
+
+        public void UseStorage(IStorage storage)
+        {
+        }
     }
 }

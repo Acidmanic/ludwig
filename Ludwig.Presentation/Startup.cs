@@ -1,10 +1,7 @@
-using ApiEmbassy.Services;
 using EnTier.Extensions;
 using EnTier.Services;
 using Ludwig.Contracts.Authentication;
-using Ludwig.IssueManager.Fake;
 using Ludwig.IssueManager.Gitlab.Adapter;
-using Ludwig.IssueManager.Jira.Adapter;
 using Ludwig.Presentation.Authentication;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Extensions;
@@ -57,8 +54,6 @@ namespace Ludwig.Presentation
             services.AddIssueManagerRegistry<GitlabIssueManagerRegistry>();
 
             services.AddTransient<IBackChannelRequestGrant, AuthenticationManager>();
-
-            services.AddTransient<ServerDealer>();
             
             var logger = new ConsoleLogger().EnableAll();
 
@@ -70,6 +65,7 @@ namespace Ludwig.Presentation
             
             services.AddControllers();
 
+            services.AddTransient<Storage.Storage>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,10 +92,7 @@ namespace Ludwig.Presentation
             app.IntroduceDotnetResolverToEnTier();
 
             app.UseAuthenticators<GitlabIssueManagerRegistry>();
-            
-            //var serverDealer = app.ApplicationServices.GetService(typeof(ServerDealer)) as ServerDealer;
-            
-            //serverDealer?.StartAsync();
+
         }
     }
 }

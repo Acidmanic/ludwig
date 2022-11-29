@@ -12,5 +12,7 @@ namespace Ludwig.Contracts.Authentication
         Task<List<RequestUpdate>> GrantAccess();
         
         LoginMethod LoginMethod { get; }
+
+        void UseStorage(IStorage storage);
     }
 }

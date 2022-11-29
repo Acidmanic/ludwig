@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ludwig.Contracts;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.Extensions;
 using Ludwig.Contracts.Models;
@@ -66,6 +67,11 @@ namespace Ludwig.IssueManager.Fake
 
                 return Method;
             }
+        }
+
+        public void UseStorage(IStorage storage)
+        {
+            
         }
     }
 }
