@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Acidmanic.Utilities.Results;
@@ -85,13 +87,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 
                             ConfigureByLogin.HarvestConfigurations(parameters);
 
-                            return new AuthenticationResult
-                            {
-                                Authenticated = true,
-                                EmailAddress = "",
-                                SubjectId = parameters.Read("username"),
-                                SubjectWebPage = url + parameters.Read("username")
-                            };
+                            return FromToken(token,parameters,url);
                         }
                     }
                     catch (Exception)
@@ -102,6 +98,52 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             return new AuthenticationResult { Authenticated = false };
         }
 
+
+
+        private AuthenticationResult FromToken(GitlabToken token,
+            Dictionary<string,string> parameters,
+            string url)
+        {
+
+            var readUsername = parameters.Read("username");
+            
+            var jwt = token.IdToken;
+
+            if (string.IsNullOrWhiteSpace(jwt))
+            {
+                jwt = token.AccessToken;
+            }
+            
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var jwtSecurityToken = handler.ReadJwtToken(jwt);
+
+                if (jwtSecurityToken != null)
+                {
+                    return new AuthenticationResult
+                    {
+                        Authenticated = true,
+                        EmailAddress = jwtSecurityToken.Claims
+                            .Where( c => c.Type?.Trim().ToLower()=="email")
+                            .Select(c => c.Value).FirstOrDefault(),
+                        SubjectId = jwtSecurityToken.Subject,
+                        SubjectWebPage = url.Slashend()
+                    };    
+                }
+            }
+            catch (Exception _) { }
+            
+            return new AuthenticationResult
+            {
+                Authenticated = true,
+                EmailAddress = "",
+                SubjectId = readUsername,
+                SubjectWebPage = url.Slashend() + readUsername
+            };
+            
+        }
+        
         public Task<AuthenticationResult> Authenticate(Dictionary<string, string> parameters)
         {
 

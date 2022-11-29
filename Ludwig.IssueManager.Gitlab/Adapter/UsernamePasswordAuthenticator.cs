@@ -17,94 +17,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 {
     public class UsernamePasswordAuthenticator : GitlabAuthenticatorBase
     {
-        // private class AuthHeader
-        // {
-        //     public string Headervalue { get; set; }
-        // }
-
-        // private readonly Persistant<AuthHeader> _authHeaderPersistant = new Persistant<AuthHeader>();
-        // private readonly GitlabConfigurationProvider _configurationProvider;
-        // private readonly ConfigureByLogin<GitlabConfigurations> _configureByLogin;
-        //
-        // public UsernamePasswordAuthenticator(GitlabConfigurationProvider configurationProvider)
-        // {
-        //     _configurationProvider = configurationProvider;
-        //     _authHeaderPersistant.Load();
-        //     _configureByLogin = new ConfigureByLogin<GitlabConfigurations>(_configurationProvider);
-        // }
-
-        //
-        // public async Task<AuthenticationResult> Authenticate(Dictionary<string, string> parameters)
-        // {
-        //     var url = _configurationProvider.Configuration.GitlabInstanceBackChannel.Slashend();
-        //
-        //     var username = parameters.Read("username");
-        //     var password = parameters.Read("password");
-        //     var clientId = _configureByLogin.ReadConfigurationFirst(parameters, "applicationId");
-        //     var clientSecret = _configureByLogin.ReadConfigurationFirst(parameters, "clientSecret");
-        //
-        //     if (username.HasValue(password, clientId, clientSecret))
-        //     {
-        //         var request = new HttpRequestMessage(HttpMethod.Post, "oauth/token");
-        //
-        //         request.Content = new FormUrlEncodedContent();
-        //
-        //         var http = new HttpClient
-        //         {
-        //             BaseAddress = new Uri(url, UriKind.Absolute)
-        //         };
-        //
-        //         var response = await http.SendAsync(request);
-        //
-        //         if (response.IsSuccessStatusCode)
-        //         {
-        //             var json = await response.Content.ReadAsStringAsync();
-        //
-        //             try
-        //             {
-        //                 var token = JsonConvert.DeserializeObject<GitlabToken>(json);
-        //
-        //                 if (token != null)
-        //                 {
-        //                     var header = "Bearer " + token.AccessToken;
-        //
-        //                     _authHeaderPersistant.Value = new AuthHeader { Headervalue = header };
-        //
-        //                     _authHeaderPersistant.Save();
-        //
-        //                     _configureByLogin.HarvestConfigurations(parameters);
-        //
-        //                     return new AuthenticationResult
-        //                     {
-        //                         Authenticated = true,
-        //                         EmailAddress = "",
-        //                         SubjectId = username,
-        //                         SubjectWebPage = url + username
-        //                     };
-        //                 }
-        //             }
-        //             catch (Exception)
-        //             {
-        //             }
-        //         }
-        //     }
-        //
-        //     return new AuthenticationResult { Authenticated = false };
-        // }
-        //
-        // public Task<List<RequestUpdate>> GrantAccess()
-        // {
-        //     return Task.Run(() => new List<RequestUpdate>
-        //     {
-        //         new RequestUpdate
-        //         {
-        //             Key = "Authorization",
-        //             Value = _authHeaderPersistant.Value.Headervalue,
-        //             Type = RequestUpdate.RequestUpdateTypeHeader
-        //         }
-        //     });
-        // }
-
+       
         protected override LoginMethod CreateLoginMethod()
         {
             return
@@ -148,7 +61,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
         {
             var username = parameters.Read("username");
             var password = parameters.Read("password");
-            var clientId = ConfigureByLogin.ReadConfigurationFirst(parameters, "applicationId");
+            var clientId = ConfigureByLogin.ReadConfigurationFirst(parameters, "clientId");
             var clientSecret = ConfigureByLogin.ReadConfigurationFirst(parameters, "clientSecret");
 
             return new Dictionary<string, string>
