@@ -14,9 +14,6 @@ namespace Ludwig.Presentation.Authentication
 
         public string SubjectWebPage { get; set; }
         
-        public bool IsIssueManager { get; set; } 
-        
-        public bool IsAdministrator { get; set; }
 
         public string Cookie { get; set; }
         
@@ -35,7 +32,9 @@ namespace Ludwig.Presentation.Authentication
             {
                 Token = Token,
                 ExpirationEpoch = ExpirationEpoch,
-                LoginMethodName = LoginMethodName
+                LoginMethodName = LoginMethodName,
+                IsAdministrator = IsAdministrator,
+                IsIssueManager = IsIssueManager
             };
         }
     }

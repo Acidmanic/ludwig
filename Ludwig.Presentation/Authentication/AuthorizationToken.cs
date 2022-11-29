@@ -9,10 +9,13 @@ namespace Ludwig.Presentation.Authentication
         [UniqueMember]
         public string Token { get; set; }
         
-        
         public long ExpirationEpoch { get; set; }
         
         public string LoginMethodName { get; set; }
+        
+        public bool IsAdministrator { get; set; }
+        
+        public bool IsIssueManager { get; set; }
         
     }
 }
