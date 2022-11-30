@@ -7,6 +7,9 @@ namespace Ludwig.IssueManager.Fake
     public class FakeIssueManagerRegistry:IRegistry
     {
         public Type IssueManager { get; } = typeof(FakeIssueManager);
+
+        public Type ConfigurationDescriptor { get; } = typeof(FakeConfigurationDescriptor);
+
         public List<Type> Authenticators { get; } = new List<Type>
         {
             typeof(UsernamePasswordAuthenticator),

@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ludwig.Common\Ludwig.Common.csproj" />
     <ProjectReference Include="..\Ludwig.Contracts\Ludwig.Contracts.csproj" />
   </ItemGroup>
 

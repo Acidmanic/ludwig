@@ -9,6 +9,8 @@ namespace Ludwig.Contracts.Di
         
         Type IssueManager { get; }
         
+        Type ConfigurationDescriptor { get; }
+        
         List<Type> Authenticators { get; }
         
         List<Type> AdditionalTransientServices { get; }

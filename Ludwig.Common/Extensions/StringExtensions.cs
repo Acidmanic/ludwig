@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace Ludwig.Common.Extensions
 {
@@ -122,6 +123,39 @@ namespace Ludwig.Common.Extensions
         public static string PascalCase(this string value)
         {
             return Case(value, true);
+        }
+        public static string TitleCase(this string name)
+        {
+            var nameChars = name.ToCharArray();
+
+            var sb = new StringBuilder();
+
+            bool lastUpper = false;
+
+            foreach (var c in nameChars)
+            {
+                var upper = char.IsUpper(c);
+
+                if (upper)
+                {
+                    if (lastUpper)
+                    {
+                        sb.Append(char.ToLower(c));
+                    }
+                    else
+                    {
+                        sb.Append(' ').Append(c);
+                    }
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+
+                lastUpper = upper;
+            }
+
+            return sb.ToString().Trim();
         }
 
         private static string Case(string value, bool upper)

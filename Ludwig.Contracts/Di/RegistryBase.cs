@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Ludwig.Contracts.Authentication;
+using Ludwig.Contracts.Configurations;
 using Ludwig.Contracts.IssueManagement;
 
 namespace Ludwig.Contracts.Di
@@ -10,6 +11,8 @@ namespace Ludwig.Contracts.Di
         
         
         public Type IssueManager { get; protected set; }
+        
+        public Type ConfigurationDescriptor { get; protected set; }
 
         public List<Type> Authenticators { get; } = new List<Type>();
         
@@ -51,6 +54,12 @@ namespace Ludwig.Contracts.Di
             where TIssueManager : IIssueManager
         {
             this.IssueManager = typeof(TIssueManager);
+        }
+
+        protected void Configuration<TDescriptor>()
+            where TDescriptor : IConfigurationDescriptor, new()
+        {
+            this.ConfigurationDescriptor = typeof(TDescriptor);
         }
     }
 }
