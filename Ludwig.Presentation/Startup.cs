@@ -53,8 +53,12 @@ namespace Ludwig.Presentation
             services.AddSingleton<AuthenticatorsListReference>();
 
             services.AddIssueManagerRegistry<GitlabIssueManagerRegistry>();
+
+            var configurationProvider = new LudwigConfigurationProvider();
             
-            services.AddTransient<IConfigurationProvider,LudwigConfigurationProvider>();
+            services.AddSingleton<IConfigurationProvider>(o => configurationProvider);
+            
+            services.AddSingleton(o => configurationProvider);
 
             services.AddTransient<IBackChannelRequestGrant, AuthenticationManager>();
             
@@ -103,7 +107,7 @@ namespace Ludwig.Presentation
 
             app.IntroduceDotnetResolverToEnTier();
 
-            app.UseAuthenticators<GitlabIssueManagerRegistry>();
+            app.UseIssueManagerRegistry<GitlabIssueManagerRegistry>();
 
         }
     }

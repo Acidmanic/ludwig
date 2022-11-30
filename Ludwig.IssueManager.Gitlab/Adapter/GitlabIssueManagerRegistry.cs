@@ -9,6 +9,9 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
         public GitlabIssueManagerRegistry()
         {
             
+            
+            Configuration<GitlabConfigurationDescriptor>();
+            
             Authenticator<OpenIdAuthenticatorPlus>();
             
             Authenticator<UsernamePasswordAuthenticator>();

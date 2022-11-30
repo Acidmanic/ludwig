@@ -5,7 +5,7 @@ namespace Ludwig.Contracts.Configurations
 {
     public interface IConfigurationDescriptor
     {
-        List<ConfigurationDefinition> ConfigurationItems { get; }
+        List<ConfigurationDefinition> ConfigurationDefinitions { get; }
         
         Type ConfigurationType { get; }
     }

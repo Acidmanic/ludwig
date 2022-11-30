@@ -1,3 +1,4 @@
+using System;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.Di;
 using Ludwig.Contracts.IssueManagement;
@@ -45,6 +46,15 @@ namespace Ludwig.Presentation.Extensions
                 services.AddSingleton(service);
             }
 
+            if (reg.ConfigurationDescriptor == null)
+            {
+                Console.WriteLine("Hoooooy configuration et ku?");
+            }
+            else
+            {
+                services.AddTransient(reg.ConfigurationDescriptor);    
+            }
+            
             services.AddMvc().AddApplicationPart(typeof(TRegistry).Assembly);
             
             return services;

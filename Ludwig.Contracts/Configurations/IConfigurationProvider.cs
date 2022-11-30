@@ -5,7 +5,7 @@ namespace Ludwig.Contracts.Configurations
         
         void SaveConfigurationChanges();
 
-        void LoadConfigurationChanges();
+        void LoadConfigurations();
         
         TProperty ReadByName<TProperty>(string name, TProperty defaultValue = default);
 

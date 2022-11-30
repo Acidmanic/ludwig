@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Acidmanic.Utilities.Results;
-using Ludwig.Common.Configuration;
 using Ludwig.Common.Extensions;
 using Ludwig.Contracts.Configurations;
 using Newtonsoft.Json;
@@ -21,6 +20,8 @@ namespace Ludwig.Presentation.Configuration
         public LudwigConfigurationProvider()
         {
             _configurationsFile = new object().FilePathInExecutionDirectory("Ludwig.Config.json");
+            
+            LoadConfigurations();
         }
 
 
@@ -56,23 +57,27 @@ namespace Ludwig.Presentation.Configuration
             }
         }
 
-        public void LoadConfigurationChanges()
+        public void LoadConfigurations()
         {
             lock (Locker)
             {
-                var json = File.ReadAllText(_configurationsFile);
-
-                var data = JsonConvert.DeserializeObject<Dictionary<string, String>>(json);
-
-                _configurationData.Clear();
-                
-                if (data != null)
+                try
                 {
-                    foreach (var keyValuePair in data)
+                    var json = File.ReadAllText(_configurationsFile);
+
+                    var data = JsonConvert.DeserializeObject<Dictionary<string, String>>(json);
+
+                    _configurationData.Clear();
+                
+                    if (data != null)
                     {
-                        _configurationData.Add(keyValuePair.Key,keyValuePair.Value);
+                        foreach (var keyValuePair in data)
+                        {
+                            _configurationData.Add(keyValuePair.Key,keyValuePair.Value);
+                        }
                     }
                 }
+                catch (Exception _) {}
             }
         }
 

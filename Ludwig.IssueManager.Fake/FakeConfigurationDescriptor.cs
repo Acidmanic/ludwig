@@ -7,7 +7,7 @@ namespace Ludwig.IssueManager.Fake
 {
     public class FakeConfigurationDescriptor:IConfigurationDescriptor
     {
-        public List<ConfigurationDefinition> ConfigurationItems { get; } = new List<ConfigurationDefinition>
+        public List<ConfigurationDefinition> ConfigurationDefinitions { get; } = new List<ConfigurationDefinition>
         {
             new Cib<Configurations>().FromProperty(c => c.FakeUrl).TypeString()
                 .Description("This is a fake url").Build(),

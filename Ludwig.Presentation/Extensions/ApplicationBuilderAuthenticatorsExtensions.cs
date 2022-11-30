@@ -1,7 +1,9 @@
 using System;
 using Ludwig.Contracts.Authentication;
+using Ludwig.Contracts.Configurations;
 using Ludwig.Contracts.Di;
 using Ludwig.Presentation.Authentication;
+using Ludwig.Presentation.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +14,7 @@ namespace Ludwig.Presentation.Extensions
 
 
 
-        public static IApplicationBuilder UseAuthenticators<TRegistry>(this IApplicationBuilder app)
+        public static IApplicationBuilder UseIssueManagerRegistry<TRegistry>(this IApplicationBuilder app)
         where TRegistry:IRegistry,new()
         {
 
@@ -30,11 +32,21 @@ namespace Ludwig.Presentation.Extensions
 
             foreach (var authType in authTypes)
             {
-                var authenticator = app.ApplicationServices.GetService(authType) as IAuthenticator;
-
-                if (authenticator != null)
+                if (app.ApplicationServices.GetService(authType) is IAuthenticator authenticator)
                 {
                     authenticatorsReference.UseAuthenticator(authenticator);
+                }
+            }
+
+            var configurationDescriptorType = reg.ConfigurationDescriptor;
+
+            if (configurationDescriptorType != null)
+            {
+                if (app.ApplicationServices.GetService(configurationDescriptorType) is IConfigurationDescriptor descriptor)
+                {
+                    var ludwigConfiguration = app.ApplicationServices.GetService<LudwigConfigurationProvider>();
+                    
+                    ludwigConfiguration?.AddDefinitions(descriptor.ConfigurationDefinitions);
                 }
             }
 
