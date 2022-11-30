@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ludwig.Common.Configuration;
 using Ludwig.Common.Extensions;
 using Ludwig.Common.Utilities;
 using Ludwig.Contracts;
 using Ludwig.Contracts.Authentication;
+using Ludwig.Contracts.Configurations;
 using Ludwig.Contracts.Extensions;
 using Ludwig.Contracts.Models;
+using Ludwig.IssueManager.Jira.Configuration;
 using Ludwig.IssueManager.Jira.Interfaces;
 
 namespace Ludwig.IssueManager.Jira.Adapter
@@ -23,10 +26,10 @@ namespace Ludwig.IssueManager.Jira.Adapter
         }
         
         private readonly Services.Jira _jira;
-        private readonly IJiraConfigurationProvider _configurationProvider;
+        private readonly IConfigurationProvider _configurationProvider;
         private readonly Persistant<GrantRecord> _persistantGrantRecord = new Persistant<GrantRecord>(); 
 
-        public UsernamePasswordAuthenticator(Services.Jira jira, IJiraConfigurationProvider configurationProvider)
+        public UsernamePasswordAuthenticator(Services.Jira jira, IConfigurationProvider configurationProvider)
         {
             _jira = jira;
             _configurationProvider = configurationProvider;
@@ -46,7 +49,8 @@ namespace Ludwig.IssueManager.Jira.Adapter
                     if (loggedIn)
                     {
 
-                        var frontChannel = _configurationProvider.Configuration.JiraFrontChannelUrl.Slashend();
+                        var frontChannel = _configurationProvider.GetConfiguration<JiraConfiguration>()
+                            .JiraFrontChannelUrl.Slashend();
                         
                         _persistantGrantRecord.Value.Token = loggedIn.Secondary;
                         _persistantGrantRecord.Save();

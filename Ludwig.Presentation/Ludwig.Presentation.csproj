@@ -18,9 +18,5 @@
     <ProjectReference Include="..\Ludwig.IssueManager.Jira\Ludwig.IssueManager.Jira.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Configuration" />
-  </ItemGroup>
-
 
 </Project>

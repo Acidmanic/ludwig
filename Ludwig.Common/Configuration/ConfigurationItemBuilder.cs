@@ -24,39 +24,39 @@ namespace Ludwig.Common.Configuration
     
     public class ConfigurationItemBuilder
     {
-        private readonly ConfigurationItem _item;
+        private readonly ConfigurationDefinition _definition;
 
         public ConfigurationItemBuilder()
         {
-            _item = new ConfigurationItem();
-            _item.ValueType = typeof(string);
+            _definition = new ConfigurationDefinition();
+            _definition.ValueType = typeof(string);
             
         }
 
         public ConfigurationItemBuilder Description(string description)
         {
-            _item.Description = description;
+            _definition.Description = description;
 
             return this;
         }
         
         public ConfigurationItemBuilder DisplayName(string name)
         {
-            _item.DisplayName = name;
+            _definition.DisplayName = name;
 
             return this;
         }
         
         public ConfigurationItemBuilder Key(string key)
         {
-            _item.Key = key;
+            _definition.Key = key;
 
             return this;
         }
 
         public ConfigurationItemBuilder Type<TProp>()
         {
-            _item.ValueType = typeof(TProp);
+            _definition.ValueType = typeof(TProp);
 
             return this;
         }
@@ -65,9 +65,9 @@ namespace Ludwig.Common.Configuration
         {
             var key = MemberOwnerUtilities.GetKey(selector);
 
-            _item.Key = key.ToString();
+            _definition.Key = key.ToString();
 
-            _item.DisplayName = key.TerminalSegment().Name.TitleCase();
+            _definition.DisplayName = key.TerminalSegment().Name.TitleCase();
 
             Type<TProp>();
 
@@ -76,20 +76,20 @@ namespace Ludwig.Common.Configuration
 
         public ConfigurationItemBuilder TypeString()
         {
-            _item.ValueType = typeof(string);
+            _definition.ValueType = typeof(string);
             
-            _item.AsString = o => (string)o;
+            _definition.AsString = o => (string)o;
 
-            _item.FromString = s => s;
+            _definition.FromString = s => s;
 
             return this;
         }
         
         public ConfigurationItemBuilder TypeBoolean()
         {
-            _item.ValueType = typeof(bool);
+            _definition.ValueType = typeof(bool);
             
-            _item.AsString = o =>
+            _definition.AsString = o =>
             {
                 if (o is bool b)
                 {
@@ -98,7 +98,7 @@ namespace Ludwig.Common.Configuration
                 return "false";
             };
 
-            _item.FromString = s =>
+            _definition.FromString = s =>
             {
                 if (!string.IsNullOrWhiteSpace(s))
                 {
@@ -114,9 +114,9 @@ namespace Ludwig.Common.Configuration
         
         public ConfigurationItemBuilder TypeInteger()
         {
-            _item.ValueType = typeof(int);
+            _definition.ValueType = typeof(int);
             
-            _item.AsString = o =>
+            _definition.AsString = o =>
             {
                 if (o is int i)
                 {
@@ -125,7 +125,7 @@ namespace Ludwig.Common.Configuration
                 return "0";
             };
 
-            _item.FromString = s =>
+            _definition.FromString = s =>
             {
                 if (!string.IsNullOrWhiteSpace(s))
                 {
@@ -148,31 +148,31 @@ namespace Ludwig.Common.Configuration
 
             Type<TProp>();
             
-            _item.AsString = o => o.ToString();
+            _definition.AsString = o => o.ToString();
 
-            _item.FromString = s => s.CastTo(_item.ValueType);
+            _definition.FromString = s => s.CastTo(_definition.ValueType);
 
             return this;
         }
 
         public ConfigurationItemBuilder ToObject(Func<string, object> convert)
         {
-            _item.FromString = convert;
+            _definition.FromString = convert;
 
             return this;
         }
         
         public ConfigurationItemBuilder ToString(Func<object,string> convert)
         {
-            _item.AsString = convert;
+            _definition.AsString = convert;
 
             return this;
         }
 
 
-        public ConfigurationItem Build()
+        public ConfigurationDefinition Build()
         {
-            return _item;
+            return _definition;
         }
     }
 }

@@ -8,7 +8,6 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 
         public GitlabIssueManagerRegistry()
         {
-            Transient<GitlabConfigurationProvider>();
             
             Authenticator<OpenIdAuthenticatorPlus>();
             

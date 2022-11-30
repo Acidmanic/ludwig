@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Acidmanic.Utilities.Results;
+using Ludwig.Common.Configuration;
 using Ludwig.Common.Extensions;
 using Ludwig.Contracts.Authentication;
+using Ludwig.Contracts.Configurations;
+using Ludwig.IssueManager.Jira.Configuration;
 using Ludwig.IssueManager.Jira.Interfaces;
 using Ludwig.IssueManager.Jira.Models;
 
@@ -24,14 +27,14 @@ namespace Ludwig.IssueManager.Jira.Services
         private readonly string _baseUrl;
         private readonly ICustomFieldDefinitionProvider _definitionProvider;
 
-        public Jira(IJiraConfigurationProvider configurationProvider,
+        public Jira(IConfigurationProvider configurationProvider,
             ICustomFieldDefinitionProvider definitionProvider, IBackChannelRequestGrant backChannelRequestGrant)
         {
             _definitionProvider = definitionProvider;
             
             _backChannelRequestGrant = backChannelRequestGrant;
 
-            _baseUrl = configurationProvider.Configuration.JiraBackChannelUrl.Slashend();
+            _baseUrl = configurationProvider.GetConfiguration<JiraConfiguration>().JiraBackChannelUrl.Slashend();
         }
         
         public async Task<List<JiraUser>> AllUsers()

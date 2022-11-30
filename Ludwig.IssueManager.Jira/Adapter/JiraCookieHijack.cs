@@ -1,11 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ludwig.Common.Configuration;
 using Ludwig.Common.Utilities;
 using Ludwig.Contracts;
 using Ludwig.Contracts.Authentication;
-using Ludwig.Contracts.Extensions;
+using Ludwig.Contracts.Configurations;
 using Ludwig.Contracts.Models;
+using Ludwig.IssueManager.Jira.Configuration;
 using Ludwig.IssueManager.Jira.Interfaces;
 using Microsoft.AspNetCore.Http;
 
@@ -59,13 +60,13 @@ namespace Ludwig.IssueManager.Jira.Adapter
         }
         
         private readonly Services.Jira _jira;
-        private readonly IJiraConfigurationProvider _configurationProvider;
+        private readonly IConfigurationProvider _configurationProvider;
         private readonly ICustomFieldDefinitionProvider _customFieldDefinitionProvider;
         private readonly IHttpContextAccessor _contextAccessor;
         
         private readonly Persistant<GrantRecord> _persistantGrantRecord = new Persistant<GrantRecord>(); 
 
-        public JiraCookieHijack(Services.Jira jira, IJiraConfigurationProvider configurationProvider, IHttpContextAccessor contextAccessor, ICustomFieldDefinitionProvider customFieldDefinitionProvider)
+        public JiraCookieHijack(Services.Jira jira, IConfigurationProvider configurationProvider, IHttpContextAccessor contextAccessor, ICustomFieldDefinitionProvider customFieldDefinitionProvider)
         {
             _jira = jira;
             _configurationProvider = configurationProvider;
@@ -99,7 +100,7 @@ namespace Ludwig.IssueManager.Jira.Adapter
 
             if (loggedIn)
             {
-                var frontChannel = _configurationProvider.Configuration.JiraFrontChannelUrl;
+                var frontChannel = _configurationProvider.GetConfiguration<JiraConfiguration>().JiraFrontChannelUrl;
 
                 if (!frontChannel.EndsWith("/"))
                 {

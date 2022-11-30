@@ -2,7 +2,7 @@ using System;
 
 namespace Ludwig.Contracts.Configurations
 {
-    public class ConfigurationItem
+    public class ConfigurationDefinition
     {
         public string DisplayName { get; set; }
         

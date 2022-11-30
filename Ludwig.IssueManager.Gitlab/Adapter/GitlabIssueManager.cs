@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ludwig.Common.Configuration;
 using Ludwig.Common.Extensions;
 using Ludwig.Contracts.Authentication;
+using Ludwig.Contracts.Configurations;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Gitlab.Configurations;
@@ -17,10 +19,12 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
         private readonly IBackChannelRequestGrant _backChannelRequestGrant;
         private readonly string _backChannelUrl;
 
-        public GitlabIssueManager(IBackChannelRequestGrant backChannelRequestGrant, GitlabConfigurationProvider configurationProvider)
+        public GitlabIssueManager(IBackChannelRequestGrant backChannelRequestGrant,
+            IConfigurationProvider configurationProvider)
         {
             _backChannelRequestGrant = backChannelRequestGrant;
-            _backChannelUrl = configurationProvider.Configuration.GitlabInstanceBackChannel.Slashend();
+            _backChannelUrl = configurationProvider.GetConfiguration<GitlabConfigurations>()
+                .GitlabInstanceBackChannel.Slashend();
         }
 
         public async Task<List<IssueManagerUser>> GetAllUsers()

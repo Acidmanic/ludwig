@@ -4,8 +4,10 @@ using System.Linq;
 using Acidmanic.Utilities.Reflection.Attributes;
 using Acidmanic.Utilities.Results;
 using EnTier.UnitOfWork;
+using Ludwig.Common.Configuration;
 using Ludwig.Common.Extensions;
 using Ludwig.Common.Utilities;
+using Ludwig.Contracts.Configurations;
 using Ludwig.Contracts.Extensions;
 using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Gitlab.Configurations;
@@ -14,7 +16,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 {
     public class OpenIdAuthenticatorPlus : GitlabAuthenticatorBase
     {
-        public OpenIdAuthenticatorPlus(GitlabConfigurationProvider configurationProvider) : base(configurationProvider)
+        public OpenIdAuthenticatorPlus(IConfigurationProvider configurationProvider) : base(configurationProvider)
         {
         }
 
@@ -24,7 +26,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             var code = parameters.Read("code");
             var clientId = ConfigureByLogin.ReadConfigurationFirst(parameters, "clientId");
             var clientSecret = ConfigureByLogin.ReadConfigurationFirst(parameters, "clientSecret");
-            var conf = ConfigurationProvider.Configuration;
+            var conf = ConfigurationProvider.GetConfiguration<GitlabConfigurations>();
 
             return new Dictionary<string, string>
             {
@@ -48,9 +50,8 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 
         protected override LoginMethod CreateLoginMethod()
         {
-            var conf = ConfigurationProvider.Configuration;
-
-
+            var conf = ConfigurationProvider.GetConfiguration<GitlabConfigurations>();
+            
             var server = conf.LudwigAddress;
 
             if (string.IsNullOrWhiteSpace(server))

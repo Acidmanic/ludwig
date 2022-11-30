@@ -4,9 +4,11 @@ using System.Net.Http;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Ludwig.Common.Configuration;
 using Ludwig.Common.Extensions;
 using Ludwig.Common.Utilities;
 using Ludwig.Contracts.Authentication;
+using Ludwig.Contracts.Configurations;
 using Ludwig.Contracts.Extensions;
 using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Gitlab.Configurations;
@@ -52,7 +54,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 
 
         // public LoginMethod LoginMethod => _configureByLogin.EquipForUi(_originalMethod);
-        public UsernamePasswordAuthenticator(GitlabConfigurationProvider configurationProvider) : base(
+        public UsernamePasswordAuthenticator(IConfigurationProvider configurationProvider) : base(
             configurationProvider)
         {
         }

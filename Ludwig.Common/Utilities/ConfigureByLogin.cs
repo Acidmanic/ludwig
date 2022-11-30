@@ -2,20 +2,18 @@ using System.Collections.Generic;
 using System.Linq;
 using Ludwig.Common.Configuration;
 using Ludwig.Common.Extensions;
+using Ludwig.Contracts.Configurations;
 using Ludwig.Contracts.Extensions;
 using Ludwig.Contracts.Models;
 
 namespace Ludwig.Common.Utilities
 {
-    public  class ConfigureByLogin<T>
+    public class ConfigureByLogin<T> where T : new()
     {
+        private readonly IConfigurationProvider _configurationProvider;
 
 
-        private readonly IConfigurationProvider<T> _configurationProvider;
-
-        
-        
-        public ConfigureByLogin(IConfigurationProvider<T> configurationProvider)
+        public ConfigureByLogin(IConfigurationProvider configurationProvider)
         {
             _configurationProvider = configurationProvider;
         }
@@ -46,7 +44,7 @@ namespace Ludwig.Common.Utilities
                         DisplayName = requirement.DisplayName,
                         UiProtectedValue = false
                     };
-                    
+
                     result.Fields.Add(extraField);
                 }
             }
@@ -58,10 +56,10 @@ namespace Ludwig.Common.Utilities
         public void HarvestConfigurations(Dictionary<string, string> parameters)
         {
             var configurationType = typeof(T);
-            
+
             var stringType = typeof(string);
-            
-            var conf = _configurationProvider.Configuration;
+
+            var conf = _configurationProvider.GetConfiguration<T>();
 
             var properties = configurationType.GetProperties()
                 .Where(p => p.CanRead && p.CanWrite && p.PropertyType == stringType);
@@ -69,7 +67,7 @@ namespace Ludwig.Common.Utilities
             var keysList = parameters.Keys.ToList();
 
             var saveNeeded = false;
-            
+
             foreach (var property in properties)
             {
                 var name = property.Name.CamelCase();
@@ -77,8 +75,8 @@ namespace Ludwig.Common.Utilities
                 if (keysList.Contains(name))
                 {
                     var value = parameters[name];
-                    
-                    property.SetValue(conf,value);
+
+                    property.SetValue(conf, value);
 
                     saveNeeded = true;
                 }
@@ -91,14 +89,13 @@ namespace Ludwig.Common.Utilities
         }
 
 
-        public string ReadConfigurationFirst(Dictionary<string, string> parameters,string name)
+        public string ReadConfigurationFirst(Dictionary<string, string> parameters, string name)
         {
-
             var value = _configurationProvider.ReadByName<string>(name.PascalCase());
 
             if (string.IsNullOrWhiteSpace(value))
             {
-                value = parameters.Read("applicationId");    
+                value = parameters.Read("applicationId");
             }
 
             return value;

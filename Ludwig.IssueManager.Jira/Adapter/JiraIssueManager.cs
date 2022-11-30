@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ludwig.Common.Configuration;
 using Ludwig.Common.Extensions;
+using Ludwig.Contracts.Configurations;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
+using Ludwig.IssueManager.Jira.Configuration;
 using Ludwig.IssueManager.Jira.Interfaces;
 using Ludwig.IssueManager.Jira.Mapping;
 
@@ -14,11 +17,11 @@ namespace Ludwig.IssueManager.Jira.Adapter
         private readonly Services.Jira _jira;
         private readonly JiraModelMapper _mapper;
 
-        public JiraIssueManager(Services.Jira jira, IJiraConfigurationProvider configurationProvider)
+        public JiraIssueManager(Services.Jira jira, IConfigurationProvider configurationProvider)
         {
             _jira = jira;
 
-            var jiraBase = configurationProvider.Configuration.JiraFrontChannelUrl.Slashend();
+            var jiraBase = configurationProvider.GetConfiguration<JiraConfiguration>().JiraFrontChannelUrl.Slashend();
             
             _mapper = new JiraModelMapper(jiraBase);
         }

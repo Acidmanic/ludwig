@@ -3,6 +3,7 @@ using EnTier.Services;
 using Ludwig.Contracts.Authentication;
 using Ludwig.IssueManager.Gitlab.Adapter;
 using Ludwig.Presentation.Authentication;
+using Ludwig.Presentation.Configuration;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Extensions;
 using Ludwig.Presentation.Models;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.LightWeight;
+using IConfigurationProvider = Ludwig.Contracts.Configurations.IConfigurationProvider;
 
 namespace Ludwig.Presentation
 {
@@ -51,6 +53,8 @@ namespace Ludwig.Presentation
             services.AddSingleton<AuthenticatorsListReference>();
 
             services.AddIssueManagerRegistry<GitlabIssueManagerRegistry>();
+            
+            services.AddTransient<IConfigurationProvider,LudwigConfigurationProvider>();
 
             services.AddTransient<IBackChannelRequestGrant, AuthenticationManager>();
             

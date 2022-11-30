@@ -5,10 +5,12 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Acidmanic.Utilities.Results;
+using Ludwig.Common.Configuration;
 using Ludwig.Common.Extensions;
 using Ludwig.Common.Utilities;
 using Ludwig.Contracts;
 using Ludwig.Contracts.Authentication;
+using Ludwig.Contracts.Configurations;
 using Ludwig.Contracts.Extensions;
 using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Gitlab.Configurations;
@@ -25,10 +27,10 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
         }
 
         private readonly Persistant<AuthHeader> _authHeaderPersistant = new Persistant<AuthHeader>();
-        protected GitlabConfigurationProvider ConfigurationProvider { get; }
-        protected ConfigureByLogin<GitlabConfigurations> ConfigureByLogin { get;  }
-        
-        protected GitlabAuthenticatorBase(GitlabConfigurationProvider configurationProvider)
+        protected IConfigurationProvider ConfigurationProvider { get; }
+        protected ConfigureByLogin<GitlabConfigurations> ConfigureByLogin { get; }
+
+        protected GitlabAuthenticatorBase(IConfigurationProvider configurationProvider)
         {
             ConfigurationProvider = configurationProvider;
             ConfigureByLogin = new ConfigureByLogin<GitlabConfigurations>(ConfigurationProvider);
@@ -39,36 +41,36 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 
 
         protected abstract LoginMethod CreateLoginMethod();
-        
+
 
         protected IStorage Storage { get; set; }
-
 
 
         protected virtual Result PreValidateCollectedInformation(Dictionary<string, string> parameters)
         {
             return new Result().Succeed();
         }
-        
+
         protected async Task<AuthenticationResult> CallForToken(
-            Dictionary<string,string> parameters,
-            Dictionary<string,string> formParams)
+            Dictionary<string, string> parameters,
+            Dictionary<string, string> formParams)
         {
             if (formParams.IsFullyValued())
             {
                 var request = new HttpRequestMessage(HttpMethod.Post, "oauth/token");
 
                 request.Content = new FormUrlEncodedContent(formParams);
-         
-                var url = ConfigurationProvider.Configuration.GitlabInstanceBackChannel.Slashend();
-            
+
+                var url = ConfigurationProvider.GetConfiguration<GitlabConfigurations>()
+                    .GitlabInstanceBackChannel.Slashend();
+
                 var http = new HttpClient
                 {
                     BaseAddress = new Uri(url, UriKind.Absolute)
                 };
-            
+
                 var response = await http.SendAsync(request);
-            
+
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
@@ -87,7 +89,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 
                             ConfigureByLogin.HarvestConfigurations(parameters);
 
-                            return FromToken(token,parameters,url);
+                            return FromToken(token, parameters, url);
                         }
                     }
                     catch (Exception)
@@ -95,25 +97,23 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                     }
                 }
             }
+
             return new AuthenticationResult { Authenticated = false };
         }
-
-
-
+        
         private AuthenticationResult FromToken(GitlabToken token,
-            Dictionary<string,string> parameters,
+            Dictionary<string, string> parameters,
             string url)
         {
-
             var readUsername = parameters.Read("username");
-            
+
             var jwt = token.IdToken;
 
             if (string.IsNullOrWhiteSpace(jwt))
             {
                 jwt = token.AccessToken;
             }
-            
+
             try
             {
                 var handler = new JwtSecurityTokenHandler();
@@ -125,17 +125,19 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                     {
                         Authenticated = true,
                         EmailAddress = jwtSecurityToken.Claims
-                            .Where( c => c.Type?.Trim().ToLower()=="email")
+                            .Where(c => c.Type?.Trim().ToLower() == "email")
                             .Select(c => c.Value).FirstOrDefault(),
                         SubjectId = jwtSecurityToken.Subject,
                         SubjectWebPage = url.Slashend(),
                         IsAdministrator = false,
                         IsIssueManager = true
-                    };    
+                    };
                 }
             }
-            catch (Exception _) { }
-            
+            catch (Exception _)
+            {
+            }
+
             return new AuthenticationResult
             {
                 Authenticated = true,
@@ -145,17 +147,15 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                 IsAdministrator = false,
                 IsIssueManager = true
             };
-            
         }
-        
+
         public Task<AuthenticationResult> Authenticate(Dictionary<string, string> parameters)
         {
-
             if (PreValidateCollectedInformation(parameters))
             {
                 var formEncodedParams = TokenCallFormEncodedParams(parameters);
 
-                return CallForToken(parameters, formEncodedParams);    
+                return CallForToken(parameters, formEncodedParams);
             }
 
             return Task.Run(() => new AuthenticationResult { Authenticated = false });
@@ -173,17 +173,15 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                 }
             });
         }
-
-
+        
         private LoginMethod _originalLoginMethod;
-
 
         public LoginMethod LoginMethod => ConfigureByLogin.EquipForUi(_originalLoginMethod);
 
         public void UseStorage(IStorage storage)
         {
             Storage = storage;
-            
+
             _originalLoginMethod = CreateLoginMethod();
         }
     }
