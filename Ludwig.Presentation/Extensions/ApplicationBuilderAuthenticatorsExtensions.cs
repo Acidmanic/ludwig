@@ -11,26 +11,25 @@ namespace Ludwig.Presentation.Extensions
 {
     public static class ApplicationBuilderAuthenticatorsExtensions
     {
-
-
-
         public static IApplicationBuilder UseIssueManagerRegistry<TRegistry>(this IApplicationBuilder app)
-        where TRegistry:IRegistry,new()
+            where TRegistry : IRegistry, new()
         {
             var reg = new TRegistry();
-
+            var ludwigConfiguration = app.ApplicationServices.GetService<LudwigConfigurationProvider>();
+            
+            ludwigConfiguration?.AddDefinitions(new LudwigConfigurationDescriptor().ConfigurationDefinitions);
+            
             var configurationDescriptorType = reg.ConfigurationDescriptor;
 
             if (configurationDescriptorType != null)
             {
-                if (app.ApplicationServices.GetService(configurationDescriptorType) is IConfigurationDescriptor descriptor)
+                if (app.ApplicationServices.GetService(configurationDescriptorType) is IConfigurationDescriptor
+                    descriptor)
                 {
-                    var ludwigConfiguration = app.ApplicationServices.GetService<LudwigConfigurationProvider>();
-                    
                     ludwigConfiguration?.AddDefinitions(descriptor.ConfigurationDefinitions);
                 }
             }
-            
+
             var authenticatorsReference = app.ApplicationServices.GetService<AuthenticatorsListReference>();
 
             if (authenticatorsReference == null)
@@ -38,7 +37,7 @@ namespace Ludwig.Presentation.Extensions
                 throw new Exception("Please register AuthenticatorsListReference class in di, at" +
                                     " startup class. IT MUST BE SINGLETON");
             }
-            
+
             var authTypes = reg.Authenticators;
 
             foreach (var authType in authTypes)
@@ -48,7 +47,8 @@ namespace Ludwig.Presentation.Extensions
                     authenticatorsReference.UseAuthenticator(authenticator);
                 }
             }
- return app;
+
+            return app;
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
         protected override Dictionary<string, string> TokenCallFormEncodedParams(Dictionary<string, string> parameters)
         {
             var code = parameters.Read("code");
-            var clientId = ConfigureByLogin.ReadConfigurationFirst(parameters, "clientId");
+            var clientId = ConfigurationProvider.ReadByName<string>("clientId");
 
             var foundVerifier = GetVerifierForState(parameters);
             

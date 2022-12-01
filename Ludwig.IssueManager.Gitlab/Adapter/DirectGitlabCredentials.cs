@@ -17,9 +17,8 @@ using Newtonsoft.Json;
 
 namespace Ludwig.IssueManager.Gitlab.Adapter
 {
-    public class UsernamePasswordAuthenticator : GitlabAuthenticatorBase
+    public class DirectGitlabCredentials : GitlabAuthenticatorBase
     {
-       
         protected override LoginMethod CreateLoginMethod()
         {
             return
@@ -53,8 +52,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
         }
 
 
-        // public LoginMethod LoginMethod => _configureByLogin.EquipForUi(_originalMethod);
-        public UsernamePasswordAuthenticator(IConfigurationProvider configurationProvider) : base(
+        public DirectGitlabCredentials(IConfigurationProvider configurationProvider) : base(
             configurationProvider)
         {
         }
@@ -63,8 +61,8 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
         {
             var username = parameters.Read("username");
             var password = parameters.Read("password");
-            var clientId = ConfigureByLogin.ReadConfigurationFirst(parameters, "clientId");
-            var clientSecret = ConfigureByLogin.ReadConfigurationFirst(parameters, "clientSecret");
+            var clientId = ConfigurationProvider.ReadByName<string>("clientId");
+            var clientSecret = ConfigurationProvider.ReadByName<string>("clientSecret");
 
             return new Dictionary<string, string>
             {

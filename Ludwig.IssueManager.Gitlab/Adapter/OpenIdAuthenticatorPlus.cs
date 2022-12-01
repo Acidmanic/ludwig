@@ -20,14 +20,15 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
         {
         }
 
-
         protected override Dictionary<string, string> TokenCallFormEncodedParams(Dictionary<string, string> parameters)
         {
             var code = parameters.Read("code");
-            var clientId = ConfigureByLogin.ReadConfigurationFirst(parameters, "clientId");
-            var clientSecret = ConfigureByLogin.ReadConfigurationFirst(parameters, "clientSecret");
-            var conf = ConfigurationProvider.GetConfiguration<GitlabConfigurations>();
             
+            var clientId = ConfigurationProvider.ReadByName<string>("clientId");
+            
+            var clientSecret = ConfigurationProvider.ReadByName<string>("clientSecret");
+            
+            var conf = ConfigurationProvider.GetConfiguration<GitlabConfigurations>();
             
             return new Dictionary<string, string>
             {
@@ -38,7 +39,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                 { "client_secret", clientSecret }
             };
         }
-        
+
         private string CreateStateParams(GitlabConfigurations configurations)
         {
             var pkce = Pkce.CreateNew();
@@ -51,7 +52,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
         protected override LoginMethod CreateLoginMethod()
         {
             var conf = ConfigurationProvider.GetConfiguration<GitlabConfigurations>();
-            
+
             var server = conf.LudwigAddress;
 
             if (string.IsNullOrWhiteSpace(server))

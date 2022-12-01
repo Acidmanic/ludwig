@@ -28,12 +28,10 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 
         private readonly Persistant<AuthHeader> _authHeaderPersistant = new Persistant<AuthHeader>();
         protected IConfigurationProvider ConfigurationProvider { get; }
-        protected ConfigureByLogin<GitlabConfigurations> ConfigureByLogin { get; }
 
         protected GitlabAuthenticatorBase(IConfigurationProvider configurationProvider)
         {
             ConfigurationProvider = configurationProvider;
-            ConfigureByLogin = new ConfigureByLogin<GitlabConfigurations>(ConfigurationProvider);
             configurationProvider.LoadConfigurations();
         }
 
@@ -87,8 +85,6 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                             _authHeaderPersistant.Value = new AuthHeader { Headervalue = header };
 
                             _authHeaderPersistant.Save();
-
-                            ConfigureByLogin.HarvestConfigurations(parameters);
 
                             return FromToken(token, parameters, url);
                         }
@@ -177,7 +173,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
         
         private LoginMethod _originalLoginMethod;
 
-        public LoginMethod LoginMethod => ConfigureByLogin.EquipForUi(_originalLoginMethod);
+        public LoginMethod LoginMethod => _originalLoginMethod;
 
         public void UseStorage(IStorage storage)
         {

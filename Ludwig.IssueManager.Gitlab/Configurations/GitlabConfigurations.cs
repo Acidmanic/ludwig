@@ -1,9 +1,10 @@
 using System.Globalization;
 using Ludwig.Common.Configuration;
+using Ludwig.Contracts.Configurations;
 
 namespace Ludwig.IssueManager.Gitlab.Configurations
 {
-    public class GitlabConfigurations
+    public class GitlabConfigurations:LudwigConfigurations
     {
         public string GitlabInstanceBackChannel { get; set; }
         
@@ -12,8 +13,6 @@ namespace Ludwig.IssueManager.Gitlab.Configurations
         public string ClientId { get; set; }
         
         public string ClientSecret { get; set; }
-        
-        public string LudwigAddress { get; set; }
-        
+
     }
 }
