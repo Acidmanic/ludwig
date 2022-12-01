@@ -27,7 +27,8 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             var clientId = ConfigureByLogin.ReadConfigurationFirst(parameters, "clientId");
             var clientSecret = ConfigureByLogin.ReadConfigurationFirst(parameters, "clientSecret");
             var conf = ConfigurationProvider.GetConfiguration<GitlabConfigurations>();
-
+            
+            
             return new Dictionary<string, string>
             {
                 { "code", code },

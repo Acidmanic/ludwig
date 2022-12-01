@@ -65,7 +65,7 @@ namespace Ludwig.Common.Configuration
         {
             var key = MemberOwnerUtilities.GetKey(selector);
 
-            _definition.Key = key.ToString();
+            _definition.Key = key.TerminalSegment().Name.CamelCase();
 
             _definition.DisplayName = key.TerminalSegment().Name.TitleCase();
 

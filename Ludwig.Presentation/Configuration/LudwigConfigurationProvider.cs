@@ -146,11 +146,13 @@ namespace Ludwig.Presentation.Configuration
                 {
                     if (property.CanRead && property.CanWrite)
                     {
-                        var foundDefinition = GetDefinition(property.Name, property.PropertyType);
+                        var key = property.Name.CamelCase();
+                        
+                        var foundDefinition = GetDefinition(key, property.PropertyType);
 
-                        if (foundDefinition.Success && _configurationData.ContainsKey(property.Name))
+                        if (foundDefinition.Success && _configurationData.ContainsKey(key))
                         {
-                            var stringValue = _configurationData[property.Name];
+                            var stringValue = _configurationData[key];
 
                             var propertyValue = foundDefinition.Value.FromString(stringValue);
 
@@ -186,7 +188,6 @@ namespace Ludwig.Presentation.Configuration
         public List<ConfigurationTransferItem> GetTransferItems()
         {
             var result = new List<ConfigurationTransferItem>();
-
 
             lock (Locker)
             {

@@ -34,6 +34,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
         {
             ConfigurationProvider = configurationProvider;
             ConfigureByLogin = new ConfigureByLogin<GitlabConfigurations>(ConfigurationProvider);
+            configurationProvider.LoadConfigurations();
         }
 
 

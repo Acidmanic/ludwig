@@ -17,26 +17,7 @@ namespace Ludwig.Presentation.Extensions
         public static IApplicationBuilder UseIssueManagerRegistry<TRegistry>(this IApplicationBuilder app)
         where TRegistry:IRegistry,new()
         {
-
-            var authenticatorsReference = app.ApplicationServices.GetService<AuthenticatorsListReference>();
-
-            if (authenticatorsReference == null)
-            {
-                throw new Exception("Please register AuthenticatorsListReference class in di, at" +
-                                    " startup class. IT MUST BE SINGLETON");
-            }
-            
             var reg = new TRegistry();
-
-            var authTypes = reg.Authenticators;
-
-            foreach (var authType in authTypes)
-            {
-                if (app.ApplicationServices.GetService(authType) is IAuthenticator authenticator)
-                {
-                    authenticatorsReference.UseAuthenticator(authenticator);
-                }
-            }
 
             var configurationDescriptorType = reg.ConfigurationDescriptor;
 
@@ -49,8 +30,25 @@ namespace Ludwig.Presentation.Extensions
                     ludwigConfiguration?.AddDefinitions(descriptor.ConfigurationDefinitions);
                 }
             }
+            
+            var authenticatorsReference = app.ApplicationServices.GetService<AuthenticatorsListReference>();
 
-            return app;
+            if (authenticatorsReference == null)
+            {
+                throw new Exception("Please register AuthenticatorsListReference class in di, at" +
+                                    " startup class. IT MUST BE SINGLETON");
+            }
+            
+            var authTypes = reg.Authenticators;
+
+            foreach (var authType in authTypes)
+            {
+                if (app.ApplicationServices.GetService(authType) is IAuthenticator authenticator)
+                {
+                    authenticatorsReference.UseAuthenticator(authenticator);
+                }
+            }
+ return app;
         }
     }
 }
