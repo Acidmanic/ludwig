@@ -5,6 +5,7 @@ using System.Linq;
 using Acidmanic.Utilities.Results;
 using Ludwig.Common.Extensions;
 using Ludwig.Contracts.Configurations;
+using Ludwig.Presentation.Models;
 using Newtonsoft.Json;
 
 namespace Ludwig.Presentation.Configuration
@@ -53,7 +54,7 @@ namespace Ludwig.Presentation.Configuration
                     File.Delete(_configurationsFile);
                 }
 
-                File.WriteAllText(json, _configurationsFile);
+                File.WriteAllText( _configurationsFile,json);
             }
         }
 
@@ -108,7 +109,6 @@ namespace Ludwig.Presentation.Configuration
 
             return defaultValue;
         }
-
 
         public void WriteByName<TProperty>(string name, TProperty value)
         {
@@ -179,6 +179,66 @@ namespace Ludwig.Presentation.Configuration
             }
 
             return new Result<ConfigurationDefinition>().FailAndDefaultValue();
+        }
+
+        public List<ConfigurationDefinition> Definitions => new List<ConfigurationDefinition>(_configurationDefinitions);
+
+        public List<ConfigurationTransferItem> GetTransferItems()
+        {
+            var result = new List<ConfigurationTransferItem>();
+
+
+            lock (Locker)
+            {
+                result.AddRange(
+                    _configurationDefinitions.Select( d => new ConfigurationTransferItem
+                    {
+                        Description = d.Description,
+                        Key = d.Key,
+                        DisplayName = d.DisplayName,
+                    StringValue = _configurationData.ContainsKey(d.Key) ? _configurationData[d.Key]:null
+                    })
+                );
+            }
+            return result;
+        }
+
+        public Result<Message> UpdateTransferItems(List<ConfigurationTransferItem> items)
+        {
+
+            var result = new Result<Message>().Succeed(new Message());
+            
+            foreach (var item in items)
+            {
+                var key = item.Key;
+
+                var definition = _configurationDefinitions.FirstOrDefault(d => d.Key == key);
+
+                if (definition != null)
+                {
+                    try
+                    {
+                        var value = definition.FromString(item.StringValue);
+
+                        this._configurationData[key] = item.StringValue;
+
+                    }
+                    catch (Exception e)
+                    {
+                        result.Success = false;
+                    
+                        result.Value.Lines.Add(e.Message);
+                    }   
+                }
+                else
+                {
+                    result.Value.Lines.Add($"It's rude to tamper with data! There is no such a thing as {key}.");
+                }
+            }
+
+            SaveConfigurationChanges();
+            
+            return result;
         }
     }
 }

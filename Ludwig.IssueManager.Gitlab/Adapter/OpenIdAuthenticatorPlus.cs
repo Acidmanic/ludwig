@@ -37,8 +37,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                 { "client_secret", clientSecret }
             };
         }
-
-
+        
         private string CreateStateParams(GitlabConfigurations configurations)
         {
             var pkce = Pkce.CreateNew();
@@ -67,8 +66,8 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                     "Please Use The Link below to allow Ludwig to your Gitlab instance. and login to ludwig using " +
                     "gitlab. When you're redirected back here, click login. For this to work, you need to have " +
                     $"an application created in your gitlab instance with redirect-uri: {ludwigLogin}. When you create " +
-                    $"this application, gitlab would also give you an APPLICATION-ID which is needed here on first login." +
-                    $" Later you can change this application id in your configurations.",
+                    "this application, gitlab would also give you an APPLICATION-ID which is needed here on first login." +
+                    " Later you can change this application id in your configurations.",
                 Link = new UiLink
                 {
                     Title = "Login With Gitlab",
