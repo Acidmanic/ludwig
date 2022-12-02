@@ -22,16 +22,6 @@ export class LoginManagerService {
   public token:TokenModel=new TokenModel();
   public me:IssueManagerUserModel=new IssueManagerUserModel();
 
-  private administratorUser:IssueManagerUserModel={
-    userReferenceLink:'',
-    displayName:'ludwig van beethoven',
-    name:'Administrator',
-    avatarUrl:'assets/images/default-profile.png',
-    active:true,
-    emailAddress:''
-  };
-
-
   public login(model:object,methodName:string):Observable<boolean>{
 
     let handler = new Subject<boolean>();
@@ -39,27 +29,18 @@ export class LoginManagerService {
     this.scvAuth.login(model,methodName).subscribe({
 
       next: token => {
-        if (token.isAdministrator){
-          this.isLoggedIn = true;
-          this.me = {...this.administratorUser};
-          this.token ={...token};
-          this.saveLogin();
-          handler.next(true);
-          handler.complete();
-        }else{
-          this.svcIssueManager.getMeBeforeLoggedIn('token ' + token.token)
-            .subscribe({
-              next: me => {
-                this.me = me;
-                this.token = {...token};
-                this.isLoggedIn = true;
-                this.saveLogin();
-                handler.next(true);
-              },
-              error:err=>handler.error(err),
-              complete:()=>handler.complete()
-            });
-        }
+        this.svcIssueManager.getMeBeforeLoggedIn('token ' + token.token)
+          .subscribe({
+            next: me => {
+              this.me = me;
+              this.token = {...token};
+              this.isLoggedIn = true;
+              this.saveLogin();
+              handler.next(true);
+            },
+            error:err=>handler.error(err),
+            complete:()=>handler.complete()
+          });
       },
       error:err=>handler.error(err)
     });
