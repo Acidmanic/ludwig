@@ -73,7 +73,12 @@ export class LoginComponent implements OnInit {
     this.svcLogin.login(model,this.selectedMethod.name).subscribe({
       next: token => {
         this.svcWait.stop();
-        this.router.navigate(['/']);
+        if(this.svcLogin.token.isIssueManager){
+          this.router.navigate(['shoe-box']);
+        }else{
+          this.router.navigate(['configure']);
+        }
+
       },
       error: err => {
         this.svcWait.stop();

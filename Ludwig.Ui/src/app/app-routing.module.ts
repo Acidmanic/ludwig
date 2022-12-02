@@ -7,7 +7,7 @@ import {ConfigurationsComponent} from "./pages/configurations/configurations.com
 
 const routes: Routes = [
   {path:"shoe-box", component:ShoeBoxComponent},
-  {path:"configurations", component:ConfigurationsComponent},
+  {path:"configure", component:ConfigurationsComponent},
   {path:"login", component:LoginComponent},
   {path:"", component:ShoeBoxComponent},
   {path:"#", component:ShoeBoxComponent},
