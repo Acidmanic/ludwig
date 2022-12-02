@@ -24,6 +24,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { QueryFieldInputComponent } from './query-field-input/query-field-input.component';
+import { ConfigurationsComponent } from './pages/configurations/configurations.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { QueryFieldInputComponent } from './query-field-input/query-field-input.
     LoginComponent,
     LoginFormComponent,
     LoginButtonComponent,
-    QueryFieldInputComponent
+    QueryFieldInputComponent,
+    ConfigurationsComponent
   ],
   imports: [
     BrowserModule,
