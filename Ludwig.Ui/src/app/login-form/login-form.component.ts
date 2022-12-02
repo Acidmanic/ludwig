@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {LoginMethodModel} from "../models/login-method-model";
 import {LoginFieldModel} from "../models/login-field-model";
+import {StructuredLocalStorageService} from "../services/structured-local-storage.service";
 
 interface LooseObject {
   [key: string]: string

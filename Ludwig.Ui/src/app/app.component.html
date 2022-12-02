@@ -10,15 +10,30 @@
     <ul class="navbar-nav">
 <!--      btn btn-outline-light btn-light text-secondary-->
       <li class="nav-item active">
-        <a class="nav-link" routerLink="/shoe-box" routerLinkActive="active" ariaCurrentWhenActive="page">Shoe Box!</a>
+        <a class="nav-link" routerLink="/shoe-box" routerLinkActive="active" ariaCurrentWhenActive="page">
+          <span class="material-symbols-outlined">
+          how_to_vote
+          </span>
+          Shoe Box!
+        </a>
       </li>
 
       <li class="nav-item active">
-        <a class="nav-link" routerLink="/configure" routerLinkActive="active" ariaCurrentWhenActive="page">Configurations</a>
+        <a class="nav-link" routerLink="/configure" routerLinkActive="active" ariaCurrentWhenActive="page">
+          <span class="material-symbols-outlined">
+          settings
+          </span>
+          Configurations
+        </a>
       </li>
 
-      <li ngbDropdown class="nav-item">
-        <a href (click)="false" class="nav-link" ngbDropdownToggle>Export</a>
+      <li ngbDropdown class="nav-item" *ngIf="svcLogin.token && svcLogin.token.isIssueManager">
+        <a href (click)="false" class="nav-link" ngbDropdownToggle>
+          <span class="material-symbols-outlined">
+            sim_card_download
+          </span>
+          Export
+        </a>
         <div ngbDropdownMenu>
           <a href="export/csv/stories" ngbDropdownItem>Export User Stories as CSV</a>
           <a href="export/json/stories" ngbDropdownItem>Export User Stories as Json</a>

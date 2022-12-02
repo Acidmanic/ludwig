@@ -42,4 +42,19 @@ export class ConfigurationsComponent implements OnInit {
     });
   }
 
+  onSaveClick(){
+
+    this.svcWait.start();
+
+    this.svcConf.update(this.configurationItems).subscribe({
+      next: items => {
+        this.svcWait.stop();
+        this.configurationItems = items;
+      },
+      error: err => this.svcWait.stop(),
+      complete: () => this.svcWait.stop()
+    });
+
+  }
+
 }

@@ -11,24 +11,6 @@ export class ConfigurationsService {
   constructor(private http:HttpClient) { }
 
 
-
-
-  public getAll():Observable<ConfigurationItemModel[]>{
-
-    let handler = new Subject<ConfigurationItemModel[]>();
-
-    let url = 'configurations';
-
-    this.http.get<ConfigurationItemModel[]>(url).subscribe({
-
-      next: items => handler.next(items),
-      error: err => handler.error(err),
-      complete: () => handler.complete()
-    });
-
-    return handler;
-  }
-
   public read():Observable<ConfigurationItemModel[]>{
 
     let handler = new Subject<ConfigurationItemModel[]>();

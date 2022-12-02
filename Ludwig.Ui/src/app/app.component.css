@@ -34,3 +34,7 @@ body{
   background-color: #989376;
   color: black;
 }
+
+.nav-link .material-symbols-outlined{
+  font-size: 1.2em;
+}

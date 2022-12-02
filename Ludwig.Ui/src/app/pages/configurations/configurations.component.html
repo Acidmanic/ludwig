@@ -1,9 +1,13 @@
 
 
-<disabler>
+<disabler *ngIf="configurationItems && configurationItems.length>0">
 
 
   <div class="container card card-body bg-secondary">
+
+    <div class="row d-flex justify-content-center alert alert-secondary">
+      <span class="fw-bold" style="width:auto"> Ludwig - Configurations</span>
+    </div>
 
     <div class="row" >
 
@@ -16,9 +20,12 @@
 
     </div>
 
-    <div class="row">
+    <div class="row d-flex justify-content-center">
+
+      <button type="button" class="btn btn-info" (click)="onSaveClick()" style="width:auto">Save Configurations</button>
 
     </div>
+
   </div>
 
 
