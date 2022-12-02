@@ -24,9 +24,6 @@ namespace Ludwig.Presentation.Extensions
                 throw new Exception("Register issue manager aggregation.");
             }
             
-            
-            ludwigConfiguration?.AddDefinitions(new LudwigConfigurationDescriptor().ConfigurationDefinitions);
-            
             var configurationDescriptorType = reg.ConfigurationDescriptor;
 
             if (configurationDescriptorType != null)

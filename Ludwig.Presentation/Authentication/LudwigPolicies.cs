@@ -4,5 +4,6 @@ namespace Ludwig.Presentation.Authentication
     {
         public const string IssueManagersOnly = "IssueManagersOnly";
         public const string AdministratorsOnly = "AdministratorsOnly";
+        public const string AdministratorOrIssueManager = "AdministratorOrIssueManager";
     }
 }

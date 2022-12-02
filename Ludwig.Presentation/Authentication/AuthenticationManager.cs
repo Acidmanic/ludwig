@@ -5,26 +5,25 @@ using System.Threading.Tasks;
 using EnTier.Results;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.Models;
+using Ludwig.Presentation.Administration;
 using Ludwig.Presentation.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
 namespace Ludwig.Presentation.Authentication
 {
-    public class AuthenticationManager:IBackChannelRequestGrant
+    public class AuthenticationManager : IBackChannelRequestGrant
     {
-
         public static readonly string CookieAuthorizationField = "Ludwig.Session";
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AuthenticationStore _authenticationStore;
-        
+
         public IReadOnlyList<IAuthenticator> Authenticators { get; private set; }
         public IReadOnlyList<LoginMethod> LoginMethods { get; private set; }
         public ReadOnlyDictionary<string, IAuthenticator> AuthenticatorsByMethodName { get; private set; }
         public ReadOnlyDictionary<string, LoginMethod> LoginMethodsByMethodName { get; private set; }
 
-        
 
         public AuthenticationManager(
             AuthenticatorsListReference authenticatorsListReference,
@@ -37,8 +36,6 @@ namespace Ludwig.Presentation.Authentication
             var authenticators = new List<IAuthenticator>();
             var logins = new List<LoginMethod>();
 
-            // Add any other authenticators
-            AddAdditionalAuthenticators(authenticators);
 
             authenticators.AddRange(authenticatorsListReference.Authenticators);
 
@@ -50,7 +47,6 @@ namespace Ludwig.Presentation.Authentication
                 authByName.Add(a.LoginMethod.Name, a);
                 loginByName.Add(a.LoginMethod.Name, a.LoginMethod);
                 logins.Add(a.LoginMethod);
-                
             });
 
             Authenticators = authenticators;
@@ -58,12 +54,6 @@ namespace Ludwig.Presentation.Authentication
             AuthenticatorsByMethodName = new ReadOnlyDictionary<string, IAuthenticator>(authByName);
             LoginMethodsByMethodName = new ReadOnlyDictionary<string, LoginMethod>(loginByName);
         }
-
-        private void AddAdditionalAuthenticators(List<IAuthenticator> authenticators)
-        {
-            authenticators.Add(new SimpleAdministratorAuthenticator());
-        }
-
 
         // set grant access
         public async Task<Result<AuthorizationRecord, string>> Login(LoginParameters parameters)
@@ -83,9 +73,9 @@ namespace Ludwig.Presentation.Authentication
                     var requestOrigin = _httpContextAccessor.HttpContext.Request.Host.Host;
 
                     var updates = await authenticator.GrantAccess();
-                    
+
                     var record = _authenticationStore.GenerateToken(
-                        authenticator.LoginMethod.Name, authResult,requestOrigin,updates);
+                        authenticator.LoginMethod.Name, authResult, requestOrigin, updates);
 
                     return new Result<AuthorizationRecord, string>(true, "Success", record);
                 }
@@ -99,7 +89,6 @@ namespace Ludwig.Presentation.Authentication
         }
 
 
-
         private string ReadAuthorizationCookie()
         {
             var context = _httpContextAccessor.HttpContext;
@@ -111,6 +100,7 @@ namespace Ludwig.Presentation.Authentication
                     return cookie;
                 }
             }
+
             return null;
         }
 
@@ -148,7 +138,7 @@ namespace Ludwig.Presentation.Authentication
         public Result<AuthorizationRecord> IsAuthorized()
         {
             var foundRecord = new Result<AuthorizationRecord>().FailAndDefaultValue();
-            
+
             var token = ReadAuthorizationToken();
 
             if (token != null)
@@ -159,11 +149,11 @@ namespace Ludwig.Presentation.Authentication
             if (!foundRecord)
             {
                 var cookie = ReadAuthorizationCookie();
-                
+
                 if (cookie != null)
                 {
                     foundRecord = _authenticationStore.IsCookieRegistered(cookie);
-                }    
+                }
             }
 
             if (foundRecord)
@@ -190,7 +180,7 @@ namespace Ludwig.Presentation.Authentication
                         {
                             return new Result<AuthorizationRecord>(true, record);
                         }
-                    }   
+                    }
                 }
             }
 
@@ -203,10 +193,9 @@ namespace Ludwig.Presentation.Authentication
 
             Revoke(token);
         }
-        
+
         public void Revoke(string token)
         {
-            
             if (token != null)
             {
                 var foundRecord = _authenticationStore.IsTokenRegistered(token);

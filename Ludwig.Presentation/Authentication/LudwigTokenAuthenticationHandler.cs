@@ -40,13 +40,13 @@ namespace Ludwig.Presentation.Authentication
                     };
                     if (logged.Value.IsAdministrator)
                     {
-                        claims.Add(new Claim(LudwigClaimTypes.Administrator,"true"));
+                        claims.Add(new Claim(LudwigClaims.UserScheme,LudwigClaims.UserSchemes.Administrator));
                     }
                     if (logged.Value.IsIssueManager)
                     {
-                        claims.Add(new Claim(LudwigClaimTypes.IssueManager,"true"));
+                        claims.Add(new Claim(LudwigClaims.UserScheme,LudwigClaims.UserSchemes.IssueManager));
                     }
-                    claims.Add(new Claim(LudwigClaimTypes.LoginMethod,logged.Value.LoginMethodName));
+                    claims.Add(new Claim(LudwigClaims.LoginMethod,logged.Value.LoginMethodName));
                     
                     var identity = new ClaimsIdentity(claims, Scheme.Name);
                     var principal = new GenericPrincipal(identity, null);

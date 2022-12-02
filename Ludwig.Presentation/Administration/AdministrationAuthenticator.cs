@@ -8,14 +8,14 @@ using Ludwig.Contracts.Extensions;
 using Ludwig.Contracts.Models;
 using Ludwig.Presentation.Models;
 
-namespace Ludwig.Presentation.Authentication
+namespace Ludwig.Presentation.Administration
 {
-    public class SimpleAdministratorAuthenticator : IAuthenticator
+    public class AdministrationAuthenticator : IAuthenticator
     {
         private readonly Persistant<Credentials> _credentialsPersistence = new Persistant<Credentials>();
 
 
-        public SimpleAdministratorAuthenticator()
+        public AdministrationAuthenticator()
         {
             _credentialsPersistence.Load();
 

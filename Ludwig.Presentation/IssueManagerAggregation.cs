@@ -47,7 +47,7 @@ namespace Ludwig.Presentation
                 var context = _httpContextAccessor.HttpContext;
                 
                 var loginMethodName = context.User.Claims.
-                    FirstOrDefault(p=>p.Type == LudwigClaimTypes.LoginMethod)?.Value;
+                    FirstOrDefault(p=>p.Type == LudwigClaims.LoginMethod)?.Value;
 
                 if (!string.IsNullOrWhiteSpace(loginMethodName))
                 {

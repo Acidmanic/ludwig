@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Presentation.Authentication.Attributes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ludwig.Presentation.Controllers
@@ -9,7 +10,6 @@ namespace Ludwig.Presentation.Controllers
     
     [ApiController]
     [Route("issue-manager")]
-    [AuthorizeIssueManagers]
     public class IssueManagerController:ControllerBase
     {
 
@@ -22,6 +22,7 @@ namespace Ludwig.Presentation.Controllers
 
 
         [HttpGet]
+        [AuthorizeAdministratorsOrIssueManagers]
         [Route("me")]
         public async Task<IActionResult> GetMe()
         {
@@ -38,6 +39,7 @@ namespace Ludwig.Presentation.Controllers
         
         [HttpGet]
         [Route("users")]
+        [AuthorizeIssueManagers]
         public async  Task<IActionResult> AllUsers()
         {
             var users = await _issueManager.GetAllUsers();
@@ -47,6 +49,7 @@ namespace Ludwig.Presentation.Controllers
         
         [HttpGet]
         [Route("issues")]
+        [AuthorizeIssueManagers]
         public async  Task<IActionResult> AllIssues()
         {
             var issues = await _issueManager.GetAllIssues();
@@ -56,6 +59,7 @@ namespace Ludwig.Presentation.Controllers
         
         [HttpGet]
         [Route("issues-by-story/{story}")]
+        [AuthorizeIssueManagers]
         public async  Task<IActionResult> IssuesByStory(string story)
         {
             var issues = await _issueManager.GetIssuesByUserStory(story);

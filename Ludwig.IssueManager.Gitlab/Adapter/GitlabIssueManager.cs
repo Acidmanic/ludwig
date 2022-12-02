@@ -64,7 +64,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             var gitlabIssues = await downloader.DownloadObject<List<GitlabIssue>>
-                (_backChannelUrl+"api/v4/issues", 400, 3);
+                (_backChannelUrl+"api/v4/issues", 1000, 3);
 
             if (gitlabIssues)
             {
