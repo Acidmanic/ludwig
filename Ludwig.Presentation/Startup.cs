@@ -1,15 +1,21 @@
+using System;
 using EnTier.Extensions;
 using EnTier.Services;
 using Ludwig.Contracts.Authentication;
+using Ludwig.Contracts.IssueManagement;
+using Ludwig.IssueManager.Fake;
 using Ludwig.IssueManager.Gitlab.Adapter;
+using Ludwig.IssueManager.Jira.Adapter;
 using Ludwig.Presentation.Authentication;
 using Ludwig.Presentation.Configuration;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Extensions;
 using Ludwig.Presentation.Models;
 using Ludwig.Presentation.Services;
+using Ludwig.Presentation.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,7 +36,7 @@ namespace Ludwig.Presentation
 
         public IConfiguration Configuration { get; }
 
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -52,7 +58,13 @@ namespace Ludwig.Presentation
             
             services.AddSingleton<AuthenticatorsListReference>();
 
+            var issueManagerAggregationSingleton = new Wrap<IssueManagerAggregation>();
+            services.AddSingleton(sp => CreateIssueManagerAggregation(issueManagerAggregationSingleton, sp));
+            services.AddSingleton<IIssueManager, IssueManagerAggregation>(sp => CreateIssueManagerAggregation(issueManagerAggregationSingleton, sp));
+            
             services.AddIssueManagerRegistry<GitlabIssueManagerRegistry>();
+            services.AddIssueManagerRegistry<JiraIssueManagementRegistry>();
+            services.AddIssueManagerRegistry<FakeIssueManagerRegistry>();
 
             var configurationProvider = new LudwigConfigurationProvider();
             
@@ -84,6 +96,20 @@ namespace Ludwig.Presentation
 
         }
 
+
+        private IssueManagerAggregation CreateIssueManagerAggregation(Wrap<IssueManagerAggregation> instance,
+            IServiceProvider serviceProvider)
+        {
+            if (instance.Value == null)
+            {
+                var contextAcc = serviceProvider.GetService(typeof(IHttpContextAccessor)) as IHttpContextAccessor;
+
+                instance.Value = new IssueManagerAggregation(contextAcc);
+            }
+
+            return instance.Value;
+        }
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -98,6 +124,10 @@ namespace Ludwig.Presentation
 
             app.UseRouting();
 
+            app.UseIssueManagerRegistry<GitlabIssueManagerRegistry>();
+            app.UseIssueManagerRegistry<JiraIssueManagementRegistry>();
+            app.UseIssueManagerRegistry<FakeIssueManagerRegistry>();
+            
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -107,7 +137,7 @@ namespace Ludwig.Presentation
 
             app.IntroduceDotnetResolverToEnTier();
 
-            app.UseIssueManagerRegistry<GitlabIssueManagerRegistry>();
+            
 
         }
     }

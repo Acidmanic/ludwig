@@ -19,7 +19,7 @@ namespace Ludwig.Presentation.Extensions
 
             var reg = new TRegistry();
 
-            services.AddSingleton(typeof(IIssueManager), reg.IssueManager);
+            services.AddSingleton(reg.IssueManager);
 
             foreach (var authenticator in reg.Authenticators)
             {

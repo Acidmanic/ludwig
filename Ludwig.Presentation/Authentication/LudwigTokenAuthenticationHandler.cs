@@ -46,6 +46,8 @@ namespace Ludwig.Presentation.Authentication
                     {
                         claims.Add(new Claim(LudwigClaimTypes.IssueManager,"true"));
                     }
+                    claims.Add(new Claim(LudwigClaimTypes.LoginMethod,logged.Value.LoginMethodName));
+                    
                     var identity = new ClaimsIdentity(claims, Scheme.Name);
                     var principal = new GenericPrincipal(identity, null);
                     var ticket = new AuthenticationTicket(principal, Scheme.Name);
