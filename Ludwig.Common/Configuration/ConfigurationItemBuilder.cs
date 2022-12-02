@@ -16,21 +16,37 @@ namespace Ludwig.Common.Configuration
 
     public class ConfigurationItemBuilder<TConfiguration> : ConfigurationItemBuilder
     {
-        public ConfigurationItemBuilder FromProperty<TProp>(Expression<Func<TConfiguration, TProp>> selector)
+        public ConfigurationItemBuilder<TConfiguration> FromProperty<TProp>(Expression<Func<TConfiguration, TProp>> selector)
         {
-            return base.FromProperty<TConfiguration, TProp>(selector);
+            base.FromProperty<TConfiguration, TProp>(selector);
+            
+            return this;
+        }
+        
+        public new ConfigurationItemBuilder<TConfiguration> Clear()
+        {
+            base.Clear();
+            
+            return this;
         }
     }
     
     public class ConfigurationItemBuilder
     {
-        private readonly ConfigurationDefinition _definition;
+        private ConfigurationDefinition _definition;
 
         public ConfigurationItemBuilder()
         {
+            Clear();
+        }
+
+
+        public ConfigurationItemBuilder Clear()
+        {
             _definition = new ConfigurationDefinition();
             _definition.ValueType = typeof(string);
-            
+
+            return this;
         }
 
         public ConfigurationItemBuilder Description(string description)

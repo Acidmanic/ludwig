@@ -12,6 +12,8 @@ namespace Ludwig.IssueManager.Jira.Adapter
 
         public JiraIssueManagementRegistry()
         {
+            Configuration<JiraConfigurationDescriptor>();
+            
             AddIssueManager<JiraIssueManager>();
             
             Authenticator<UsernamePasswordAuthenticator>();
