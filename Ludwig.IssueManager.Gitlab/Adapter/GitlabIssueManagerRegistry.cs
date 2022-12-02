@@ -12,7 +12,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             
             Configuration<GitlabConfigurationDescriptor>();
             
-            Authenticator<OpenIdAuthenticatorPlus>();
+            Authenticator<OpenIdAuthenticator>();
             
             Authenticator<DirectGitlabCredentials>();
             

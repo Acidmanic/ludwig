@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Ludwig.Common.Configuration;
 using Ludwig.Common.Extensions;
 using Ludwig.Common.Utilities;
 using Ludwig.Contracts;
@@ -10,11 +8,10 @@ using Ludwig.Contracts.Configurations;
 using Ludwig.Contracts.Extensions;
 using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Jira.Configuration;
-using Ludwig.IssueManager.Jira.Interfaces;
 
 namespace Ludwig.IssueManager.Jira.Adapter
 {
-    internal class UsernamePasswordAuthenticator:IAuthenticator
+    internal class JiraByCredentials:IAuthenticator
     {
 
 
@@ -29,7 +26,7 @@ namespace Ludwig.IssueManager.Jira.Adapter
         private readonly IConfigurationProvider _configurationProvider;
         private readonly Persistant<GrantRecord> _persistantGrantRecord = new Persistant<GrantRecord>(); 
 
-        public UsernamePasswordAuthenticator(Services.Jira jira, IConfigurationProvider configurationProvider)
+        public JiraByCredentials(Services.Jira jira, IConfigurationProvider configurationProvider)
         {
             _jira = jira;
             _configurationProvider = configurationProvider;
@@ -86,7 +83,7 @@ namespace Ludwig.IssueManager.Jira.Adapter
         {
             Description = $"Please use your Jira username and password to login. I know it's not secure, but " +
                           $"that is all we can do while using Basic Authorization!",
-            Name = "By Jira Credentials",
+            Name = "Jira - By Credentials",
             Fields = new List<LoginField>
             {
                 LoginField.Username,

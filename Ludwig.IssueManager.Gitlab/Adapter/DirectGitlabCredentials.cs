@@ -27,7 +27,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                     Description = "You can create an application in your gitlab instance, and use it's" +
                                   " application-id and secrete here alongside with your gitlab Username and Password." +
                                   "Ludwig will use these information to connect with gitlab.",
-                    Name = "Gitlab Oauth2.0 as Client",
+                    Name = "Gitlab - By Credentials",
                     Fields = new List<LoginField>
                     {
                         LoginField.Username,

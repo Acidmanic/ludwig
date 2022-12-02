@@ -10,8 +10,7 @@ namespace Ludwig.IssueManager.Fake
 {
     public class FakeIssueManager : IIssueManager
     {
-
-
+        
         private readonly IBackChannelRequestGrant _backChannelRequestGrant;
 
         public FakeIssueManager(IBackChannelRequestGrant backChannelRequestGrant)
