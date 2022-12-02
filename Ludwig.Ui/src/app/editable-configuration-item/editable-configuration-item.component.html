@@ -1,1 +1,20 @@
-<p>editable-configuration-item works!</p>
+
+
+
+
+
+
+
+<div class="card bg-light mb-3">
+  <div class="card-header">{{configurationItem.displayName}}</div>
+  <div class="card-body">
+
+    <small class="form-text text-muted card-text">{{configurationItem.description}}</small>
+
+    <input type="text" class="form-control"
+           [(ngModel)]="configurationItem.stringValue"
+           id="input-{{configurationItem.key}}" aria-describedby="emailHelp"
+           placeholder="Enter {{configurationItem.displayName}}">
+
+  </div>
+</div>

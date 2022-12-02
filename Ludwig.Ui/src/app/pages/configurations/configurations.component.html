@@ -1,1 +1,25 @@
-<p>configurations works!</p>
+
+
+<disabler>
+
+
+  <div class="container card card-body bg-secondary">
+
+    <div class="row" >
+
+      <editable-configuration-item
+        *ngFor="let item of configurationItems"
+        class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-4"
+        [configuration-item]="item">
+
+      </editable-configuration-item>
+
+    </div>
+
+    <div class="row">
+
+    </div>
+  </div>
+
+
+</disabler>
