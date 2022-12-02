@@ -25,6 +25,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { QueryFieldInputComponent } from './query-field-input/query-field-input.component';
 import { ConfigurationsComponent } from './pages/configurations/configurations.component';
+import { EditableConfigurationItemComponent } from './editable-configuration-item/editable-configuration-item.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ConfigurationsComponent } from './pages/configurations/configurations.c
     LoginFormComponent,
     LoginButtonComponent,
     QueryFieldInputComponent,
-    ConfigurationsComponent
+    ConfigurationsComponent,
+    EditableConfigurationItemComponent
   ],
   imports: [
     BrowserModule,
