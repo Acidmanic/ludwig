@@ -26,6 +26,7 @@ import { LoginButtonComponent } from './login-button/login-button.component';
 import { QueryFieldInputComponent } from './query-field-input/query-field-input.component';
 import { ConfigurationsComponent } from './pages/configurations/configurations.component';
 import { EditableConfigurationItemComponent } from './editable-configuration-item/editable-configuration-item.component';
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { EditableConfigurationItemComponent } from './editable-configuration-ite
     LoginButtonComponent,
     QueryFieldInputComponent,
     ConfigurationsComponent,
-    EditableConfigurationItemComponent
+    EditableConfigurationItemComponent,
+    AccessDeniedComponent
   ],
   imports: [
     BrowserModule,
