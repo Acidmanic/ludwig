@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
 import {ConfigurationItemModel} from "../../models/configuration-item-model";
+import {ConfigurationUpdateModel} from "../../models/configuration-update-model";
 
 @Injectable({
   providedIn: 'root'
@@ -27,14 +28,14 @@ export class ConfigurationsService {
     return handler;
   }
 
-  public update(updateItems:ConfigurationItemModel[]):Observable<ConfigurationItemModel[]>{
+  public update(updateItems:ConfigurationItemModel[]):Observable<ConfigurationUpdateModel>{
 
-    let handler = new Subject<ConfigurationItemModel[]>();
+    let handler = new Subject<ConfigurationUpdateModel>();
 
     let url = 'configurations';
 
-    this.http.put<ConfigurationItemModel[]>(url,updateItems).subscribe({
-      next: items => handler.next(items),
+    this.http.put<ConfigurationUpdateModel>(url,updateItems).subscribe({
+      next: update => handler.next(update),
       error: err => handler.error(err),
       complete: () => handler.complete()
     });

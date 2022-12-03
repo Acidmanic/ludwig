@@ -3,6 +3,7 @@ import {ConfigurationItemModel} from "../../models/configuration-item-model";
 import {ConfigurationsService} from "../../services/configurations/configurations.service";
 import {WaiterService} from "../../services/waiter.service";
 import {LoginManagerService} from "../../services/login-manager/login-manager.service";
+import {MessageModel} from "../../models/message-model";
 
 @Component({
   selector: 'configurations',
@@ -13,6 +14,7 @@ export class ConfigurationsComponent implements OnInit {
 
 
   configurationItems:ConfigurationItemModel[]=[];
+  receivedMessage:MessageModel=new MessageModel();
 
 
   constructor(private svcConf:ConfigurationsService,
@@ -46,10 +48,13 @@ export class ConfigurationsComponent implements OnInit {
 
     this.svcWait.start();
 
+    this.receivedMessage = new MessageModel();
+
     this.svcConf.update(this.configurationItems).subscribe({
-      next: items => {
+      next: update => {
         this.svcWait.stop();
-        this.configurationItems = items;
+        this.configurationItems = update.items;
+        this.receivedMessage = update.message;
       },
       error: err => this.svcWait.stop(),
       complete: () => this.svcWait.stop()

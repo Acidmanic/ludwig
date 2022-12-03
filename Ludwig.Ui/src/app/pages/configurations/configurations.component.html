@@ -20,6 +20,18 @@
 
     </div>
 
+    <div *ngIf="receivedMessage && receivedMessage.lines && receivedMessage.lines.length>0"
+         class="row alert alert-danger">
+
+      <div *ngFor="let line of receivedMessage.lines" class="d-flex configuration-message">
+      <span class="material-symbols-outlined">
+        error
+      </span>
+        {{line}}
+      </div>
+
+    </div>
+
     <div class="row d-flex justify-content-center">
 
       <button type="button" class="btn btn-info" (click)="onSaveClick()" style="width:auto">Save Configurations</button>
