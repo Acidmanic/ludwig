@@ -33,14 +33,13 @@ namespace Ludwig.Presentation.Controllers
 
             var updated = _ludwigConfigurationProvider.UpdateTransferItems(items);
 
-            if (updated)
+
+            return Ok(new
             {
-                return Ok(_ludwigConfigurationProvider.GetTransferItems());
-            }
-            else
-            {
-                return BadRequest();
-            }
+                Success = updated.Success,
+                Items = _ludwigConfigurationProvider.GetTransferItems(),
+                Message = updated.Value
+            });
         }
     }
 }

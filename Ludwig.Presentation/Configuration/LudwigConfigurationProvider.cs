@@ -6,6 +6,7 @@ using Acidmanic.Utilities.Results;
 using Ludwig.Common.Extensions;
 using Ludwig.Contracts.Configurations;
 using Ludwig.Presentation.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
 
 namespace Ludwig.Presentation.Configuration
@@ -217,19 +218,29 @@ namespace Ludwig.Presentation.Configuration
 
                 if (definition != null)
                 {
-                    try
+
+                    if (definition.VerifyStringValue(item.StringValue))
                     {
-                        var value = definition.FromString(item.StringValue);
+                        try
+                        {
+                            var value = definition.FromString(item.StringValue);
 
-                        this._configurationData[key] = item.StringValue;
+                            _configurationData[key] = item.StringValue;
 
+                        }
+                        catch (Exception e)
+                        {
+                            result.Success = false;
+                    
+                            result.Value.Lines.Add(e.Message);
+                        }
                     }
-                    catch (Exception e)
+                    else
                     {
                         result.Success = false;
-                    
-                        result.Value.Lines.Add(e.Message);
-                    }   
+                        
+                        result.Value.Lines.Add("Entered Value, Is not valid for this configuration.");
+                    }
                 }
                 else
                 {
