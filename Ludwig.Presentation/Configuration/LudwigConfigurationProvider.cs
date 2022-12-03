@@ -239,7 +239,9 @@ namespace Ludwig.Presentation.Configuration
                     {
                         result.Success = false;
                         
-                        result.Value.Lines.Add("Entered Value, Is not valid for this configuration.");
+                        result.Value.Lines.Add($"The value: '{item.StringValue}'," +
+                                               $" Is not valid for configuration item: '{definition.DisplayName}'. " +
+                                               $"Hence it has not been set.");
                     }
                 }
                 else
