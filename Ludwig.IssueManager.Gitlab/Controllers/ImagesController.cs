@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ludwig.IssueManager.Gitlab.Controllers
 {
-    [Route("images")]
+    [Route("gitlab-images")]
     public class ImagesController : ControllerBase
     {
         [HttpGet]

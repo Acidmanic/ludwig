@@ -16,8 +16,10 @@ namespace Ludwig.Contracts.Models
         public UiLink Link { get; set; }
 
         public string Name { get; set; }
+        
+        public string IconUrl { get; set; }
 
-
+        
         public static LoginMethod CreateUsernamePasswordLoginMethod(string name)
         {
             return new LoginMethod

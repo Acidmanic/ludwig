@@ -88,7 +88,8 @@ namespace Ludwig.IssueManager.Jira.Adapter
             {
                 LoginField.Username,
                 LoginField.Password
-            }
+            },
+            IconUrl = "jira/assets/svg/jira-logo.svg"
         };
 
         public void UseStorage(IStorage storage)

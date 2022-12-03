@@ -56,7 +56,7 @@ namespace Ludwig.IssueManager.Fake
                 LoginField.Otp
             },
             Name = "One Time Password",
-            
+            IconUrl = "fake-images/svg/sad-rect.svg"
         };
 
         private static readonly string Code=Guid.NewGuid().ToString().Substring(0, 5);
@@ -66,7 +66,7 @@ namespace Ludwig.IssueManager.Fake
             get
             {
                 Method.Description = $"Please enter {Code} to log in!";
-
+            
                 return Method;
             }
         }

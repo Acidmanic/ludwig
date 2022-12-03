@@ -67,7 +67,8 @@ namespace Ludwig.IssueManager.Fake
             {
                 LoginField.Username,
                 LoginField.Password
-            }
+            },
+            IconUrl = "fake-images/svg/light-crack.svg"
         };
 
         public void UseStorage(IStorage storage)

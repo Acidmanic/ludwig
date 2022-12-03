@@ -47,7 +47,8 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                             ConfigurationName = nameof(GitlabConfigurations.ClientSecret),
                             DisplayName = "Secret"
                         }
-                    }
+                    },
+                    IconUrl = "gitlab-images/svg/gitlab-logo.svg"
                 };
         }
 

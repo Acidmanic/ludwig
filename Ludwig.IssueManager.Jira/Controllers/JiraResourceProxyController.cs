@@ -1,4 +1,5 @@
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using Ludwig.Common.Extensions;
 using Ludwig.Contracts.Authentication;
@@ -19,6 +20,21 @@ namespace Ludwig.IssueManager.Jira.Controllers
         }
 
 
+        [HttpGet]
+        [Route("assets/svg/{name}")]
+        public IActionResult Svg(string name)
+        {
+            var dir = new FileInfo(Assembly.GetEntryAssembly().Location)
+                .Directory.FullName;
+            
+            var fileName = Path.Combine(dir,"JiraAssets", name);
+
+            return new PhysicalFileResult(fileName, "image/svg+xml");
+           
+        }
+        
+        
+        
         [HttpGet]
         [Route("image/{*_}")]
         public async Task<IActionResult> Image(string _)
@@ -48,9 +64,6 @@ namespace Ludwig.IssueManager.Jira.Controllers
                     }
                 }
             }
-            
-            
-
             return NotFound();
         }
     }

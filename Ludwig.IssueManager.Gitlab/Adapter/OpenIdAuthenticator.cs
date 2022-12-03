@@ -118,7 +118,8 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                         ConfigurationName = nameof(GitlabConfigurations.LudwigAddress),
                         DisplayName = "Ludwig Address"
                     }
-                }
+                },
+                IconUrl = "gitlab-images/svg/gitlab-logo.svg"
             };
         }
     }

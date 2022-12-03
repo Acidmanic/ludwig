@@ -11,4 +11,12 @@
     <ProjectReference Include="..\Ludwig.Contracts\Ludwig.Contracts.csproj" />
   </ItemGroup>
 
+
+
+  <ItemGroup>
+    <None Update="JiraAssets\*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

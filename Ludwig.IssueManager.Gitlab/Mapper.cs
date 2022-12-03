@@ -52,7 +52,7 @@ namespace Ludwig.IssueManager.Gitlab
                 {
                     Description = "Gitlab Issue",
                     Name = "Issue",
-                    IconUrl = "images/svg/task.svg"
+                    IconUrl = "gitlab-images/svg/task.svg"
                 },
                 IssueReferenceLink = value.WebUrl
             };

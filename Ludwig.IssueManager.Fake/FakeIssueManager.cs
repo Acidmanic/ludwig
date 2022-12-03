@@ -23,7 +23,7 @@ namespace Ludwig.IssueManager.Fake
         {
             Active = true,
             Name = "fake.user",
-            AvatarUrl = "http://localhost:13801/images/profile",
+            AvatarUrl = "http://localhost:13801/fake-images/profile",
             DisplayName = "Fake User",
             EmailAddress = "fake@ludwig.user",
             UserReferenceLink = "users/fake-user"
@@ -41,7 +41,7 @@ namespace Ludwig.IssueManager.Fake
                 {
                     Description = "A Regular Backlog Task",
                     Name = "Task",
-                    IconUrl = "http://localhost:13801/images/icon/task"
+                    IconUrl = "http://localhost:13801/fake-images/icon/task"
                 },
                 UserStory = "Implement Manager",
                 IssueReferenceLink = "issues/fake-issue"
@@ -56,7 +56,7 @@ namespace Ludwig.IssueManager.Fake
                 {
                     Description = "A Regular Backlog Task",
                     Name = "Task",
-                    IconUrl = "http://localhost:13801/images/icon/task"
+                    IconUrl = "http://localhost:13801/fake-images/icon/task"
                 },
                 UserStory = "Implement Authentication",
                 IssueReferenceLink = "issues/fake-issue"

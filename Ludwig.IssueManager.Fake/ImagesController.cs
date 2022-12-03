@@ -6,7 +6,7 @@ using Microsoft.Net.Http.Headers;
 namespace Ludwig.IssueManager.Fake
 {
     
-    [Route("images")]
+    [Route("fake-images")]
     public class ImagesController:ControllerBase
     {
 
@@ -35,6 +35,19 @@ namespace Ludwig.IssueManager.Fake
             var fileName = Path.Combine(dir,"Images", name + ".png");
 
             return new PhysicalFileResult(fileName, "image/png");
+           
+        }
+        
+        [HttpGet]
+        [Route("svg/{name}")]
+        public IActionResult Svg(string name)
+        {
+            var dir = new FileInfo(Assembly.GetEntryAssembly().Location)
+                .Directory.FullName;
+            
+            var fileName = Path.Combine(dir,"Images", name);
+
+            return new PhysicalFileResult(fileName, "image/svg+xml");
            
         }
     }
