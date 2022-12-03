@@ -9,5 +9,5 @@ export class LoginMethodModel{
   queries:QueryInputModel[]=[];
   link?:UiLinkModel;
   name:string='';
-
+  iconUrl?:string=undefined;
 }
