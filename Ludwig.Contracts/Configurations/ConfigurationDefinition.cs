@@ -15,5 +15,7 @@ namespace Ludwig.Contracts.Configurations
         public Func<object,string> AsString { get; set; }
         
         public Func<string,object> FromString { get; set; }
+        
+        public Func<string,bool> VerifyStringValue { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using Acidmanic.Utilities.Reflection;
 using Acidmanic.Utilities.Reflection.Extensions;
@@ -98,6 +99,8 @@ namespace Ludwig.Common.Configuration
 
             _definition.FromString = s => s;
 
+            _definition.VerifyStringValue = s => true;
+
             return this;
         }
         
@@ -125,6 +128,9 @@ namespace Ludwig.Common.Configuration
                 return false;
             };
 
+            _definition.VerifyStringValue = s => new string[] { "yes", "no", "true", "false" }.
+                Contains(s?.ToLower().Trim());
+            
             return this;
         }
         
@@ -156,9 +162,19 @@ namespace Ludwig.Common.Configuration
                 return 0;
             };
 
+            _definition.VerifyStringValue = s => int.TryParse(s, out _);
+            
             return this;
         }
 
+
+        public ConfigurationItemBuilder VerifyBy(Func<string, bool> verifier)
+        {
+            _definition.VerifyStringValue = verifier;
+
+            return this;
+        }
+        
         public ConfigurationItemBuilder DirectCast<TProp>()
         {
 
