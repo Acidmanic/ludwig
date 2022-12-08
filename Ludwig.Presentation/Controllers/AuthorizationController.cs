@@ -19,10 +19,11 @@ namespace Ludwig.Presentation.Controllers
     public class AuthorizationController : ControllerBase
     {
         private readonly AuthenticationManager _authenticationManager;
-
-        public AuthorizationController(AuthenticationManager authenticationManager)
+        private readonly LoginMethodFilterService _loginMethodFilter;
+        public AuthorizationController(AuthenticationManager authenticationManager, LoginMethodFilterService loginMethodFilter)
         {
             _authenticationManager = authenticationManager;
+            _loginMethodFilter = loginMethodFilter;
         }
 
 
@@ -30,9 +31,13 @@ namespace Ludwig.Presentation.Controllers
         [Route("login-methods")]
         public IActionResult GetLoginMethods()
         {
+            var methods = _authenticationManager.LoginMethods;
+
+            methods = _loginMethodFilter.FilterByConfiguration(methods);
+            
             return Ok(new
             {
-                loginMethods = _authenticationManager.LoginMethods
+                loginMethods = methods
             });
         }
 

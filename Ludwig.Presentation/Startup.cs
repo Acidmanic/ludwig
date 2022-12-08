@@ -89,6 +89,8 @@ namespace Ludwig.Presentation
 
             services.AddTransient<Storage.Storage>();
 
+            services.AddTransient<LoginMethodFilterService>();
+            
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(LudwigPolicies.AdministratorsOnly,

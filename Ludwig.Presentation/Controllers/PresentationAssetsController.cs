@@ -23,5 +23,20 @@ namespace Ludwig.Presentation.Controllers
             return new PhysicalFileResult(fileName, "image/png");
             
         }
+        
+        
+        [HttpGet]
+        [Route("svg/{name}")]
+        public IActionResult Icon(string name)
+        {
+
+            var dir = new FileInfo(Assembly.GetEntryAssembly().Location)
+                .Directory.FullName;
+            
+            var fileName = Path.Combine(dir,"Assets","Images",name);
+
+            return new PhysicalFileResult(fileName, "image/svg+xml");
+            
+        }
     }
 }

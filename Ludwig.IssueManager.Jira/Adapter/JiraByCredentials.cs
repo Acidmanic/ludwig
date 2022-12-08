@@ -89,6 +89,23 @@ namespace Ludwig.IssueManager.Jira.Adapter
                 LoginField.Username,
                 LoginField.Password
             },
+            ConfigurationRequirements = new List<ConfigurationRequirement>
+            {
+              new ConfigurationRequirement
+              {
+                  Description = "The url which you can access your jira instance with.",
+                  ConfigurationName = nameof(JiraConfiguration.JiraFrontChannelUrl),
+                  DisplayName = "Jira Address"
+              },
+              new ConfigurationRequirement
+              {
+                  Description = "If your ludwig installation server has access locally on the network " +
+                                "to your jira instance, you can have ludwig communicating with jira using that address." +
+                                "Otherwise just put the same url as jira access.",
+                  ConfigurationName = nameof(JiraConfiguration.JiraBackChannelUrl),
+                  DisplayName = "Jira Local Access"
+              },
+            },
             IconUrl = "jira/assets/svg/jira-logo.svg"
         };
 

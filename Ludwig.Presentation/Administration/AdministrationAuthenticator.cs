@@ -79,7 +79,8 @@ namespace Ludwig.Presentation.Administration
             },
             Name = "Administrator",
             Queries = new List<LoginQuery>(),
-            ConfigurationRequirements = new List<ConfigurationRequirement>()
+            ConfigurationRequirements = new List<ConfigurationRequirement>(),
+            IconUrl = "presentation-assets/svg/cool-admin.svg"
         };
 
         public void UseStorage(IStorage storage)

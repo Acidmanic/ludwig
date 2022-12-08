@@ -83,6 +83,19 @@ namespace Ludwig.Presentation.Configuration
             }
         }
 
+
+        public string ReadStringValueByName(string name)
+        {
+            lock (Locker)
+            {
+                if (_configurationData.ContainsKey(name))
+                {
+                    return _configurationData[name];
+                }
+            }
+
+            return null;
+        }
         public TProperty ReadByName<TProperty>(string name, TProperty defaultValue = default)
         {
             lock (Locker)
