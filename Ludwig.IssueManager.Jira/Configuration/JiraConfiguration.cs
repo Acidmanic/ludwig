@@ -8,5 +8,7 @@ namespace Ludwig.IssueManager.Jira.Configuration
         
         public string JiraFrontChannelUrl { get; set; }
         
+        
+        public string JiraProject { get; set; }
     }
 }

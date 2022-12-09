@@ -21,6 +21,10 @@ namespace Ludwig.IssueManager.Jira.Adapter
                 .Build(),
             Builder.Clear().FromProperty(c => c.JiraFrontChannelUrl)
                 .Description("This would be the address of your jira instance server.").TypeString()
+                .Build(),
+            Builder.Clear().FromProperty(c => c.JiraProject)
+                .Description("The name of the jira project you are trying to sync it's issues with your ludwig " +
+                             "application.")
                 .Build()
         };
 
