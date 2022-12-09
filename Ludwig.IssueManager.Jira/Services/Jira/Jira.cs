@@ -22,6 +22,8 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
             public const string AllUsers = "rest/api/2/user/search?username=\".\"";
             public const string Self = "rest/api/2/myself";
             public const string AllIssues = "rest/api/2/search";
+            public const string NewIssue = "rest/api/2/issue";
+            public const string NewIssueType = "rest/api/2/issuetype";
             public const string AllFields = "rest/api/2/field";
             public const string AllProjects = "rest/api/2/project";
         }
@@ -55,7 +57,7 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
             JiraFields.Instance.SetProvider(AllFields);
 
             Projects.Instance.SetProvider(AllProjects);
-            
+
             TaskIssueType.Instance.SetProvider(GetTaskIssueType);
         }
 
@@ -238,6 +240,88 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
             var credBase64 = Convert.ToBase64String(credBytes);
 
             return LoggedInUser("Basic " + credBase64);
+        }
+
+        public async Task<Result> AddIssueType(string name, string description, string type)
+        {
+            var issueType = new JiraPostingIssueType()
+            {
+                Description = description,
+                Name = name,
+                Type = type
+            };
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
+
+            var url = _baseUrl + Resources.NewIssueType;
+
+            var result = await downloader.UploadObject<string>(url, issueType, 1200, 12);
+
+            return result;
+        }
+
+        public async Task<Result<JiraIssue>> AddIssue(string title, string description, string projectId)
+        {
+            var issueTypeId = FindTaskIssueTypeId();
+
+            var post = new JiraPostingIssue
+            {
+                Descriptions = description,
+                Fields = new JiraPostingFields
+                {
+                    Project = projectId,
+                    Summary = title,
+                    IssueType = issueTypeId
+                }
+            };
+
+            var userStoryFieldId = FindUserStoryFieldId();
+
+            if (!string.IsNullOrWhiteSpace(userStoryFieldId))
+            {
+                post.Fields.Add(userStoryFieldId, title);
+            }
+
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
+
+            var url = _baseUrl + Resources.AllIssues;
+
+            var result = await downloader.UploadObject<JiraIssue>(url, post, 1200, 12);
+
+            if (result)
+            {
+                return new Result<JiraIssue>().Succeed(result.Value);
+            }
+
+            return new Result<JiraIssue>().FailAndDefaultValue();
+        }
+
+        private string FindUserStoryFieldId()
+        {
+            var fields = JiraFields.Instance.Value;
+
+            var userStoryField = fields.FirstOrDefault(f => f.Name.ToLower() == "userstory");
+
+            return userStoryField?.Id;
+        }
+
+
+        private IdValue FindTaskIssueTypeId()
+        {
+            var taskIssueType = TaskIssueType.Instance.Value;
+
+            if (taskIssueType == null)
+            {
+                _ = AddIssueType("Task", "A task that needs to be done.", "standard").Result;
+            }
+
+            taskIssueType = TaskIssueType.Instance.Value;
+
+            if (taskIssueType != null && !string.IsNullOrWhiteSpace(taskIssueType.Id))
+            {
+                return taskIssueType.Id;
+            }
+
+            return null;
         }
     }
 }

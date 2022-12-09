@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Acidmanic.Utilities.Results;
 using Ludwig.Common.Configuration;
 using Ludwig.Common.Extensions;
 using Ludwig.Contracts.Configurations;
@@ -9,6 +10,7 @@ using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Jira.Configuration;
 using Ludwig.IssueManager.Jira.Interfaces;
 using Ludwig.IssueManager.Jira.Mapping;
+using Ludwig.IssueManager.Jira.Models;
 
 namespace Ludwig.IssueManager.Jira.Adapter
 {
@@ -16,10 +18,12 @@ namespace Ludwig.IssueManager.Jira.Adapter
     {
         private readonly Services.Jira.Jira _jira;
         private readonly JiraModelMapper _mapper;
+        private readonly IConfigurationProvider _configurationProvider;
 
         public JiraIssueManager(Services.Jira.Jira jira, IConfigurationProvider configurationProvider)
         {
             _jira = jira;
+            _configurationProvider = configurationProvider;
 
             var jiraBase = configurationProvider.GetConfiguration<JiraConfiguration>().JiraFrontChannelUrl.Slashend();
             
@@ -65,5 +69,27 @@ namespace Ludwig.IssueManager.Jira.Adapter
 
             return issues;
         }
+
+        public async Task<Issue> AddIssue(Issue issue)
+        {
+
+            _configurationProvider.LoadConfigurations();
+
+            var configurations = _configurationProvider.GetConfiguration<JiraConfiguration>();
+
+            var projectId = configurations.JiraProject;
+            
+            var result =  await _jira.AddIssue(issue.Title,issue.Description,projectId);
+
+            if (result)
+            {
+                var addedIssue = _mapper.Map(result.Value);
+
+                return addedIssue;
+            }
+
+            return null;
+        }
+
     }
 }

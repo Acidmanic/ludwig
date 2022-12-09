@@ -38,6 +38,7 @@ namespace Ludwig.Common.Download
                     net.Proxy = new WebProxy(Proxy);
                 }
 
+
                 //net.Headers.Add("Connection","keep-alive");
 
                 net.Headers.Add("Accept-Encoding", "gzip, deflate");
@@ -74,12 +75,12 @@ namespace Ludwig.Common.Download
 
                     Logger.LogInformation("{Url} Has been downloaded Successfully.", url);
 
-                    var result = new DownloadResult<T>().Succeed(data,new WebHeaderCollection());
+                    var result = new DownloadResult<T>().Succeed(data, new WebHeaderCollection());
 
                     foreach (var key in net.ResponseHeaders.AllKeys)
                     {
                         var value = net.ResponseHeaders[key];
-                        result.ResponseHeaders.Add(key,value);
+                        result.ResponseHeaders.Add(key, value);
                     }
 
                     return result;
@@ -93,7 +94,6 @@ namespace Ludwig.Common.Download
             return new DownloadResult<T>().Fail(exception);
         }
 
-        
 
         public async Task<DownloadResult<byte[]>> DownloadFile(string url, int timeout)
         {
@@ -103,6 +103,11 @@ namespace Ludwig.Common.Download
         public async Task<DownloadResult<string>> DownloadString(string url, int timeout)
         {
             return await DownloadData(url, timeout, (client, cUrl) => client.DownloadStringTaskAsync(cUrl));
+        }
+
+        public async Task<DownloadResult<string>> UploadString(string url, string data, int timeout)
+        {
+            return await DownloadData(url, timeout, (client, cUrl) => client.UploadStringTaskAsync(cUrl, data));
         }
 
         public async Task<DownloadResult<T>> DownloadObject<T>(string url, int timeout)
@@ -118,7 +123,7 @@ namespace Ludwig.Common.Download
             {
                 var downloadedObject = JsonConvert.DeserializeObject<T>(result.Value);
 
-                return new DownloadResult<T>().Succeed(downloadedObject,result.ResponseHeaders);
+                return new DownloadResult<T>().Succeed(downloadedObject, result.ResponseHeaders);
             }
             catch (Exception e)
             {
@@ -166,6 +171,52 @@ namespace Ludwig.Common.Download
         public async Task<DownloadResult<T>> DownloadObject<T>(string url, int timeout, int retries)
         {
             return await Retry(url, timeout, retries, DownloadObject<T>);
+        }
+
+        public async Task<DownloadResult<string>> UploadString(string url, string data, int timeout, int retries)
+        {
+            return await Retry(url, timeout, retries, (cUrl, client) => UploadString(cUrl, data, timeout));
+        }
+
+        public async Task<DownloadResult<T>> UploadObject<T>(string url, object data, int timeout, int retries)
+        {
+            var json = JsonConvert.SerializeObject(data);
+
+            var responseJson = await UploadString(url, json, timeout, retries);
+
+            if (responseJson)
+            {
+                try
+                {
+                    var response = JsonConvert.DeserializeObject<T>(responseJson.Value);
+
+                    return new DownloadResult<T>
+                    {
+                        Exception = null,
+                        Primary = response,
+                        ResponseHeaders = responseJson.ResponseHeaders
+                    };
+                }
+                catch (Exception e)
+                {
+                    return new DownloadResult<T>()
+                    {
+                        Primary = default,
+                        Secondary = e,
+                        Success = false,
+                    };
+                }
+            }
+            else
+            {
+                return new DownloadResult<T>
+                {
+                    Exception = responseJson.Exception,
+                    Primary = default,
+                    Success = false,
+                    ResponseHeaders = responseJson.ResponseHeaders
+                };
+            }
         }
     }
 }
