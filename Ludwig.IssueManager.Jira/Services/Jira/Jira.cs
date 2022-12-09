@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Acidmanic.Utilities.Results;
-using Ludwig.Common.Configuration;
 using Ludwig.Common.Extensions;
+using Ludwig.Common.Utilities;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.Configurations;
+using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Jira.Configuration;
 using Ludwig.IssueManager.Jira.Interfaces;
 using Ludwig.IssueManager.Jira.Models;
 
-namespace Ludwig.IssueManager.Jira.Services
+namespace Ludwig.IssueManager.Jira.Services.Jira
 {
     internal class Jira
     {
@@ -20,6 +23,7 @@ namespace Ludwig.IssueManager.Jira.Services
             public const string Self = "rest/api/2/myself";
             public const string AllIssues = "rest/api/2/search";
             public const string AllFields = "rest/api/2/field";
+            public const string AllProjects = "rest/api/2/project";
         }
 
 
@@ -27,16 +31,34 @@ namespace Ludwig.IssueManager.Jira.Services
         private readonly string _baseUrl;
         private readonly ICustomFieldDefinitionProvider _definitionProvider;
 
+        private class JiraFields : LazyCache<List<JiraField>>
+        {
+        }
+
+        private class Projects : LazyCache<List<JiraProject>>
+        {
+        }
+
+        private class TaskIssueType : LazyCacheRetryNulls<JiraIssueType>
+        {
+        }
+
         public Jira(IConfigurationProvider configurationProvider,
             ICustomFieldDefinitionProvider definitionProvider, IBackChannelRequestGrant backChannelRequestGrant)
         {
             _definitionProvider = definitionProvider;
-            
+
             _backChannelRequestGrant = backChannelRequestGrant;
 
             _baseUrl = configurationProvider.GetConfiguration<JiraConfiguration>().JiraBackChannelUrl.Slashend();
+
+            JiraFields.Instance.SetProvider(AllFields);
+
+            Projects.Instance.SetProvider(AllProjects);
+            
+            TaskIssueType.Instance.SetProvider(GetTaskIssueType);
         }
-        
+
         public async Task<List<JiraUser>> AllUsers()
         {
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
@@ -53,7 +75,7 @@ namespace Ludwig.IssueManager.Jira.Services
             return new List<JiraUser>();
         }
 
-        public async Task<List<JiraField>> AllFields()
+        public async Task<List<JiraField>> AllFieldsAsync()
         {
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
@@ -69,6 +91,72 @@ namespace Ludwig.IssueManager.Jira.Services
             return new List<JiraField>();
         }
 
+        public List<JiraField> AllFields()
+        {
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
+
+            var url = _baseUrl + Resources.AllFields;
+
+            var result = downloader.DownloadObject<List<JiraField>>(url, 1200, 12).Result;
+
+            if (result)
+            {
+                return result.Value;
+            }
+
+            return new List<JiraField>();
+        }
+
+        public List<JiraProject> AllProjects()
+        {
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
+
+            var url = _baseUrl + Resources.AllProjects;
+
+            var result = downloader.DownloadObject<List<JiraProject>>(url, 1200, 12).Result;
+
+            if (result)
+            {
+                return result.Value;
+            }
+
+            return new List<JiraProject>();
+        }
+
+        public async Task<List<JiraProject>> AllProjectsAsync()
+        {
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
+
+            var url = _baseUrl + Resources.AllProjects;
+
+            var result = await downloader.DownloadObject<List<JiraProject>>(url, 1200, 12);
+
+            if (result)
+            {
+                return result.Value;
+            }
+
+            return new List<JiraProject>();
+        }
+
+        public JiraIssueType GetTaskIssueType()
+        {
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
+
+            var url = _baseUrl + Resources.AllProjects;
+
+            var result = downloader.DownloadObject<List<JiraIssueType>>(url, 1200, 12).Result;
+
+            if (result)
+            {
+                var task = result.Value.FirstOrDefault(t => t.Name.ToLower() == "task");
+
+                return task;
+            }
+
+            return null;
+        }
+
 
         public async Task<List<JiraIssue>> AllIssues()
         {
@@ -80,7 +168,7 @@ namespace Ludwig.IssueManager.Jira.Services
 
             if (result)
             {
-                var fields = await AllFields();
+                var fields = await AllFieldsAsync();
 
                 var definitions = _definitionProvider.Provide(fields);
 
@@ -103,7 +191,7 @@ namespace Ludwig.IssueManager.Jira.Services
 
             if (result)
             {
-                var fields = await AllFields();
+                var fields = await AllFieldsAsync();
 
                 var definitions = _definitionProvider.Provide(fields);
 

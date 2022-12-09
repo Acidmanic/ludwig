@@ -14,10 +14,10 @@ namespace Ludwig.IssueManager.Jira.Adapter
 {
     internal class JiraIssueManager : IIssueManager
     {
-        private readonly Services.Jira _jira;
+        private readonly Services.Jira.Jira _jira;
         private readonly JiraModelMapper _mapper;
 
-        public JiraIssueManager(Services.Jira jira, IConfigurationProvider configurationProvider)
+        public JiraIssueManager(Services.Jira.Jira jira, IConfigurationProvider configurationProvider)
         {
             _jira = jira;
 

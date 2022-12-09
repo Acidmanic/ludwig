@@ -59,14 +59,14 @@ namespace Ludwig.IssueManager.Jira.Adapter
             }
         }
         
-        private readonly Services.Jira _jira;
+        private readonly Services.Jira.Jira _jira;
         private readonly IConfigurationProvider _configurationProvider;
         private readonly ICustomFieldDefinitionProvider _customFieldDefinitionProvider;
         private readonly IHttpContextAccessor _contextAccessor;
         
         private readonly Persistant<GrantRecord> _persistantGrantRecord = new Persistant<GrantRecord>(); 
 
-        public JiraCookieHijack(Services.Jira jira, IConfigurationProvider configurationProvider, IHttpContextAccessor contextAccessor, ICustomFieldDefinitionProvider customFieldDefinitionProvider)
+        public JiraCookieHijack(Services.Jira.Jira jira, IConfigurationProvider configurationProvider, IHttpContextAccessor contextAccessor, ICustomFieldDefinitionProvider customFieldDefinitionProvider)
         {
             _jira = jira;
             _configurationProvider = configurationProvider;
@@ -94,7 +94,7 @@ namespace Ludwig.IssueManager.Jira.Adapter
 
             var grant = new IllegalGrant(jiraCookies);
 
-            var jira = new Services.Jira(_configurationProvider, _customFieldDefinitionProvider, grant);
+            var jira = new Services.Jira.Jira(_configurationProvider, _customFieldDefinitionProvider, grant);
             
             var loggedIn = await jira.LoggedInUser();
 
