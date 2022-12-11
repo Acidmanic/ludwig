@@ -22,7 +22,7 @@
               </span>
         </button>
         <button class="btn btn-info btn-icon"
-                (click)="onNewIssueClicked()"
+                (click)="onNewIssueButtonClicked()"
                 ngbTooltip="Create New Issue For This UserStory" >
               <span class="material-symbols-outlined">
                 add_box
@@ -53,3 +53,45 @@
     <issue-fold-box [story]="story" ></issue-fold-box>
   </div>
 </div>
+
+
+<message-box
+  caption="Please verify and update details of suggested Issue to be sent to issue manager:"
+  reject-button="Cancel"
+  accept-button="Create"
+  [show-hook]="newIssueForm"
+  (accepted)="onNewIssueAccepted()"
+  title="Create new Issue">
+
+  <div class="container">
+
+    <hr style="padding-right: 10px;padding-left: 10px;">
+    <div class="row">
+      <span class="col-sm-12 col-md-3 not-form-label" >Issue Title</span>
+      <input class="col-sm-12 col-md-9 form-control" style="width: auto" id="txtTitle" type="text" [(ngModel)]="this.newIssue.title">
+    </div>
+
+    <div class="row">
+      <span class="col-sm-12 col-md-3 not-form-label" >User Story</span>
+      <span class="col-sm-12 col-md-9 form-control" style="width: auto" id="spnUserStory" type="text">{{this.newIssue.userStory}}</span>
+    </div>
+    <div class="row">
+      <span class="col-sm-12 col-md-3 not-form-label" >Priority</span>
+      <div class="col-sm-12 col-md-9 form-control" style="width: auto">
+        <editable-priority [priority]="newIssue.priority"
+                            (priorityChange)="newIssue.priority=$event"
+                            style="cursor: pointer">
+        </editable-priority> &nbsp;
+        <span>{{newIssue.priority.name}}</span>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <label class="col-sm-12 col-md-4 form-label" for="txtDescription">Issue Description</label>
+      <textarea class="col-sm-12 col-md-4 form-control" id="txtDescription" type="text" [(ngModel)]="this.newIssue.description"></textarea>
+    </div>
+
+  </div>
+
+</message-box>

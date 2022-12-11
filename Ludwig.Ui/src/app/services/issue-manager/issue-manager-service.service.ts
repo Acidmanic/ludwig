@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
 import {IssueManagerUserModel} from "../../models/issue-manager-user-model";
+import {IssueModel} from "../../models/issue-model";
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,22 @@ export class IssueManagerServiceService {
     this.http.get<IssueManagerUserModel>(url,{
       headers:{authorization:authorizationHeader}
     }).subscribe({
+      next:user => handler.next(user),
+      error:err=>handler.error(err),
+      complete:()=>handler.complete()
+    });
+
+    return handler;
+  }
+
+
+  public createIssue(issue:IssueModel):Observable<IssueModel>{
+
+    let handler = new Subject<IssueModel>();
+
+    let url = "issue-manager/issues";
+
+    this.http.post<IssueModel>(url,issue).subscribe({
       next:user => handler.next(user),
       error:err=>handler.error(err),
       complete:()=>handler.complete()

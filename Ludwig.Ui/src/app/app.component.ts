@@ -12,13 +12,7 @@ export class AppComponent implements OnInit,OnDestroy{
   title = 'Ludwig.Ui';
 
 
-  priorities:PriorityModel[]=[
-    {name:'Highest',value:0},
-    {name:'High',value:1},
-    {name:'Medium',value:2},
-    {name:'Low',value:3},
-    {name:'Lowest',value:4},
-  ];
+
 
 
   constructor(public svcLogin:LoginManagerService) {
