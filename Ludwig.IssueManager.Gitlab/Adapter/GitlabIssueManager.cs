@@ -98,13 +98,14 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
 
         public async Task<Issue> AddIssue(Issue issue)
         {
-            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
+            var client = _backChannelRequestGrant.CreateGrantedRestClient();
+
+            client.BaseUrl = _backChannelUrl;
 
             var postingIssue = Mapper.Map(issue);
 
-            var created = await downloader.UploadObject<GitlabIssue>
-            (_backChannelUrl + "api/v4/projects/" + _gitlabProjectId + "/issues",
-                postingIssue, 1000, 3);
+            var created = await client.PostAsync<GitlabIssue>
+                ("api/v4/projects/" + _gitlabProjectId + "/issues", postingIssue);
 
             if (created)
             {

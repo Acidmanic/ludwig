@@ -6,7 +6,7 @@ using Ludwig.IssueManager.Gitlab.Configurations;
 
 namespace Ludwig.IssueManager.Gitlab.Adapter
 {
-    public class GitlabConfigurationDescriptor:IConfigurationDescriptor
+    public class GitlabConfigurationDescriptor : IConfigurationDescriptor
     {
         public List<ConfigurationDefinition> ConfigurationDefinitions { get; } = new List<ConfigurationDefinition>
         {
@@ -25,8 +25,9 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                 .Description("Your gitlab instance address.").TypeString()
                 .Build(),
             new Cib<GitlabConfigurations>().FromProperty(c => c.GitlabProjectId)
-                .Description("The Id of the your gitlab-project, which it's board (issues) would be connected to ludwig.").TypeString()
-                .Build()
+                .Description(
+                    "The Id of the your gitlab-project, which it's board (issues) would be connected to ludwig.")
+                .TypeString().Build()
         };
 
         public Type ConfigurationType { get; } = typeof(GitlabConfigurations);

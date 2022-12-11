@@ -1,4 +1,5 @@
 using Ludwig.Common.Download;
+using Ludwig.Common.Rest;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.Models;
 
@@ -32,6 +33,30 @@ namespace Ludwig.Common.Extensions
             GrantDownloaderAccess(grant, downloader);
 
             return downloader;
+        }
+        
+        public static RestClient CreateGrantedRestClient(this IBackChannelRequestGrant grant)
+        {
+            var client = new RestClient();
+
+            var updates = grant.GetGrantRequestUpdates();
+
+            client.DefaultMetadata = new HttpMetadata();
+            
+            foreach (var update in updates)
+            {
+                if (update.IsHeader())
+                {
+                    client.DefaultMetadata.Headers.Add(update.Key, update.Value);
+                }
+
+                if (update.IsCookie())
+                {
+                    client.DefaultMetadata.Cookies.Add(update.Key, update.Value);
+                }
+            }
+            
+            return client;
         }
     }
 }
