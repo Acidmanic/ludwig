@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ludwig.Contracts.Models;
@@ -41,7 +42,7 @@ namespace Ludwig.IssueManager.Gitlab
                 assignees.AddRange(value.Assignees.Select(Map));
             }
 
-            var issue =  new Issue
+            var issue = new Issue
             {
                 Assignees = assignees,
                 Description = value.Description,
@@ -58,8 +59,18 @@ namespace Ludwig.IssueManager.Gitlab
             };
 
             value.Description.UpdateStoryAndDescription(issue);
-            
+
             return issue;
+        }
+
+        public static PostingIssue Map(Issue issue)
+        {
+            return new PostingIssue
+            {
+                Description = "$" + issue.UserStory + "\n" + issue.Description,
+                Title = issue.Title,
+                CreatedAt = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")
+            };
         }
     }
 }

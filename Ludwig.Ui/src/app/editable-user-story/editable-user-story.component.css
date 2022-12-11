@@ -21,3 +21,12 @@
   box-shadow: 0 4px 23px #00000038, 0 4px 14px #00000026;
 }
 
+
+span.not-form-label{
+  padding-top: 5px;
+  text-align: end;
+}
+
+.form-control{
+  margin-top:2px;
+}

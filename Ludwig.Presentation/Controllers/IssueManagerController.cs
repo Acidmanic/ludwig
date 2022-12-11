@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Ludwig.Contracts.IssueManagement;
+using Ludwig.Contracts.Models;
 using Ludwig.Presentation.Authentication.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -55,6 +56,17 @@ namespace Ludwig.Presentation.Controllers
             var issues = await _issueManager.GetAllIssues();
             
             return Ok(issues);
+        }
+        
+        
+        [HttpPost]
+        [Route("issues")]
+        [AuthorizeIssueManagers]
+        public async  Task<IActionResult> CreateIssue(Issue issue)
+        {
+            var created = await _issueManager.AddIssue(issue);
+            
+            return Ok(created);
         }
         
         [HttpGet]

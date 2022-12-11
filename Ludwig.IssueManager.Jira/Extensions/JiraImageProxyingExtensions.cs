@@ -1,3 +1,4 @@
+using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Jira.Models;
 
 namespace Ludwig.IssueManager.Jira.Extensions

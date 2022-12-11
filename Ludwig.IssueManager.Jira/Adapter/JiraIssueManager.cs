@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Acidmanic.Utilities.Results;
 using Ludwig.Common.Configuration;
 using Ludwig.Common.Extensions;
 using Ludwig.Contracts.Configurations;
@@ -9,20 +10,23 @@ using Ludwig.Contracts.Models;
 using Ludwig.IssueManager.Jira.Configuration;
 using Ludwig.IssueManager.Jira.Interfaces;
 using Ludwig.IssueManager.Jira.Mapping;
+using Ludwig.IssueManager.Jira.Models;
 
 namespace Ludwig.IssueManager.Jira.Adapter
 {
     internal class JiraIssueManager : IIssueManager
     {
-        private readonly Services.Jira _jira;
+        private readonly Services.Jira.Jira _jira;
         private readonly JiraModelMapper _mapper;
+        private readonly IConfigurationProvider _configurationProvider;
 
-        public JiraIssueManager(Services.Jira jira, IConfigurationProvider configurationProvider)
+        public JiraIssueManager(Services.Jira.Jira jira, IConfigurationProvider configurationProvider)
         {
             _jira = jira;
+            _configurationProvider = configurationProvider;
 
             var jiraBase = configurationProvider.GetConfiguration<JiraConfiguration>().JiraFrontChannelUrl.Slashend();
-            
+
             _mapper = new JiraModelMapper(jiraBase);
         }
 
@@ -64,6 +68,26 @@ namespace Ludwig.IssueManager.Jira.Adapter
             var issues = jiraIssues.Select(_mapper.Map).ToList();
 
             return issues;
+        }
+
+        public async Task<Issue> AddIssue(Issue issue)
+        {
+            _configurationProvider.LoadConfigurations();
+
+            var configurations = _configurationProvider.GetConfiguration<JiraConfiguration>();
+
+            var projectId = configurations.JiraProject;
+
+            var result = await _jira.AddIssue(issue.Title, issue.UserStory, issue.Description, issue.Priority, projectId);
+
+            if (result)
+            {
+                var addedIssue = _mapper.Map(result.Value);
+
+                return addedIssue;
+            }
+
+            return null;
         }
     }
 }

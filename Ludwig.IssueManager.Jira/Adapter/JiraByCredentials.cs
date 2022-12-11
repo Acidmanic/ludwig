@@ -22,11 +22,11 @@ namespace Ludwig.IssueManager.Jira.Adapter
             public long Id { get; set; }
         }
         
-        private readonly Services.Jira _jira;
+        private readonly Services.Jira.Jira _jira;
         private readonly IConfigurationProvider _configurationProvider;
         private readonly Persistant<GrantRecord> _persistantGrantRecord = new Persistant<GrantRecord>(); 
 
-        public JiraByCredentials(Services.Jira jira, IConfigurationProvider configurationProvider)
+        public JiraByCredentials(Services.Jira.Jira jira, IConfigurationProvider configurationProvider)
         {
             _jira = jira;
             _configurationProvider = configurationProvider;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 
-namespace Ludwig.Presentation.Download
+namespace Ludwig.Common.Download
 {
     public class TimeoutWebClient:WebClient
     {

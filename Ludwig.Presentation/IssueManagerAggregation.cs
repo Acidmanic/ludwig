@@ -80,5 +80,10 @@ namespace Ludwig.Presentation
         {
             return CurrentIssueManager.GetIssuesByUserStory(userStory);
         }
+
+        public Task<Issue> AddIssue(Issue issue)
+        {
+            return CurrentIssueManager.AddIssue(issue);
+        }
     }
 }

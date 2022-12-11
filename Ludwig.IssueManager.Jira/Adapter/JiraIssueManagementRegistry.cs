@@ -20,7 +20,7 @@ namespace Ludwig.IssueManager.Jira.Adapter
             
             Authenticator<JiraCookieHijack>();
 
-            Transient<Services.Jira>();
+            Transient<Services.Jira.Jira>();
             
             Transient<ICustomFieldDefinitionProvider,LudwigJiraFieldDefinitionProvider>();
             

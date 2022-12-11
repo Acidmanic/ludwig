@@ -109,5 +109,14 @@ namespace Ludwig.IssueManager.Fake
             });
         }
 
+        public Task<Issue> AddIssue(Issue issue)
+        {
+            return Task.Run(() =>
+            {
+                Issues.Add(issue);
+
+                return issue;
+            });
+        }
     }
 }

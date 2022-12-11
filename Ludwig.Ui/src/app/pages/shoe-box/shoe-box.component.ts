@@ -6,6 +6,8 @@ import {WaiterService} from "../../services/waiter.service";
 import {StoryUserModel} from "../../models/story-user.model";
 import {Observable} from "rxjs";
 import {EditableUserStoryComponent} from "../../editable-user-story/editable-user-story.component";
+import {IssueModel} from "../../models/issue-model";
+import {IssueManagerServiceService} from "../../services/issue-manager/issue-manager-service.service";
 
 
 @Component({
@@ -26,7 +28,8 @@ export class ShoeBoxComponent implements OnInit {
 
   constructor(private svcStory:UserStoryService,
               private modalService: NgbModal,
-              private svcWaiter:WaiterService) {
+              private svcWaiter:WaiterService,
+              private svcIssueManager:IssueManagerServiceService) {
   }
 
   ngOnInit(): void {
@@ -168,4 +171,18 @@ export class ShoeBoxComponent implements OnInit {
   }
 
 
+  onNewIssue(issue:IssueModel){
+
+    this.svcWaiter.start();
+
+    this.svcIssueManager.createIssue(issue).subscribe({
+      next: issue => this.refreshShoeBox(),
+      error:err => {
+        this.svcWaiter.stop();
+        console.log(err);
+      },
+      complete:()=> this.svcWaiter.stop()
+    });
+
+  }
 }

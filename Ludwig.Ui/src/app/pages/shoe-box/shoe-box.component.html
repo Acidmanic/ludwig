@@ -28,6 +28,7 @@
       <editable-user-story [story]="story"
                            (syncStory)="saveUserStory($event)"
                            (deleteStory)="askDeletingStory($event)"
+                           (on-issue)="onNewIssue($event)"
                            [force-enable-sync]="story.id<=0">
       </editable-user-story>
     </collapsible>

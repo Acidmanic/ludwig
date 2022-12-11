@@ -2,6 +2,9 @@ import {Component, EventEmitter, Input, OnInit, Output, Renderer2} from '@angula
 import {UserStoryModel} from "../models/user-story.model";
 import {StoryUserModel} from "../models/story-user.model";
 import {Trigger} from "../utilities/trigger";
+import {IssueModel} from "../models/issue-model";
+import {PriorityModel} from "../models/priority-model";
+import {Priorities} from "../services/Priorities";
 
 @Component({
   selector: 'editable-user-story',
@@ -16,12 +19,15 @@ export class EditableUserStoryComponent implements OnInit {
   @Output('storyChange') storyChange:EventEmitter<UserStoryModel> = new EventEmitter<UserStoryModel>();
   @Output('syncStory') syncStory:EventEmitter<UserStoryModel> = new EventEmitter<UserStoryModel>();
   @Output('deleteStory') deleteStory:EventEmitter<UserStoryModel> = new EventEmitter<UserStoryModel>();
+  @Output('on-issue') onIssue:EventEmitter<IssueModel> = new EventEmitter<IssueModel>();
 
   original:UserStoryModel=new UserStoryModel();
 
   private updateFields:boolean[]=[false,false,false,false,false];
   modelUpdate:boolean=false;
   priorityRevertTrigger:Trigger=new Trigger();
+  newIssueForm:EventEmitter<any>=new EventEmitter<any>();
+  newIssue:IssueModel=new IssueModel();
 
   constructor() { }
 
@@ -90,7 +96,24 @@ export class EditableUserStoryComponent implements OnInit {
   }
 
   onDeleteClick(){
+
     this.deleteStory.emit(this.story);
   }
 
+  onNewIssueButtonClicked(){
+    this.newIssue = new IssueModel();
+    this.newIssue.title=this.story.storyFeature;
+    this.newIssue.userStory=this.story.title;
+    this.newIssue.description='As ' + this.story.storyUser.name + ' I want ' + this.story.storyFeature
+      + ', so that i can ' + this.story.storyBenefit;
+    this.newIssue.priority=this.story.priority;
+
+    this.newIssueForm.emit();
+  }
+
+  onNewIssueAccepted(){
+
+    console.log(this.newIssue);
+    this.onIssue.emit(this.newIssue);
+  }
 }

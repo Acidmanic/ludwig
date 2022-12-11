@@ -9,10 +9,10 @@ namespace Ludwig.IssueManager.Jira.Services
     internal class JiraManagerService : IJiraManagerService
     {
         private List<JiraField> _availableFields = new List<JiraField>();
-        private readonly Jira _jira;
+        private readonly Jira.Jira _jira;
         private Result<JiraField> _userStoryField = new Result<JiraField>().FailAndDefaultValue();
 
-        public JiraManagerService(Jira jira)
+        public JiraManagerService(Jira.Jira jira)
         {
             _jira = jira;
             UpdateFields();
@@ -29,7 +29,7 @@ namespace Ludwig.IssueManager.Jira.Services
 
         private void UpdateFields()
         {
-            _availableFields = _jira.AllFields().Result;
+            _availableFields = _jira.AllFieldsAsync().Result;
 
             var usField = _availableFields.FirstOrDefault(f => f.Name?.ToLower() == "user story");
 

@@ -34,6 +34,22 @@ namespace Ludwig.IssueManager.Jira.Mapping
             };
         }
         
+        public JiraUser Map(IssueManagerUser user)
+        {
+            if (user == null)
+            {
+                return null;
+            }
+            
+            return new JiraUser
+            {
+                Active = user.Active,
+                Name = user.Name,
+                DisplayName = user.DisplayName,
+                EmailAddress = user.EmailAddress,
+            };
+        }
+        
         public Priority Map(JiraPriority jiraPriority)
         {
             if (jiraPriority == null)
@@ -44,6 +60,18 @@ namespace Ludwig.IssueManager.Jira.Mapping
             {
                 Name = jiraPriority.Name,
                 Value = 0,
+            };
+        }
+        
+        public JiraPriority Map(Priority priority)
+        {
+            if (priority == null)
+            {
+                return null;
+            }
+            return new JiraPriority()
+            {
+                Name = priority.Name,
             };
         }
         
@@ -58,6 +86,19 @@ namespace Ludwig.IssueManager.Jira.Mapping
                 Description = jiraIssueType.Description,
                 Name = jiraIssueType.Name,
                 IconUrl = jiraIssueType.ProxiedIcon()
+            };
+        }
+        
+        public JiraIssueType Map(IssueType issueType)
+        {
+            if (issueType == null)
+            {
+                return null;
+            }
+            return new JiraIssueType
+            {
+                Description = issueType.Description,
+                Name = issueType.Name,
             };
         }
         
@@ -85,6 +126,31 @@ namespace Ludwig.IssueManager.Jira.Mapping
                 IssueReferenceLink = _jiraBase + "projects/" + jiraIssue.Project.Key +
                                      "/issues/" + jiraIssue.Key,
                 IssueType = Map(jiraIssue.IssueType)
+            };
+        }
+        
+        public JiraIssue Map(Issue issue)
+        {
+            if (issue == null)
+            {
+                return null;
+            }
+
+            JiraUser assignee = null;
+            
+            if (issue.Assignees != null && issue.Assignees.Count>0)
+            {
+                assignee = Map(issue.Assignees[0]);
+            }
+
+            return new JiraIssue
+            {
+                Assignee = assignee,
+                Description = issue.Description,
+                Priority = Map(issue.Priority),
+                Summary = issue.Title,
+                UserStory = issue.UserStory,
+                IssueType = Map(issue.IssueType)
             };
         }
     }

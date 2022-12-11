@@ -17,5 +17,6 @@ namespace Ludwig.Contracts.IssueManagement
 
         Task<List<Issue>> GetIssuesByUserStory(string userStory);
 
+        Task<Issue> AddIssue(Issue issue);
     }
 }
