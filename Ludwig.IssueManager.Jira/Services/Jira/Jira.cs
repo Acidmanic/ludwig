@@ -24,6 +24,7 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
             public const string AllIssues = "rest/api/2/search";
             public const string NewIssue = "rest/api/2/issue";
             public const string IssueById = "rest/api/2/issue";
+            public const string AllPriorities = "rest/api/2/priority";
             public const string NewIssueType = "rest/api/2/issuetype";
             public const string AllIssueTypes = "rest/api/2/issuetype";
             public const string AllFields = "rest/api/2/field";
@@ -46,6 +47,10 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
         private class TaskIssueType : LazyCacheRetryNulls<JiraIssueType>
         {
         }
+        
+        private class Priorities : LazyCache<List<JiraPriority>>
+        {
+        }
 
         public Jira(IConfigurationProvider configurationProvider,
             ICustomFieldDefinitionProvider definitionProvider, IBackChannelRequestGrant backChannelRequestGrant)
@@ -61,6 +66,8 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
             Projects.Instance.SetProvider(AllProjects);
 
             TaskIssueType.Instance.SetProvider(GetTaskIssueType);
+            
+            Priorities.Instance.SetProvider(GetAllPriorities);
         }
 
         public async Task<List<JiraUser>> AllUsers()
@@ -181,6 +188,22 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
 
             return new List<JiraIssue>();
         }
+        
+        public List<JiraPriority> GetAllPriorities()
+        {
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
+
+            var url = _baseUrl + Resources.AllPriorities;
+
+            var result = downloader.DownloadObject<List<JiraPriority>>(url, 1200, 12).Result;
+
+            if (result)
+            {
+                return result.Value;
+            }
+
+            return null;
+        }
 
 
         public async Task<List<JiraIssue>> IssuesByUserStory(string userStory)
@@ -284,10 +307,14 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
             return new Result<JiraIssue>().FailAndDefaultValue();
         }
 
-        public async Task<Result<JiraIssue>> AddIssue(string title, string story, string description, string projectId)
+        public async Task<Result<JiraIssue>> AddIssue(string title, string story, string description, Priority priority, string projectId)
         {
             var issueTypeId = FindTaskIssueTypeId();
 
+            var priorityId = new JiraPriorityMap()
+                .FindClosest(priority, 
+                    Priorities.Instance.Value).Id;
+            
             var post = new JiraPostingIssue
             {
                 Fields = new JiraPostingFields
@@ -295,7 +322,8 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
                     Project = projectId,
                     Summary = title,
                     IssueType = issueTypeId,
-                    Description = description
+                    Description = description,
+                    Priority = priorityId
                 }
             };
 

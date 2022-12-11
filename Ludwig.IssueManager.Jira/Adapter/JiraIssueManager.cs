@@ -78,7 +78,7 @@ namespace Ludwig.IssueManager.Jira.Adapter
 
             var projectId = configurations.JiraProject;
 
-            var result = await _jira.AddIssue(issue.Title, issue.UserStory, issue.Description, projectId);
+            var result = await _jira.AddIssue(issue.Title, issue.UserStory, issue.Description, issue.Priority, projectId);
 
             if (result)
             {

@@ -25,6 +25,10 @@ namespace Ludwig.IssueManager.Jira.Models
         public IdValue Project { 
             get=> Get<IdValue>("project"); 
             set => Set("project",value);}
+        
+        public IdValue Priority { 
+            get=> Get<IdValue>("priority"); 
+            set => Set("priority",value);}
 
 
         private T Get<T>(string key)
