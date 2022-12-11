@@ -8,15 +8,16 @@ namespace Ludwig.Common.Utilities
     {
         protected LazyCacheRetryNulls()
         {
-            AcceptNulls = false;
         }
+
+        protected override bool AcceptNulls => false;
     }
     public class LazyCache<T>
     {
         private Func<T> _provider = () => default;
 
         private T _value;
-        protected bool AcceptNulls = true;
+        
         private bool _initiated = false;
         private readonly object _instanceLock = new object();
         private static readonly object SingletonLock = new object();
@@ -26,6 +27,8 @@ namespace Ludwig.Common.Utilities
         {
         }
 
+
+        protected virtual bool AcceptNulls => true;
 
         public static LazyCache<T> Instance
         {

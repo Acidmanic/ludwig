@@ -23,7 +23,9 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
             public const string Self = "rest/api/2/myself";
             public const string AllIssues = "rest/api/2/search";
             public const string NewIssue = "rest/api/2/issue";
+            public const string IssueById = "rest/api/2/issue";
             public const string NewIssueType = "rest/api/2/issuetype";
+            public const string AllIssueTypes = "rest/api/2/issuetype";
             public const string AllFields = "rest/api/2/field";
             public const string AllProjects = "rest/api/2/project";
         }
@@ -144,8 +146,8 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
         public JiraIssueType GetTaskIssueType()
         {
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
-
-            var url = _baseUrl + Resources.AllProjects;
+            
+            var url = _baseUrl + Resources.AllIssueTypes;
 
             var result = downloader.DownloadObject<List<JiraIssueType>>(url, 1200, 12).Result;
 
@@ -170,9 +172,7 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
 
             if (result)
             {
-                var fields = await AllFieldsAsync();
-
-                var definitions = _definitionProvider.Provide(fields);
+                var definitions = _definitionProvider.Provide(JiraFields.Instance.Value);
 
                 result.Value.Issues.ForEach(i => JiraIssueNormalizer.Normalize(i, definitions));
 
@@ -193,9 +193,7 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
 
             if (result)
             {
-                var fields = await AllFieldsAsync();
-
-                var definitions = _definitionProvider.Provide(fields);
+                var definitions = _definitionProvider.Provide(JiraFields.Instance.Value);
 
                 result.Value.Issues.ForEach(i => JiraIssueNormalizer.Normalize(i, definitions));
 
@@ -216,7 +214,14 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
 
             if (!string.IsNullOrWhiteSpace(authHeader))
             {
-                downloader.Headers.Add("Authorization", authHeader);
+                var key = "Authorization";
+                
+                if (downloader.Headers.ContainsKey(key))
+                {
+                    downloader.Headers.Remove(key);
+                }
+
+                downloader.Headers.Add(key, authHeader);
             }
 
             var url = _baseUrl + Resources.Self;
@@ -258,19 +263,39 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
 
             return result;
         }
+        
+        public async Task<Result<JiraIssue>> IssueById(string jiraIssueId)
+        {
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
-        public async Task<Result<JiraIssue>> AddIssue(string title, string description, string projectId)
+            var url = _baseUrl + Resources.IssueById + "/" + jiraIssueId;
+
+            var result = await downloader.DownloadObject<JiraIssue>(url,  1200, 12);
+
+            if (result)
+            {
+                var definitions = _definitionProvider.Provide(JiraFields.Instance.Value);
+
+                JiraIssueNormalizer.Normalize(result.Value, definitions);
+                
+                return new Result<JiraIssue>(true, result.Value);
+            }
+
+            return new Result<JiraIssue>().FailAndDefaultValue();
+        }
+
+        public async Task<Result<JiraIssue>> AddIssue(string title, string story, string description, string projectId)
         {
             var issueTypeId = FindTaskIssueTypeId();
 
             var post = new JiraPostingIssue
             {
-                Descriptions = description,
                 Fields = new JiraPostingFields
                 {
                     Project = projectId,
                     Summary = title,
-                    IssueType = issueTypeId
+                    IssueType = issueTypeId,
+                    Description = description
                 }
             };
 
@@ -278,18 +303,23 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
 
             if (!string.IsNullOrWhiteSpace(userStoryFieldId))
             {
-                post.Fields.Add(userStoryFieldId, title);
+                post.Fields.Add(userStoryFieldId, story);
             }
+            
+            var client = _backChannelRequestGrant.CreateGrantedRestClient();
 
-            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
+            client.BaseUrl = _baseUrl;
 
-            var url = _baseUrl + Resources.AllIssues;
-
-            var result = await downloader.UploadObject<JiraIssue>(url, post, 1200, 12);
+            var result = await client.PostAsync<JiraIssue>(Resources.NewIssue, post);
 
             if (result)
             {
-                return new Result<JiraIssue>().Succeed(result.Value);
+                var jiraIssue = await IssueById(result.Value.Id);
+
+                if (jiraIssue)
+                {
+                    return new Result<JiraIssue>().Succeed(jiraIssue);    
+                }
             }
 
             return new Result<JiraIssue>().FailAndDefaultValue();
@@ -299,7 +329,7 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
         {
             var fields = JiraFields.Instance.Value;
 
-            var userStoryField = fields.FirstOrDefault(f => f.Name.ToLower() == "userstory");
+            var userStoryField = fields.FirstOrDefault(f => f.Name.ToLower() == "user story");
 
             return userStoryField?.Id;
         }

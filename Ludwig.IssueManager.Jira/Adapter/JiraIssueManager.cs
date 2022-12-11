@@ -26,7 +26,7 @@ namespace Ludwig.IssueManager.Jira.Adapter
             _configurationProvider = configurationProvider;
 
             var jiraBase = configurationProvider.GetConfiguration<JiraConfiguration>().JiraFrontChannelUrl.Slashend();
-            
+
             _mapper = new JiraModelMapper(jiraBase);
         }
 
@@ -72,14 +72,13 @@ namespace Ludwig.IssueManager.Jira.Adapter
 
         public async Task<Issue> AddIssue(Issue issue)
         {
-
             _configurationProvider.LoadConfigurations();
 
             var configurations = _configurationProvider.GetConfiguration<JiraConfiguration>();
 
             var projectId = configurations.JiraProject;
-            
-            var result =  await _jira.AddIssue(issue.Title,issue.Description,projectId);
+
+            var result = await _jira.AddIssue(issue.Title, issue.UserStory, issue.Description, projectId);
 
             if (result)
             {
@@ -90,6 +89,5 @@ namespace Ludwig.IssueManager.Jira.Adapter
 
             return null;
         }
-
     }
 }
