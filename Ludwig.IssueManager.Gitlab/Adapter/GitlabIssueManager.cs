@@ -12,19 +12,22 @@ using Ludwig.IssueManager.Gitlab.Models;
 
 namespace Ludwig.IssueManager.Gitlab.Adapter
 {
-    public class GitlabIssueManager:IIssueManager
+    public class GitlabIssueManager : IIssueManager
     {
-
-
         private readonly IBackChannelRequestGrant _backChannelRequestGrant;
         private readonly string _backChannelUrl;
+        private readonly string _gitlabProjectId;
 
         public GitlabIssueManager(IBackChannelRequestGrant backChannelRequestGrant,
             IConfigurationProvider configurationProvider)
         {
             _backChannelRequestGrant = backChannelRequestGrant;
-            _backChannelUrl = configurationProvider.GetConfiguration<GitlabConfigurations>()
-                .GitlabInstanceBackChannel.Slashend();
+
+            var config = configurationProvider.GetConfiguration<GitlabConfigurations>();
+
+            _backChannelUrl = config.GitlabInstanceBackChannel.Slashend();
+
+            _gitlabProjectId = config.GitlabProjectId;
         }
 
         public async Task<List<IssueManagerUser>> GetAllUsers()
@@ -32,7 +35,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             var users = await downloader.DownloadObject<List<GitlabUser>>
-                (_backChannelUrl+"api/v4/users", 400, 3);
+                (_backChannelUrl + "api/v4/users", 400, 3);
 
             if (users)
             {
@@ -44,12 +47,12 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             return new List<IssueManagerUser>();
         }
 
-        public async  Task<IssueManagerUser> GetCurrentUser()
+        public async Task<IssueManagerUser> GetCurrentUser()
         {
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             var me = await downloader.DownloadObject<GitlabUser>
-                (_backChannelUrl+"api/v4/user", 400, 3);
+                (_backChannelUrl + "api/v4/user", 400, 3);
 
             if (me)
             {
@@ -64,7 +67,7 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             var gitlabIssues = await downloader.DownloadObject<List<GitlabIssue>>
-                (_backChannelUrl+"api/v4/issues", 1000, 3);
+                (_backChannelUrl + "api/v4/issues", 1000, 3);
 
             if (gitlabIssues)
             {
@@ -76,12 +79,12 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             return new List<Issue>();
         }
 
-        public  async Task<List<Issue>> GetIssuesByUserStory(string userStory)
+        public async Task<List<Issue>> GetIssuesByUserStory(string userStory)
         {
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             var gitlabIssues = await downloader.DownloadObject<List<GitlabIssue>>
-                (_backChannelUrl+"api/v4/search?scope=issues&search=$"+userStory, 1000, 3);
+                (_backChannelUrl + "api/v4/search?scope=issues&search=$" + userStory, 1000, 3);
 
             if (gitlabIssues)
             {
@@ -91,6 +94,24 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
             }
 
             return new List<Issue>();
+        }
+
+        public async Task<Issue> AddIssue(Issue issue)
+        {
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
+
+            var postingIssue = Mapper.Map(issue);
+
+            var created = await downloader.UploadObject<GitlabIssue>
+            (_backChannelUrl + "api/v4/projects/" + _gitlabProjectId + "/issues",
+                postingIssue, 1000, 3);
+
+            if (created)
+            {
+                return Mapper.Map(created.Value);
+            }
+
+            return null;
         }
     }
 }

@@ -23,6 +23,9 @@ namespace Ludwig.IssueManager.Gitlab.Adapter
                 .Build(),
             new Cib<GitlabConfigurations>().FromProperty(c => c.GitlabInstanceFrontChannel)
                 .Description("Your gitlab instance address.").TypeString()
+                .Build(),
+            new Cib<GitlabConfigurations>().FromProperty(c => c.GitlabProjectId)
+                .Description("The Id of the your gitlab-project, which it's board (issues) would be connected to ludwig.").TypeString()
                 .Build()
         };
 

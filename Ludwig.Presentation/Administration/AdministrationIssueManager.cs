@@ -45,5 +45,10 @@ namespace Ludwig.Presentation.Administration
         {
             return Task.Run(() => new List<Issue>());
         }
+
+        public Task<Issue> AddIssue(Issue issue)
+        {
+            return Task.Run(() => (Issue)null);
+        }
     }
 }
