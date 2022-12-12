@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Ludwig.Presentation.Authentication.Attributes;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.ExporterManagement;
@@ -92,13 +93,13 @@ namespace Ludwig.Presentation.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public IActionResult ExportById(string id)
+        public async  Task<IActionResult> ExportById(string id)
         {
             var exporter = _exporterManager.Exporters.FirstOrDefault(e => e.Id.UniqueKey == id);
 
             if (exporter != null)
             {
-                var exportData = exporter.ProvideExport();
+                var exportData = await exporter.ProvideExport();
 
                 return ThrowDownload(exportData.Data, exportData.FileName, exportData.MediaType);
             }

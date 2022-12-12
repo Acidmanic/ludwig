@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Ludwig.Contracts.Models;
 
 namespace Ludwig.Contracts
@@ -7,7 +8,7 @@ namespace Ludwig.Contracts
         
         ExportInformation Id { get; }
 
-        ExportData ProvideExport();
+        Task<ExportData> ProvideExport();
         
     }
 }
