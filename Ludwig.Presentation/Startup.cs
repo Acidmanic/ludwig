@@ -1,6 +1,8 @@
 using System;
 using EnTier.Extensions;
 using EnTier.Services;
+using Ludwig.Common.ReferenceFactory;
+using Ludwig.Contracts;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.IssueManager.Fake;
@@ -10,6 +12,7 @@ using Ludwig.Presentation.Administration;
 using Ludwig.Presentation.Authentication;
 using Ludwig.Presentation.Configuration;
 using Ludwig.Presentation.Contracts;
+using Ludwig.Presentation.ExporterManagement;
 using Ludwig.Presentation.Extensions;
 using Ludwig.Presentation.Models;
 using Ludwig.Presentation.Services;
@@ -58,6 +61,8 @@ namespace Ludwig.Presentation
             services.AddLudwigTokenAuthentication();
 
             services.AddSingleton<AuthenticatorsListReference>();
+
+            services.AddSingleton<ExporterManager>();
 
             var issueManagerAggregationSingleton = new Wrap<IssueManagerAggregation>();
             services.AddSingleton(sp => CreateIssueManagerAggregation(issueManagerAggregationSingleton, sp));

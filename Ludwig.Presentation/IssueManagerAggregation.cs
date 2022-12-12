@@ -6,6 +6,7 @@ using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
 using Ludwig.Presentation.Authentication;
+using Ludwig.Presentation.Extensions;
 using Microsoft.AspNetCore.Http;
 
 namespace Ludwig.Presentation
@@ -44,10 +45,7 @@ namespace Ludwig.Presentation
         {
             get
             {
-                var context = _httpContextAccessor.HttpContext;
-                
-                var loginMethodName = context.User.Claims.
-                    FirstOrDefault(p=>p.Type == LudwigClaims.LoginMethod)?.Value;
+                var loginMethodName = _httpContextAccessor.GetLoginMethodNameClaim();
 
                 if (!string.IsNullOrWhiteSpace(loginMethodName))
                 {

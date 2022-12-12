@@ -56,6 +56,11 @@ namespace Ludwig.Presentation.Extensions
             }
             
             services.AddMvc().AddApplicationPart(typeof(TRegistry).Assembly);
+
+            foreach (var exporter in reg.Exporters)
+            {
+                services.AddTransient(exporter);
+            }
             
             return services;
         }

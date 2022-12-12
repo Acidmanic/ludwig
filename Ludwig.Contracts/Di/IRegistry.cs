@@ -13,6 +13,9 @@ namespace Ludwig.Contracts.Di
         
         List<Type> Authenticators { get; }
         
+        
+        List<Type> Exporters { get; }
+
         List<Type> AdditionalTransientServices { get; }
         
         List<Type> AdditionalSingletonServices { get; }
