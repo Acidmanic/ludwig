@@ -104,6 +104,7 @@ namespace Ludwig.Presentation
                         LudwigClaims.UserSchemes.IssueManager,
                         LudwigClaims.UserSchemes.Administrator));
             });
+            
         }
 
         private IssueManagerAggregation CreateIssueManagerAggregation(Wrap<IssueManagerAggregation> instance,
