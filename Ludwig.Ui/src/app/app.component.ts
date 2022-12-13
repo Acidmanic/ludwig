@@ -1,6 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PriorityModel} from "./models/priority-model";
 import {LoginManagerService} from "./services/login-manager/login-manager.service";
+import {ExportInfoModel} from "./models/export-info-model";
+import {ExportService} from "./services/export/export.service";
 
 @Component({
   selector: 'app-root',
@@ -12,15 +14,28 @@ export class AppComponent implements OnInit,OnDestroy{
   title = 'Ludwig.Ui';
 
 
+  exportInfos:ExportInfoModel[]=[];
 
 
-
-  constructor(public svcLogin:LoginManagerService) {
+  constructor(public svcLogin:LoginManagerService,
+              private svcExports:ExportService) {
   }
 
 
   ngOnInit(): void {
     console.log("Main Component Initialized");
+
+    this.svcExports.getAvailableExports().subscribe({
+      next: info => {
+        this.exportInfos=info;
+        console.log('got exporters',this.exportInfos);
+      },
+      error:err => {
+        console.log(err);
+      },
+      complete: () => {}
+    });
+
   }
 
   ngOnDestroy(): void {

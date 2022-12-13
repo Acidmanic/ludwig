@@ -20,7 +20,7 @@ export class ExportService {
 
     let handle = new Subject<ExportInfoModel[]>();
 
-    let url = this.baseUrl+"export";
+    let url = this.baseUrl+"export/exporters";
 
     this.http.get<ExportInfoModel[]>(url).subscribe({
       next: model => handle.next(model),
