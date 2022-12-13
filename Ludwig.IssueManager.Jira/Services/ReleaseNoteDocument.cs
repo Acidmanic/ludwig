@@ -30,7 +30,7 @@ namespace Ludwig.IssueManager.Jira.Services
 
             var sortedKeys = issuesByVersion.Keys.ToList();
 
-            sortedKeys.Sort(new JiraVersionComparer());
+            sortedKeys.Sort(new JiraVersionComparer(true));
 
             foreach (var keyVersion in sortedKeys)
             {
@@ -109,7 +109,7 @@ namespace Ludwig.IssueManager.Jira.Services
             foreach (var issue in doneIssues)
             {
 
-                issue.FixVersions.Sort(new JiraVersionComparer());
+                issue.FixVersions.Sort(new JiraVersionComparer(true));
 
                 var version = issue.FixVersions?.LastOrDefault();
 

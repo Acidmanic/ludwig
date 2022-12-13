@@ -232,7 +232,9 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
 
             var url = _baseUrl + Resources.AllIssues + $"?jql=\"project\"%20=%20\"{projectId}\"";
 
-            var result = await downloader.DownloadObject<JiraIssueChunk>(url, 1200, 12);
+            url += "&maxResults=" + int.MaxValue.ToString() + "&startAt=0";
+
+            var result = await downloader.DownloadObject<JiraIssueChunk>(url, 4000, 3);
 
             if (result)
             {

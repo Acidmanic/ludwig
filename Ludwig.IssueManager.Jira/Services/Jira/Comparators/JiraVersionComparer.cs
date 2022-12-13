@@ -7,8 +7,21 @@ namespace Ludwig.IssueManager.Jira.Services.Jira.Comparators
 {
     internal class JiraVersionComparer : Comparer<JiraFixVersion>
     {
-        public override int Compare(JiraFixVersion x, JiraFixVersion y)
+        private readonly bool _reverse;
+
+        public JiraVersionComparer():this(false){}
+        
+        public JiraVersionComparer(bool reverse)
         {
+            _reverse = reverse;
+        }
+
+        public override int Compare(JiraFixVersion xv, JiraFixVersion yv)
+        {
+
+            var x = _reverse ? yv : xv;
+            var y = _reverse ? xv : yv;
+            
             var v1 = TryParse(x?.Name);
             var v2 = TryParse(y?.Name);
 
