@@ -74,6 +74,7 @@ namespace Ludwig.IssueManager.Jira.Services
             var title = version.Name;
 
             var url = "";
+            var verse = "";
 
             // not made up version, but actually coming from jira
             if (!string.IsNullOrWhiteSpace(version.Self))
@@ -81,12 +82,13 @@ namespace Ludwig.IssueManager.Jira.Services
                 url = _jiraFrontChannel.Slashend() + "brows/" + projectKey + "/fixforversion/" + version.Id;
 
                 title = "[" + title + "](" + url + ")";
+
+                verse = "__In This version:__\n\n";
             }
 
             sb.Append(title).Append("\n-----------\n\n")
                 .Append(version.Description)
-                .Append("\n\n")
-                .Append("__In This version:__").Append("\n").Append("\n");
+                .Append("\n\n").Append(verse);
         }
 
         private Dictionary<JiraFixVersion, List<JiraIssue>> GroupByVersion(List<JiraIssue> issues)
