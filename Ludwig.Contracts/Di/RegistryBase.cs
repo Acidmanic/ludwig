@@ -22,6 +22,8 @@ namespace Ludwig.Contracts.Di
         public Dictionary<Type, Type> AdditionalTransientInjections { get; set; } = new Dictionary<Type, Type>();
         public Dictionary<Type, Type> AdditionalSingletonInjections { get; set; } = new Dictionary<Type, Type>();
 
+        public List<Type> Exporters { get; } = new List<Type>();
+
         protected void Transient<TAbstraction, TImplementation>()
         where TImplementation:TAbstraction
         {
@@ -60,6 +62,11 @@ namespace Ludwig.Contracts.Di
             where TDescriptor : IConfigurationDescriptor, new()
         {
             this.ConfigurationDescriptor = typeof(TDescriptor);
+        }
+
+        protected void Exports<TExporter>()
+        {
+            this.Exporters.Add(typeof(TExporter));
         }
     }
 }

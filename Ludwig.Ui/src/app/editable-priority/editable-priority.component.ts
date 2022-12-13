@@ -30,7 +30,6 @@ export class EditablePriorityComponent implements OnInit {
     this.original={
       ...this.priority
     };
-    console.log('re initialized',this.original);
     this.onRevert.subscribe(() => {
 
       this.revert();

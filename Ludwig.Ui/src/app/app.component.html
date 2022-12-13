@@ -37,8 +37,12 @@
         <div ngbDropdownMenu>
           <a href="export/csv/stories" ngbDropdownItem>Export User Stories as CSV</a>
           <a href="export/json/stories" ngbDropdownItem>Export User Stories as Json</a>
-          <a href="export/json/database"ngbDropdownItem>Export Database as Json</a>
-<!--          <div class="dropdown-divider"></div>-->
+          <a href="export/json/database" ngbDropdownItem>Export Database as Json</a>
+          <div *ngIf="exportInfos && exportInfos.length>0" class="dropdown-divider"></div>
+          <a *ngFor="let info of exportInfos"
+            href="export/{{info.uniqueKey}}" ngbDropdownItem>
+            {{info.displayName}}
+          </a>
 <!--          <button ngbDropdownItem>Separated link</button>-->
         </div>
       </li>

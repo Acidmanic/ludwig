@@ -15,6 +15,12 @@ namespace Ludwig.IssueManager.Fake
             typeof(UsernamePasswordAuthenticator),
             typeof(OtpAuthenticator)
         };
+
+        public List<Type> Exporters { get; } = new List<Type>
+        {
+            typeof(FakeExporter)
+        };
+        
         public List<Type> AdditionalTransientServices { get; } = new List<Type>();
         public List<Type> AdditionalSingletonServices { get; } = new List<Type>();
         public Dictionary<Type, Type> AdditionalTransientInjections { get; set; } = new Dictionary<Type, Type>();

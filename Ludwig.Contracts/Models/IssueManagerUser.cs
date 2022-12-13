@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace Ludwig.Contracts.Models
 {
     public class IssueManagerUser
