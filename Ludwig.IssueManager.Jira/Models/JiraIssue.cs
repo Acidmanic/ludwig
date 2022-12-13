@@ -28,5 +28,12 @@ namespace Ludwig.IssueManager.Jira.Models
         public JiraUser Assignee { get; set; }
 
         public string UserStory { get; set; }
+        
+        
+        public string ReleaseNote { get; set; }
+        
+        public List<JiraFixVersion> FixVersions { get; set; }
+        
+        public JiraResolution Resolution { get; set; } 
     }
 }

@@ -20,12 +20,16 @@ namespace Ludwig.IssueManager.Jira.Services
             issue.Priority = Cast<JiraPriority>(issue, "priority");
 
             issue.Assignee = Cast<JiraUser>(issue, "assignee");
+            
+            issue.Resolution = Cast<JiraResolution>(issue, "resolution");
 
             if (definitions != null)
                 foreach (var definition in definitions)
                 {
                     Cast(issue, definition);
                 }
+
+            issue.FixVersions = CastListOf<JiraFixVersion>(issue, "fixVersions");
         }
 
 
@@ -65,26 +69,58 @@ namespace Ludwig.IssueManager.Jira.Services
         }
 
 
+        private static List<T> CastListOf<T>(JiraIssue issue, string name)
+        {
+            var result = new List<T>();
+            
+            if (issue.Fields.ContainsKey(name))
+            {
+                var jObject = issue.Fields[name];
+
+                if (jObject is JArray array)
+                {
+                    foreach (var item in array)
+                    {
+                        var value = As<T>(item);
+
+                        if (value != null)
+                        {
+                            result.Add(value);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+        
         private static T Cast<T>(JiraIssue issue, string name)
         {
             if (issue.Fields.ContainsKey(name))
             {
                 var jObject = issue.Fields[name];
 
-                if (jObject is T value)
-                {
-                    return value;
-                }
+                return As<T>(jObject);
+            }
 
-                if (jObject is JObject j)
+            return default;
+        }
+
+        private static T As<T>(object jObject)
+        {
+            if (jObject is T value)
+            {
+                return value;
+            }
+
+            if (jObject is JObject j)
+            {
+                try
                 {
-                    try
-                    {
-                        return j.ToObject<T>();
-                    }
-                    catch (Exception)
-                    {
-                    }
+                    return j.ToObject<T>();
+                }
+                catch (Exception)
+                {
                 }
             }
 

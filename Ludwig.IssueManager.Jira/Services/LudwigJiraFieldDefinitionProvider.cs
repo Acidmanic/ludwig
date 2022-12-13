@@ -12,6 +12,7 @@ namespace Ludwig.IssueManager.Jira.Services
             var definitions = new List<CustomFieldDefinition>();
 
             var userStoryField = availableFields.FirstOrDefault(f => f.Name?.ToLower() == "user story");
+            var releaseNoteField = availableFields.FirstOrDefault(f => f.Name?.ToLower() == "release note");
 
             if (userStoryField != null)
             {
@@ -22,6 +23,19 @@ namespace Ludwig.IssueManager.Jira.Services
                     Type = typeof(string),
                     FieldName = userStoryField.Id,
                     SetIntoIssue = (i, o) => i.UserStory = (string)o
+                };
+                definitions.Add(def);
+            }
+            
+            if (releaseNoteField != null)
+            {
+                var id = releaseNoteField.Id;
+
+                var def = new CustomFieldDefinition
+                {
+                    Type = typeof(string),
+                    FieldName = releaseNoteField.Id,
+                    SetIntoIssue = (i, o) => i.ReleaseNote = (string)o
                 };
                 definitions.Add(def);
             }

@@ -225,6 +225,26 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
 
             return new List<JiraIssue>();
         }
+        
+        public async Task<List<JiraIssue>> IssuesByProject(string projectId)
+        {
+            var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
+
+            var url = _baseUrl + Resources.AllIssues + $"?jql=\"project\"%20=%20\"{projectId}\"";
+
+            var result = await downloader.DownloadObject<JiraIssueChunk>(url, 1200, 12);
+
+            if (result)
+            {
+                var definitions = _definitionProvider.Provide(JiraFields.Instance.Value);
+
+                result.Value.Issues.ForEach(i => JiraIssueNormalizer.Normalize(i, definitions));
+
+                return result.Value.Issues;
+            }
+
+            return new List<JiraIssue>();
+        }
 
         public Task<Result<JiraUser, string>> LoggedInUser()
         {
