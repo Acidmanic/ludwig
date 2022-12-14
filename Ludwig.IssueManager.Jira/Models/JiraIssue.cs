@@ -29,11 +29,14 @@ namespace Ludwig.IssueManager.Jira.Models
 
         public string UserStory { get; set; }
         
-        
         public string ReleaseNote { get; set; }
         
         public List<JiraFixVersion> FixVersions { get; set; }
         
         public JiraResolution Resolution { get; set; } 
+        
+        public JiraIssue Parent { get; set; }
+        
+        public JiraStatus Status { get; set; }
     }
 }

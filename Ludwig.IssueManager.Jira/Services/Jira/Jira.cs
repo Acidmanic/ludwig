@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using Acidmanic.Utilities.Results;
 using Ludwig.Common.Extensions;
@@ -36,6 +37,14 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
         private readonly string _baseUrl;
         private readonly ICustomFieldDefinitionProvider _definitionProvider;
 
+        private class UnlimitedResults
+        {
+            public static readonly string Parameters = "maxResults=" + int.MaxValue.ToString() + "&startAt=0";
+            public static readonly string AndParameters = "&" + Parameters;
+            public static readonly string WithParameters = "?" + Parameters;
+        }
+
+
         private class JiraFields : LazyCache<List<JiraField>>
         {
         }
@@ -47,7 +56,7 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
         private class TaskIssueType : LazyCacheRetryNulls<JiraIssueType>
         {
         }
-        
+
         private class Priorities : LazyCache<List<JiraPriority>>
         {
         }
@@ -66,7 +75,7 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
             Projects.Instance.SetProvider(AllProjects);
 
             TaskIssueType.Instance.SetProvider(GetTaskIssueType);
-            
+
             Priorities.Instance.SetProvider(GetAllPriorities);
         }
 
@@ -74,9 +83,9 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
         {
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
-            var url = _baseUrl + Resources.AllUsers;
+            var url = _baseUrl + Resources.AllUsers + UnlimitedResults.AndParameters;
 
-            var result = await downloader.DownloadObject<List<JiraUser>>(url, 1200, 12);
+            var result = await downloader.DownloadObject<List<JiraUser>>(url, 4000, 3);
 
             if (result)
             {
@@ -90,9 +99,9 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
         {
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
-            var url = _baseUrl + Resources.AllFields;
+            var url = _baseUrl + Resources.AllFields+UnlimitedResults.WithParameters;
 
-            var result = await downloader.DownloadObject<List<JiraField>>(url, 1200, 12);
+            var result = await downloader.DownloadObject<List<JiraField>>(url, 4000, 3);
 
             if (result)
             {
@@ -106,9 +115,9 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
         {
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
-            var url = _baseUrl + Resources.AllFields;
+            var url = _baseUrl + Resources.AllFields + UnlimitedResults.WithParameters;
 
-            var result = downloader.DownloadObject<List<JiraField>>(url, 1200, 12).Result;
+            var result = downloader.DownloadObject<List<JiraField>>(url, 4000, 3).Result;
 
             if (result)
             {
@@ -122,9 +131,9 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
         {
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
-            var url = _baseUrl + Resources.AllProjects;
+            var url = _baseUrl + Resources.AllProjects + UnlimitedResults.AndParameters;
 
-            var result = downloader.DownloadObject<List<JiraProject>>(url, 1200, 12).Result;
+            var result = downloader.DownloadObject<List<JiraProject>>(url, 4000, 3).Result;
 
             if (result)
             {
@@ -138,9 +147,9 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
         {
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
-            var url = _baseUrl + Resources.AllProjects;
+            var url = _baseUrl + Resources.AllProjects + UnlimitedResults.AndParameters;
 
-            var result = await downloader.DownloadObject<List<JiraProject>>(url, 1200, 12);
+            var result = await downloader.DownloadObject<List<JiraProject>>(url, 4000, 3);
 
             if (result)
             {
@@ -153,10 +162,10 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
         public JiraIssueType GetTaskIssueType()
         {
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
-            
-            var url = _baseUrl + Resources.AllIssueTypes;
 
-            var result = downloader.DownloadObject<List<JiraIssueType>>(url, 1200, 12).Result;
+            var url = _baseUrl + Resources.AllIssueTypes + UnlimitedResults.WithParameters;
+
+            var result = downloader.DownloadObject<List<JiraIssueType>>(url, 4000, 3).Result;
 
             if (result)
             {
@@ -175,7 +184,9 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
 
             var url = _baseUrl + Resources.AllIssues;
 
-            var result = await downloader.DownloadObject<JiraIssueChunk>(url, 1200, 12);
+            url += UnlimitedResults.WithParameters;
+
+            var result = await downloader.DownloadObject<JiraIssueChunk>(url, 4000, 3);
 
             if (result)
             {
@@ -188,14 +199,14 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
 
             return new List<JiraIssue>();
         }
-        
+
         public List<JiraPriority> GetAllPriorities()
         {
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
-            var url = _baseUrl + Resources.AllPriorities;
+            var url = _baseUrl + Resources.AllPriorities + UnlimitedResults.WithParameters;
 
-            var result = downloader.DownloadObject<List<JiraPriority>>(url, 1200, 12).Result;
+            var result = downloader.DownloadObject<List<JiraPriority>>(url, 4000, 3).Result;
 
             if (result)
             {
@@ -212,7 +223,9 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
 
             var url = _baseUrl + Resources.AllIssues + $"?jql=\"User%20Story\"%20~%20\"{userStory}\"";
 
-            var result = await downloader.DownloadObject<JiraIssueChunk>(url, 1200, 12);
+            url += UnlimitedResults.AndParameters;
+
+            var result = await downloader.DownloadObject<JiraIssueChunk>(url, 4000, 3);
 
             if (result)
             {
@@ -225,14 +238,14 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
 
             return new List<JiraIssue>();
         }
-        
+
         public async Task<List<JiraIssue>> IssuesByProject(string projectId)
         {
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             var url = _baseUrl + Resources.AllIssues + $"?jql=\"project\"%20=%20\"{projectId}\"";
 
-            url += "&maxResults=" + int.MaxValue.ToString() + "&startAt=0";
+            url += UnlimitedResults.AndParameters;
 
             var result = await downloader.DownloadObject<JiraIssueChunk>(url, 4000, 3);
 
@@ -260,7 +273,7 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
             if (!string.IsNullOrWhiteSpace(authHeader))
             {
                 var key = "Authorization";
-                
+
                 if (downloader.Headers.ContainsKey(key))
                 {
                     downloader.Headers.Remove(key);
@@ -271,7 +284,7 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
 
             var url = _baseUrl + Resources.Self;
 
-            var result = await downloader.DownloadObject<JiraUser>(url, 1200, 12);
+            var result = await downloader.DownloadObject<JiraUser>(url, 4000, 4);
 
             if (result)
             {
@@ -304,39 +317,40 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
 
             var url = _baseUrl + Resources.NewIssueType;
 
-            var result = await downloader.UploadObject<string>(url, issueType, 1200, 12);
+            var result = await downloader.UploadObject<string>(url, issueType, 4000, 3);
 
             return result;
         }
-        
+
         public async Task<Result<JiraIssue>> IssueById(string jiraIssueId)
         {
             var downloader = _backChannelRequestGrant.CreateGrantedDownloader();
 
             var url = _baseUrl + Resources.IssueById + "/" + jiraIssueId;
 
-            var result = await downloader.DownloadObject<JiraIssue>(url,  1200, 12);
+            var result = await downloader.DownloadObject<JiraIssue>(url, 4000, 3);
 
             if (result)
             {
                 var definitions = _definitionProvider.Provide(JiraFields.Instance.Value);
 
                 JiraIssueNormalizer.Normalize(result.Value, definitions);
-                
+
                 return new Result<JiraIssue>(true, result.Value);
             }
 
             return new Result<JiraIssue>().FailAndDefaultValue();
         }
 
-        public async Task<Result<JiraIssue>> AddIssue(string title, string story, string description, Priority priority, string projectId)
+        public async Task<Result<JiraIssue>> AddIssue(string title, string story, string description, Priority priority,
+            string projectId)
         {
             var issueTypeId = FindTaskIssueTypeId();
 
             var priorityId = new JiraPriorityMap()
-                .FindClosest(priority, 
+                .FindClosest(priority,
                     Priorities.Instance.Value).Id;
-            
+
             var post = new JiraPostingIssue
             {
                 Fields = new JiraPostingFields
@@ -355,7 +369,7 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
             {
                 post.Fields.Add(userStoryFieldId, story);
             }
-            
+
             var client = _backChannelRequestGrant.CreateGrantedRestClient();
 
             client.BaseUrl = _baseUrl;
@@ -368,7 +382,7 @@ namespace Ludwig.IssueManager.Jira.Services.Jira
 
                 if (jiraIssue)
                 {
-                    return new Result<JiraIssue>().Succeed(jiraIssue);    
+                    return new Result<JiraIssue>().Succeed(jiraIssue);
                 }
             }
 

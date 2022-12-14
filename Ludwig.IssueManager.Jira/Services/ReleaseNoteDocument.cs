@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +27,11 @@ namespace Ludwig.IssueManager.Jira.Services
 
             sb.Append("\n\nJira - Release Notes").Append("\n================\n\n\n");
 
-            var issuesByVersion = GroupByVersion(_issues);
+            NormalizeSubTaskVersions(_issues);
+
+            var filteredIssues = FilterReleaseNoteAppropriateIssues(_issues);
+
+            var issuesByVersion = GroupByVersion(filteredIssues);
 
             var sortedKeys = issuesByVersion.Keys.ToList();
 
@@ -54,19 +59,48 @@ namespace Ludwig.IssueManager.Jira.Services
             return sb.ToString();
         }
 
+        private void NormalizeSubTaskVersions(List<JiraIssue> issues)
+        {
+            var issuesById = new Dictionary<string, JiraIssue>();
+
+            foreach (var issue in issues)
+            {
+                var key = issue.Key;
+
+                if (!issuesById.ContainsKey(key))
+                {
+                    issuesById.Add(key, issue);
+                }
+            }
+
+            foreach (var issue in issues)
+            {
+                var parentKey = issue.Parent?.Key;
+
+                if (!string.IsNullOrWhiteSpace(parentKey) && issuesById.ContainsKey(parentKey))
+                {
+                    issue.Parent = issuesById[parentKey];
+
+                    if (issue.FixVersions == null || issue.FixVersions.Count == 0)
+                    {
+                        if (issue.Parent.FixVersions != null)
+                        {
+                            issue.FixVersions = new List<JiraFixVersion>(issue.Parent.FixVersions);
+                        }
+                    }
+                }
+            }
+        }
+
         private void AppendIssue(StringBuilder sb, JiraIssue issue)
         {
-            var issueUrl = _jiraFrontChannel.Slashend() + "projects/"
-                                                        + issue.Project.Key + "/issue/" + issue.Key;
 
-            if (!string.IsNullOrWhiteSpace(issue.ReleaseNote))
-            {
-                sb.Append("  *  ")
-                    .Append("[").Append(issue.Key).Append("]")
-                    .Append("(").Append(issueUrl).Append(") - ")
-                    .Append(issue.ReleaseNote).Append("\n");
-            }
+            var issueUrl = _jiraFrontChannel.Slashend() + "browse/" + issue.Key;
             
+            sb.Append("  *  ")
+                .Append("[").Append(issue.Key).Append("]")
+                .Append("(").Append(issueUrl).Append(") - ")
+                .Append(issue.ReleaseNote).Append("\n");
         }
 
         private void AppendVersion(StringBuilder sb, JiraFixVersion version, string projectKey)
@@ -91,6 +125,17 @@ namespace Ludwig.IssueManager.Jira.Services
                 .Append("\n\n").Append(verse);
         }
 
+
+        private List<JiraIssue> FilterReleaseNoteAppropriateIssues(List<JiraIssue> issues)
+        {
+            var releasyIssues = issues.Where(HaveReleaseNote);
+
+            var doneIssues = releasyIssues.Where(IsDone);
+
+
+            return doneIssues.ToList();
+        }
+
         private Dictionary<JiraFixVersion, List<JiraIssue>> GroupByVersion(List<JiraIssue> issues)
         {
             var initialProduct = new JiraFixVersion
@@ -104,11 +149,8 @@ namespace Ludwig.IssueManager.Jira.Services
 
             var result = new Dictionary<JiraFixVersion, List<JiraIssue>>();
 
-            var doneIssues = issues.Where(IsDone);
-
-            foreach (var issue in doneIssues)
+            foreach (var issue in issues)
             {
-
                 issue.FixVersions.Sort(new JiraVersionComparer(true));
 
                 var version = issue.FixVersions?.LastOrDefault();
@@ -131,12 +173,23 @@ namespace Ludwig.IssueManager.Jira.Services
             return result;
         }
 
+        private bool HaveReleaseNote(JiraIssue issue)
+        {
+            return !string.IsNullOrWhiteSpace(issue.ReleaseNote);
+        }
+
         private bool IsDone(JiraIssue issue)
         {
             var resolution = issue.Resolution?.Name;
 
-            return !string.IsNullOrWhiteSpace(resolution) && resolution.Trim().ToLower() == "done";
+            var status = issue.Status?.Name;
+
+            return IsDone(resolution) && IsDone(status);
         }
-        
+
+        private bool IsDone(string name)
+        {
+            return !string.IsNullOrWhiteSpace(name) && name.Trim().ToLower() == "done";
+        }
     }
 }

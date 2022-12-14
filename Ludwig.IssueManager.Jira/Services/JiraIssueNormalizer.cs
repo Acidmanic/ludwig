@@ -7,6 +7,39 @@ namespace Ludwig.IssueManager.Jira.Services
 {
     internal static class JiraIssueNormalizer
     {
+        
+        
+        public static void Normalize(IEnumerable<JiraIssue> issues, IEnumerable<CustomFieldDefinition> definitions = null)
+        {
+
+            foreach (var issue in issues)
+            {
+                Normalize(issue,definitions);
+            }
+            
+            var issuesById = new Dictionary<string, JiraIssue>();
+            
+            foreach (var issue in issues)
+            {
+                var key = issue.Key;
+
+                if (!issuesById.ContainsKey(key))
+                {
+                    issuesById.Add(key,issue);
+                }
+            }
+
+            foreach (var issue in issues)
+            {
+                var parentKey = issue.Parent?.Key;
+
+                if (!string.IsNullOrWhiteSpace(parentKey) && issuesById.ContainsKey(parentKey))
+                {
+                    issue.Parent = issuesById[parentKey];
+                }
+            }
+        }
+        
         public static void Normalize(JiraIssue issue, IEnumerable<CustomFieldDefinition> definitions = null)
         {
             issue.IssueType = Cast<JiraIssueType>(issue, "issuetype");
@@ -22,6 +55,10 @@ namespace Ludwig.IssueManager.Jira.Services
             issue.Assignee = Cast<JiraUser>(issue, "assignee");
             
             issue.Resolution = Cast<JiraResolution>(issue, "resolution");
+            
+            issue.Parent = Cast<JiraIssue>(issue, "parent");
+            
+             issue.Status = Cast<JiraStatus>(issue, "status");
 
             if (definitions != null)
                 foreach (var definition in definitions)
