@@ -1,5 +1,6 @@
 ﻿using EnTier;
 using EnTier.Controllers;
+using Ludwig.DataAccess.Models;
 using Ludwig.Presentation.Authentication.Attributes;
 using Ludwig.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;

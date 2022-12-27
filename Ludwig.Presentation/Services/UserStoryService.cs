@@ -5,6 +5,7 @@ using EnTier.Repositories.Attributes;
 using EnTier.UnitOfWork;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
+using Ludwig.DataAccess.Models;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Models;
 using Microsoft.Extensions.Logging;

@@ -1,6 +1,6 @@
 using Acidmanic.Utilities.Reflection.Attributes;
 
-namespace Ludwig.Presentation.Models
+namespace Ludwig.DataAccess.Models
 {
     public class StoryUser
     {
