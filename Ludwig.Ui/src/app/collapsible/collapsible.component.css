@@ -8,3 +8,11 @@
   cursor: pointer;
   width: 100%;
 }
+
+.img-strike-through{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}

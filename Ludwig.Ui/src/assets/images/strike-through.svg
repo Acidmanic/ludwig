@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="svg919"
+   version="1.1"
+   viewBox="0 0 129.2804 41.271179"
+   height="41.271179mm"
+   width="129.2804mm">
+  <defs
+     id="defs913">
+    <linearGradient
+       id="linearGradient1474">
+      <stop
+         id="stop1470"
+         offset="0"
+         style="stop-color:#000000;stop-opacity:1;" />
+      <stop
+         id="stop1472"
+         offset="1"
+         style="stop-color:#000000;stop-opacity:0;" />
+    </linearGradient>
+    <radialGradient
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(2.5629263,-0.87656191,0.10330919,0.3020595,-127.56606,111.75979)"
+       r="64.640198"
+       fy="99.648705"
+       fx="76.601654"
+       cy="99.648705"
+       cx="76.601654"
+       id="radialGradient1476"
+       xlink:href="#linearGradient1474" />
+  </defs>
+  <metadata
+     id="metadata916">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-24.184208,-45.021376)"
+     id="layer1">
+    <path
+       id="path849-3"
+       d="m 24.899264,86.292556 c -0.590458,-0.0504 11.235042,-1.92736 16.303158,-3.08539 6.152187,-1.40562 31.716768,-7.079 31.716768,-7.079 0,0 -26.003847,5.095168 -32.019239,5.895408 -6.599338,0.87793 -4.192508,0.357763 -1.396323,-0.460067 4.900129,-1.43567 30.362247,-6.57585 52.24329,-13.431847 33.126162,-10.379434 37.128952,-12.133865 58.813712,-22.3497 1.17819,-0.377418 2.13805,-0.627522 2.88232,-0.759307 0.47471,-0.08389 -6.92572,3.977853 -15.40408,8.35204 -10.42086,5.376421 -33.1391,12.907713 -33.1391,12.907713 0,0 22.25908,-6.993294 32.60854,-11.819048 8.31543,-3.877344 10.9634,-5.292234 10.3358,-4.473835 -1.21095,1.579096 -32.14439,16.332844 -60.242218,24.254654 -28.097812,7.92184 -45.637049,11.572869 -62.702628,12.048379 z"
+       style="fill:url(#radialGradient1476);fill-opacity:1;stroke-width:2.49382138" />
+  </g>
+</svg>

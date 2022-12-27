@@ -16,14 +16,19 @@
 
 
   <div class="row">
-    <collapsible
-      *ngFor="let story of stories" class="col-lg-3 col-md-4 col-sm-6 col-12"
+
+
+    <collapsible  *ngFor="let story of stories"
+       class="col-lg-3 col-md-4 col-sm-6 col-12"
       [collapsed]="true"
       content-class="{{glowStyle(story)}}"
       collapse-label-class="priority-{{story.priority.name.toLowerCase()}}"
       collapse-button-classes="text-light"
       alternative-text="{{caption(story)}}"
       (collapsedChange)="onSelectChanged(!$event,story)"
+      [collapse-overlay]="story.isDone"
+      collapse-overlay-image="assets/images/strike-through.svg"
+      collapse-overlay-image-class="opacity-75"
       >
       <editable-user-story [story]="story"
                            (syncStory)="saveUserStory($event)"

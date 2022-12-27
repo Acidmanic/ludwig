@@ -15,5 +15,6 @@ export class UserStoryModel{
   public cardColor:string="gray";
   public issues:IssueModel[]=[];
   public priority:PriorityModel=new PriorityModel();
+  public isDone:boolean=false;
 
 }
