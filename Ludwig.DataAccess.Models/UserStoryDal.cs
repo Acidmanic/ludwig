@@ -20,12 +20,13 @@ namespace Ludwig.DataAccess.Models
         
         public string CardColor { get; set; }
         
+        public bool IsDone { get; set; }
         
         public int PriorityValue { get; set; }
         
-        public int PriorityName { get; set; }
+        public string PriorityName { get; set; }
         
-        public bool IsDone { get; set; }
+        
         
         
     }

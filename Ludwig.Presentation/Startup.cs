@@ -11,6 +11,7 @@ using Ludwig.Presentation.Configuration;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.ExporterManagement;
 using Ludwig.Presentation.Extensions;
+using Ludwig.Presentation.Mapping;
 using Ludwig.Presentation.Models;
 using Ludwig.Presentation.Services;
 using Ludwig.Presentation.Utilities;
@@ -41,6 +42,9 @@ namespace Ludwig.Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddAutoMapperForEnTier(conf => conf.AddProfile<LudwigMappingProfile>());
+            
             services.AddJsonFileUnitOfWork();
 
             services.AddTransient<ICrudService<UserStory, long>, UserStoryService>();
