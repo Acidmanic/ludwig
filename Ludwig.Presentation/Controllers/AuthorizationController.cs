@@ -1,16 +1,8 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Ludwig.Contracts.Authentication;
-using Ludwig.Contracts.IssueManagement;
-using Ludwig.Contracts.Models;
 using Ludwig.Presentation.Authentication;
-using Ludwig.Presentation.Extensions;
 using Ludwig.Presentation.Models;
 using Ludwig.Presentation.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
 
 namespace Ludwig.Presentation.Controllers
 {

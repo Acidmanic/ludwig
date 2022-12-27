@@ -1,8 +1,5 @@
 using System;
-using EnTier.Extensions;
 using EnTier.Services;
-using Ludwig.Common.ReferenceFactory;
-using Ludwig.Contracts;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.IssueManager.Fake;
@@ -85,9 +82,7 @@ namespace Ludwig.Presentation
             var logger = new ConsoleLogger().EnableAll();
 
             _frontEndServer.UseLogger(logger);
-
-            logger.UseLoggerForEnTier();
-
+            
             services.AddTransient<ILogger>(p => logger);
 
             services.AddControllers();
@@ -151,7 +146,7 @@ namespace Ludwig.Presentation
 
             _frontEndServer.ConfigureMappings(app, env);
 
-            app.IntroduceDotnetResolverToEnTier();
+            app.ConfigureEnTierResolver();
         }
     }
 }

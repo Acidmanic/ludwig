@@ -1,16 +1,14 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using EnTier.Repositories;
 using EnTier.Repositories.Attributes;
-using EnTier.Results;
 using EnTier.UnitOfWork;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
 using Ludwig.Presentation.Contracts;
-using Ludwig.Presentation.Extensions;
 using Ludwig.Presentation.Models;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Ludwig.Presentation.Services
 {
@@ -19,10 +17,9 @@ namespace Ludwig.Presentation.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICrudRepository<UserStory, long> _userStoryRepository;
         private readonly ICrudRepository<StoryUser, long> _storyUserRepository;
-
         private readonly IIssueManager _issueManager;
-        //private readonly Jira _jira;
-
+        private ILogger Logger { get; set; } = NullLogger.Instance;
+        
 
         public UserStoryService(IUnitOfWork unitOfWork, IIssueManager issueManager)
         {
@@ -186,6 +183,11 @@ namespace Ludwig.Presentation.Services
         public bool RemoveById(long id)
         {
             return _userStoryRepository.Remove(id);
+        }
+
+        public void SetLogger(ILogger logger)
+        {
+            Logger = logger;
         }
     }
 }

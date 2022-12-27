@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Acidmanic.Utilities.Results;
 using EnTier.Repositories;
-using EnTier.Results;
 using EnTier.UnitOfWork;
 using Ludwig.Contracts.Models;
 
