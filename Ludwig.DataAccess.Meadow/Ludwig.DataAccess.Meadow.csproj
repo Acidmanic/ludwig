@@ -6,6 +6,14 @@
 
   <ItemGroup>
     <PackageReference Include="EnTier" Version="2.7.0-b03" />
+    <PackageReference Include="Meadow.Framework" Version="1.2.3" />
+    <PackageReference Include="Meadow.MySql" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Repositories" />
+    <Folder Include="Requests" />
+    <Folder Include="Scripts" />
   </ItemGroup>
 
 </Project>
