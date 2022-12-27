@@ -25,5 +25,9 @@ namespace Ludwig.Presentation.Models
         public List<Issue> Issues { get; set; }
         
         public Priority Priority { get; set; }
+        
+        public bool IsDone { get; set; }
+        
+        
     }
 }
