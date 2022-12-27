@@ -13,7 +13,6 @@
   <ItemGroup>
     <Folder Include="Repositories" />
     <Folder Include="Requests" />
-    <Folder Include="Scripts" />
   </ItemGroup>
 
 </Project>
