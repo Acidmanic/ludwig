@@ -9,7 +9,7 @@ create table AuthorizationRecords(
            SubjectId nvarchar(256),
            EmailAddress nvarchar(64),
            SubjectWebPage nvarchar(128),
-           Cookie nvarchar(256),
+           Cookie nvarchar(64),
            RequestOrigin nvarchar(128));
 -- ---------------------------------------------------------------------------------------------------------------------
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -44,6 +44,20 @@ end;
 -- ---------------------------------------------------------------------------------------------------------------------
 #SPLIT
 -- ---------------------------------------------------------------------------------------------------------------------
+create procedure spReadAuthorizationRecordByTokenFullTree(IN Token varchar(64))
+begin
+    select * from AuthorizationRecordsFullTree where AuthorizationRecordsFullTree.Token = Token;
+end;
+-- ---------------------------------------------------------------------------------------------------------------------
+#SPLIT
+-- ---------------------------------------------------------------------------------------------------------------------
+create procedure spReadAuthorizationRecordByCookieFullTree(IN Cookie varchar(64))
+begin
+    select * from AuthorizationRecordsFullTree where AuthorizationRecordsFullTree.Cookie = Cookie;
+end;
+-- ---------------------------------------------------------------------------------------------------------------------
+#SPLIT
+-- ---------------------------------------------------------------------------------------------------------------------
 create procedure spReadAuthorizationRecordByIdFullTree(IN Id bigint)
 begin
     select * from AuthorizationRecordsFullTree where AuthorizationRecordsFullTree.AuthorizationRecords_Id = Id;
@@ -66,7 +80,7 @@ create procedure spInsertAuthorizationRecordDal(IN Token varchar(64),
                                           IN SubjectId nvarchar(256),
                                           IN EmailAddress nvarchar(64),
                                           IN SubjectWebPage nvarchar(128),
-                                          IN Cookie nvarchar(256),
+                                          IN Cookie nvarchar(64),
                                           IN RequestOrigin nvarchar(128))
 begin
     insert into AuthorizationRecords (Token, ExpirationEpoch, LoginMethodName, IsAdministrator, IsIssueManager, SubjectId, EmailAddress, SubjectWebPage, Cookie, RequestOrigin)
@@ -93,7 +107,7 @@ create procedure spUpdateAuthorizationRecordDal(IN Id bigint,
                                                 IN SubjectId nvarchar(256),
                                                 IN EmailAddress nvarchar(64),
                                                 IN SubjectWebPage nvarchar(128),
-                                                IN Cookie nvarchar(256),
+                                                IN Cookie nvarchar(64),
                                                 IN RequestOrigin nvarchar(128))
 BEGIN
     update AuthorizationRecords

@@ -52,6 +52,8 @@ namespace Ludwig.Presentation
             services.AddEnTier();
             
             services.AddMeadowUnitOfWork(new MeadowConfigurationProvider());
+
+            services.AddMeadowCustomRepositories();
             
             services.AddTransient<ICrudService<UserStory, long>, UserStoryService>();
 

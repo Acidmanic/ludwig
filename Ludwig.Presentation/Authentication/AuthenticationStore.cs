@@ -6,6 +6,7 @@ using EnTier.Mapper;
 using EnTier.Repositories;
 using EnTier.UnitOfWork;
 using Ludwig.Contracts.Models;
+using Ludwig.DataAccess.Contracts.Repositories;
 using Ludwig.DataAccess.Models;
 
 namespace Ludwig.Presentation.Authentication
@@ -54,37 +55,40 @@ namespace Ludwig.Presentation.Authentication
 
         public Result<AuthorizationRecord> IsTokenRegistered(string token)
         {
-            //TODO: send to database
             var repository = _unitOfWork.GetCrudRepository<AuthorizationRecordDal, long>();
 
-            var record = repository.Find(r => r.Token == token).FirstOrDefault();
-
-            if (record == null)
+            if (repository is IAuthorizationRecordRepository authRecRepo)
             {
-                return new Result<AuthorizationRecord>().FailAndDefaultValue();
+                var record = authRecRepo.ReadAuthorizationRecordByToken(token);
+
+                if (record != null)
+                {
+                    var domain = _mapper.Map<AuthorizationRecord>(record);
+
+                    return new Result<AuthorizationRecord>().Succeed(domain);
+                }
             }
-            
-            var domain = _mapper.Map<AuthorizationRecord>(record);
-            
-            return new Result<AuthorizationRecord>().Succeed(domain);
+
+            return new Result<AuthorizationRecord>().FailAndDefaultValue();
         }
 
         public Result<AuthorizationRecord> IsCookieRegistered(string cookie)
         {
             var repository = _unitOfWork.GetCrudRepository<AuthorizationRecordDal, long>();
-            
-            var record =
-                repository.Find(r => r.Cookie == cookie)
-                    .FirstOrDefault();
 
-            if (record == null)
+            if (repository is IAuthorizationRecordRepository authRecRepo)
             {
-                return new Result<AuthorizationRecord>().FailAndDefaultValue();
-            }
+                var record = authRecRepo.ReadAuthorizationRecordByCookie(cookie);
 
-            var domain = _mapper.Map<AuthorizationRecord>(record);
+                if (record != null)
+                {
+                    var domain = _mapper.Map<AuthorizationRecord>(record);
+
+                    return new Result<AuthorizationRecord>().Succeed(domain);
+                }
+            }
             
-            return new Result<AuthorizationRecord>().Succeed(domain);
+            return new Result<AuthorizationRecord>().FailAndDefaultValue();
         }
 
 
@@ -95,7 +99,7 @@ namespace Ludwig.Presentation.Authentication
             if (foundRecord)
             {
                 var repository = _unitOfWork.GetCrudRepository<AuthorizationRecordDal, long>();
-                
+
                 repository.Remove(foundRecord.Value.Id);
 
                 _unitOfWork.Complete();
@@ -114,16 +118,16 @@ namespace Ludwig.Presentation.Authentication
             if (storage != null)
             {
                 var upRepo = _unitOfWork.GetCrudRepository<RequestUpdateDal, long>();
-                
+
                 foreach (var update in record.BackChannelGrantAccessUpdates)
                 {
                     var upStorage = _mapper.Map<RequestUpdateDal>(update);
 
                     upStorage.AuthorizationRecordId = storage.Id;
-                    
+
                     upRepo.Add(upStorage);
                 }
-                
+
                 record.Id = storage.Id;
             }
 
@@ -131,6 +135,5 @@ namespace Ludwig.Presentation.Authentication
 
             return record;
         }
-        
     }
 }

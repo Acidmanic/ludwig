@@ -12,17 +12,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories" />
-    <Folder Include="Requests" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Scripts\*.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Scripts\0002-AuthorizationRecord.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ludwig.DataAccess.Contracts\Ludwig.DataAccess.Contracts.csproj" />
+    <ProjectReference Include="..\Ludwig.DataAccess.Models\Ludwig.DataAccess.Models.csproj" />
   </ItemGroup>
 
 </Project>

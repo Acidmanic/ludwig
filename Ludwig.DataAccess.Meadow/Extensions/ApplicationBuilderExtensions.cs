@@ -10,7 +10,6 @@ namespace Ludwig.DataAccess.Meadow.Extensions
     {
 
 
-
         public static IApplicationBuilder ConfigureMeadowDatabase
             (this IApplicationBuilder app,Assembly assembly,bool deleteDatabase = false)
         {

@@ -29,7 +29,7 @@ create procedure spInsertRequestUpdateDal(IN `Key` varchar(128),
                                           IN AuthorizationRecordId bigint)
 begin
     insert into RequestUpdates (`Key`, Value, Type, AuthorizationRecordId) 
-        values (`Key`,Value,Type,AuthorizationRecordId);
+        values (`Key`, Value, Type, AuthorizationRecordId);
     select * from RequestUpdates where RequestUpdates.Id=last_insert_id();
 end;
 -- ---------------------------------------------------------------------------------------------------------------------
