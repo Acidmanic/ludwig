@@ -27,6 +27,10 @@ namespace Ludwig.DataAccess.Meadow.Extensions
                 IAuthorizationRecordRepository,
                 AuthorizationRecordRepository>(services);
 
+            AddCustomRepository<
+                StoryUser, long, 
+                IStoryUsersRepository,
+                StoryUsersRepository>(services);
             
             return services;
         }

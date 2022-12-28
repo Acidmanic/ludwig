@@ -1,9 +1,13 @@
 using System;
+using EnTier.Repositories;
 using EnTier.Services;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.DataAccess.Meadow;
 using Ludwig.DataAccess.Meadow.Extensions;
+using Ludwig.DataAccess.Models;
+using Ludwig.DataService;
+using Ludwig.DataServices.Contracts;
 using Ludwig.IssueManager.Fake;
 using Ludwig.IssueManager.Gitlab.Adapter;
 using Ludwig.IssueManager.Jira.Adapter;
@@ -118,8 +122,11 @@ namespace Ludwig.Presentation
                         LudwigClaims.UserSchemes.IssueManager,
                         LudwigClaims.UserSchemes.Administrator));
             });
-            
-            
+
+
+            services.AddTransient<IStoryUserService, StoryUserService>();
+            services.AddTransient<ICrudService<StoryUser,long>, StoryUserService>();
+
         }
 
         private IssueManagerAggregation CreateIssueManagerAggregation(Wrap<IssueManagerAggregation> instance,

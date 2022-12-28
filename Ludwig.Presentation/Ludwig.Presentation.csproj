@@ -18,6 +18,8 @@
     <ProjectReference Include="..\Ludwig.Contracts\Ludwig.Contracts.csproj" />
     <ProjectReference Include="..\Ludwig.DataAccess.Meadow\Ludwig.DataAccess.Meadow.csproj" />
     <ProjectReference Include="..\Ludwig.DataAccess.Models\Ludwig.DataAccess.Models.csproj" />
+    <ProjectReference Include="..\Ludwig.DataServices.Contracts\Ludwig.DataServices.Contracts.csproj" />
+    <ProjectReference Include="..\Ludwig.DataServices\Ludwig.DataServices.csproj" />
     <ProjectReference Include="..\Ludwig.IssueManager.Fake\Ludwig.IssueManager.Fake.csproj" />
     <ProjectReference Include="..\Ludwig.IssueManager.Gitlab\Ludwig.IssueManager.Gitlab.csproj" />
     <ProjectReference Include="..\Ludwig.IssueManager.Jira\Ludwig.IssueManager.Jira.csproj" />
