@@ -93,7 +93,7 @@ namespace Ludwig.Presentation
 
             _frontEndServer.UseLogger(logger);
 
-            logger.UseForMeadow();
+            logger.EnableAll().UseForMeadow();
             
             services.AddTransient<ILogger>(p => logger);
 
