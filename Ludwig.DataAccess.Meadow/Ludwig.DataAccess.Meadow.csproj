@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="EnTier" Version="2.7.0-b03" />
+    <PackageReference Include="EnTier.DataAccess.Meadow" Version="1.1.0-b01" />
     <PackageReference Include="Meadow.Framework" Version="1.2.3" />
     <PackageReference Include="Meadow.MySql" Version="1.2.0" />
   </ItemGroup>
@@ -13,6 +14,12 @@
   <ItemGroup>
     <Folder Include="Repositories" />
     <Folder Include="Requests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Scripts\*.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

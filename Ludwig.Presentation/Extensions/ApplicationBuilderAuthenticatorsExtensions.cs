@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Ludwig.Contracts;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.Configurations;

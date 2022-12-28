@@ -2,6 +2,8 @@ using System;
 using EnTier.Services;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.IssueManagement;
+using Ludwig.DataAccess.Meadow;
+using Ludwig.DataAccess.Meadow.Extensions;
 using Ludwig.IssueManager.Fake;
 using Ludwig.IssueManager.Gitlab.Adapter;
 using Ludwig.IssueManager.Jira.Adapter;
@@ -15,6 +17,8 @@ using Ludwig.Presentation.Mapping;
 using Ludwig.Presentation.Models;
 using Ludwig.Presentation.Services;
 using Ludwig.Presentation.Utilities;
+using Meadow.Extensions;
+using Meadow.Scaffolding.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -42,11 +46,13 @@ namespace Ludwig.Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddAutoMapperForEnTier(conf => conf.AddProfile<LudwigMappingProfile>());
             
-            services.AddJsonFileUnitOfWork();
+            services.AddAutoMapperForEnTier(conf => conf.AddProfile<LudwigMappingProfile>());
 
+            services.AddEnTier();
+            
+            services.AddMeadowUnitOfWork(new MeadowConfigurationProvider());
+            
             services.AddTransient<ICrudService<UserStory, long>, UserStoryService>();
 
             services.AddTransient<IUserStoryService, UserStoryService>();
@@ -86,6 +92,8 @@ namespace Ludwig.Presentation
             var logger = new ConsoleLogger().EnableAll();
 
             _frontEndServer.UseLogger(logger);
+
+            logger.UseForMeadow();
             
             services.AddTransient<ILogger>(p => logger);
 
@@ -109,6 +117,7 @@ namespace Ludwig.Presentation
                         LudwigClaims.UserSchemes.Administrator));
             });
             
+            
         }
 
         private IssueManagerAggregation CreateIssueManagerAggregation(Wrap<IssueManagerAggregation> instance,
@@ -131,6 +140,10 @@ namespace Ludwig.Presentation
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            app.ConfigureEnTierResolver();
+            
+            app.ConfigureMeadowDatabase(typeof(Startup).Assembly);
 
             app.UseHttpsRedirection();
 
@@ -150,7 +163,8 @@ namespace Ludwig.Presentation
 
             _frontEndServer.ConfigureMappings(app, env);
 
-            app.ConfigureEnTierResolver();
+            
+            
         }
     }
 }
