@@ -52,7 +52,7 @@ BEGIN
     update RequestUpdates
     set `Key`=`Key`,Value=Value,Type=Type,AuthorizationRecordId=AuthorizationRecordId
     where RequestUpdates.Id=Id;
-    select TRUE success;
+    select * from RequestUpdates where RequestUpdates.Id=Id;
 END;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- ---------------------------------------------------------------------------------------------------------------------

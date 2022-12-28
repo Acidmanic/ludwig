@@ -2,33 +2,35 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Acidmanic.Utilities.Results;
+using EnTier.Mapper;
 using EnTier.Repositories;
 using EnTier.UnitOfWork;
 using Ludwig.Contracts.Models;
+using Ludwig.DataAccess.Models;
 
 namespace Ludwig.Presentation.Authentication
 {
     public class AuthenticationStore
     {
-        private readonly ICrudRepository<AuthorizationRecord, long> _repository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public AuthenticationStore(IUnitOfWork unitOfWork)
+        public AuthenticationStore(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _repository = unitOfWork.GetCrudRepository<AuthorizationRecord, long>();
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
 
         public AuthorizationRecord GenerateToken(
-            string loginMethodName, 
+            string loginMethodName,
             AuthenticationResult result,
             string requestOrigin,
             List<RequestUpdate> grantBackAccessUpdates)
         {
             var token = Guid.NewGuid().ToString();
             var cookie = Guid.NewGuid().ToString();
-            
+
             var record = new AuthorizationRecord
             {
                 RequestOrigin = requestOrigin,
@@ -44,9 +46,7 @@ namespace Ludwig.Presentation.Authentication
                 IsIssueManager = result.IsIssueManager
             };
 
-            record = _repository.Add(record);
-
-            _unitOfWork.Complete();
+            record = FullTreeStore(record);
 
             return record;
         }
@@ -54,22 +54,27 @@ namespace Ludwig.Presentation.Authentication
 
         public Result<AuthorizationRecord> IsTokenRegistered(string token)
         {
-            var record = 
-                _repository.Find(r => r.Token == token)
-                    .FirstOrDefault();
+            //TODO: send to database
+            var repository = _unitOfWork.GetCrudRepository<AuthorizationRecordDal, long>();
+
+            var record = repository.Find(r => r.Token == token).FirstOrDefault();
 
             if (record == null)
             {
                 return new Result<AuthorizationRecord>().FailAndDefaultValue();
             }
-
-            return new Result<AuthorizationRecord>().Succeed(record);
+            
+            var domain = _mapper.Map<AuthorizationRecord>(record);
+            
+            return new Result<AuthorizationRecord>().Succeed(domain);
         }
-        
+
         public Result<AuthorizationRecord> IsCookieRegistered(string cookie)
         {
-            var record = 
-                _repository.Find(r => r.Cookie == cookie)
+            var repository = _unitOfWork.GetCrudRepository<AuthorizationRecordDal, long>();
+            
+            var record =
+                repository.Find(r => r.Cookie == cookie)
                     .FirstOrDefault();
 
             if (record == null)
@@ -77,21 +82,55 @@ namespace Ludwig.Presentation.Authentication
                 return new Result<AuthorizationRecord>().FailAndDefaultValue();
             }
 
-            return new Result<AuthorizationRecord>().Succeed(record);
+            var domain = _mapper.Map<AuthorizationRecord>(record);
+            
+            return new Result<AuthorizationRecord>().Succeed(domain);
         }
 
 
         public void RemoveAuthorization(string token)
         {
-
             var foundRecord = IsTokenRegistered(token);
 
             if (foundRecord)
             {
-                _repository.Remove(foundRecord.Value.Id);
+                var repository = _unitOfWork.GetCrudRepository<AuthorizationRecordDal, long>();
+                
+                repository.Remove(foundRecord.Value.Id);
 
                 _unitOfWork.Complete();
             }
         }
+
+
+        public AuthorizationRecord FullTreeStore(AuthorizationRecord record)
+        {
+            var storage = _mapper.Map<AuthorizationRecordDal>(record);
+
+            var repository = _unitOfWork.GetCrudRepository<AuthorizationRecordDal, long>();
+
+            storage = repository.Add(storage);
+
+            if (storage != null)
+            {
+                var upRepo = _unitOfWork.GetCrudRepository<RequestUpdateDal, long>();
+                
+                foreach (var update in record.BackChannelGrantAccessUpdates)
+                {
+                    var upStorage = _mapper.Map<RequestUpdateDal>(update);
+
+                    upStorage.AuthorizationRecordId = storage.Id;
+                    
+                    upRepo.Add(upStorage);
+                }
+                
+                record.Id = storage.Id;
+            }
+
+            _unitOfWork.Complete();
+
+            return record;
+        }
+        
     }
 }
