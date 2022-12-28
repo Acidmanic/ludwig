@@ -136,14 +136,14 @@ namespace Ludwig.Presentation
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.ConfigureEnTierResolver();
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             
-            app.ConfigureEnTierResolver();
-            
-            app.ConfigureMeadowDatabase(typeof(Startup).Assembly);
+            app.ConfigureMeadowDatabase(typeof(Startup).Assembly,env.IsDevelopment());
 
             app.UseHttpsRedirection();
 

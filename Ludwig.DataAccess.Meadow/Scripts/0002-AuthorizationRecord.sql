@@ -1,4 +1,4 @@
-
+-- ---------------------------------------------------------------------------------------------------------------------
 create table AuthorizationRecords(
            Id bigint AUTO_INCREMENT PRIMARY KEY,
            Token varchar(64),
@@ -11,10 +11,8 @@ create table AuthorizationRecords(
            SubjectWebPage nvarchar(128),
            Cookie nvarchar(256),
            RequestOrigin nvarchar(128));
-
---SPLIT
-    
-    
+-- ---------------------------------------------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------------------
 create view AuthorizationRecordsFullTree as 
     
     select
@@ -36,30 +34,30 @@ create view AuthorizationRecordsFullTree as
         AuthorizationRecordId
     from AuthorizationRecords 
     left join RequestUpdates on AuthorizationRecords.Id = RequestUpdates.AuthorizationRecordId;
-
---SPLIT
-    
+-- ---------------------------------------------------------------------------------------------------------------------
+#SPLIT
+-- ---------------------------------------------------------------------------------------------------------------------
 create procedure spReadAuthorizationRecordDalById(IN Id bigint)
 begin
     select * from AuthorizationRecords where AuthorizationRecords.Id = Id;
 end;
-
---SPLIT
-
+-- ---------------------------------------------------------------------------------------------------------------------
+#SPLIT
+-- ---------------------------------------------------------------------------------------------------------------------
 create procedure spReadAuthorizationRecordByIdFullTree(IN Id bigint)
 begin
     select * from AuthorizationRecordsFullTree where AuthorizationRecordsFullTree.AuthorizationRecords_Id = Id;
 end;
-
---SPLIT
-
+-- ---------------------------------------------------------------------------------------------------------------------
+#SPLIT
+-- ---------------------------------------------------------------------------------------------------------------------
 create procedure spReadAllAuthorizationRecordsFullTree()
 begin
     select * from AuthorizationRecordsFullTree;
 end;
-
---SPLIT
-
+-- ---------------------------------------------------------------------------------------------------------------------
+#SPLIT
+-- ---------------------------------------------------------------------------------------------------------------------
 create procedure spInsertAuthorizationRecordDal(IN Token varchar(64),
                                           IN ExpirationEpoch bigint,
                                           IN LoginMethodName nvarchar(128),
@@ -75,17 +73,17 @@ begin
     values (Token, ExpirationEpoch, LoginMethodName, IsAdministrator, IsIssueManager, SubjectId, EmailAddress, SubjectWebPage, Cookie, RequestOrigin); 
     select * from AuthorizationRecords where AuthorizationRecords.Id=last_insert_id();
 end;
-
---SPLIT
-
+-- ---------------------------------------------------------------------------------------------------------------------
+#SPLIT
+-- ---------------------------------------------------------------------------------------------------------------------
 create procedure spDeleteAuthorizationRecordDalById(IN Id bigint)
 BEGIN
     delete from AuthorizationRecords where AuthorizationRecords.Id=Id;
     select TRUE success;
 END;
-
---SPLIT
-
+-- ---------------------------------------------------------------------------------------------------------------------
+#SPLIT
+-- ---------------------------------------------------------------------------------------------------------------------
 create procedure spUpdateAuthorizationRecordDal(IN Id bigint,
                                                 IN Token varchar(64),
                                                 IN ExpirationEpoch bigint,
@@ -105,3 +103,6 @@ BEGIN
     where AuthorizationRecords.Id=Id;
     select TRUE success;
 END;
+-- ---------------------------------------------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------------------

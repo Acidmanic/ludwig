@@ -11,7 +11,8 @@ namespace Ludwig.DataAccess.Meadow.Extensions
 
 
 
-        public static IApplicationBuilder ConfigureMeadowDatabase(this IApplicationBuilder app,Assembly assembly)
+        public static IApplicationBuilder ConfigureMeadowDatabase
+            (this IApplicationBuilder app,Assembly assembly,bool deleteDatabase = false)
         {
 
             var configurationProviderObject = app.ApplicationServices.GetService(typeof(IMeadowConfigurationProvider));
@@ -21,6 +22,14 @@ namespace Ludwig.DataAccess.Meadow.Extensions
                 var engine = new MeadowEngine(configurationProvider.GetConfigurations(),assembly);
 
                 engine.UseMySql();
+
+                if (deleteDatabase)
+                {
+                    if (engine.DatabaseExists())
+                    {
+                        engine.DropDatabase();
+                    }
+                }
 
                 engine.CreateIfNotExist();
                 
