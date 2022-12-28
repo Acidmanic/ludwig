@@ -8,9 +8,9 @@ create table StoryUsers(
 -- ---------------------------------------------------------------------------------------------------------------------
 -- SPLIT
 -- ---------------------------------------------------------------------------------------------------------------------
-create procedure spReadAllStoryUsers(IN Id bigint)
+create procedure spReadAllStoryUsers()
 begin
-    select * from StoryUsers where StoryUsers.Id = Id;
+    select * from StoryUsers;
 end;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- SPLIT
@@ -24,7 +24,7 @@ end;
 -- ---------------------------------------------------------------------------------------------------------------------
 create procedure spInsertStoryUser(IN Name nvarchar(64))
 begin
-    insert into StoryUsers (Name) values (@Name);
+    insert into StoryUsers (Name) values (Name);
     select * from StoryUsers where StoryUsers.Id=last_insert_id();
 end;
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ end;
 create procedure spDeleteStoryUserById(IN Id bigint)
 BEGIN
     delete from StoryUsers where StoryUsers.Id=Id;
-    select TRUE success;
+    select TRUE Success;
 END;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- SPLIT

@@ -93,7 +93,7 @@ end;
 create procedure spDeleteAuthorizationRecordDalById(IN Id bigint)
 BEGIN
     delete from AuthorizationRecords where AuthorizationRecords.Id=Id;
-    select TRUE success;
+    select TRUE Success;
 END;
 -- ---------------------------------------------------------------------------------------------------------------------
 #SPLIT
@@ -115,7 +115,8 @@ BEGIN
         IsAdministrator=IsAdministrator,IsIssueManager=IsIssueManager,SubjectId=SubjectId,
         EmailAddress=EmailAddress,SubjectWebPage=SubjectWebPage,Cookie=Cookie,RequestOrigin=RequestOrigin
     where AuthorizationRecords.Id=Id;
-    select TRUE success;
+    
+    select * from AuthorizationRecords where AuthorizationRecords.Id=Id; 
 END;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- ---------------------------------------------------------------------------------------------------------------------

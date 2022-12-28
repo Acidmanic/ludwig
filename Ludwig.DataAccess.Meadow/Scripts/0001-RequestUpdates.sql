@@ -38,7 +38,7 @@ end;
 create procedure spDeleteRequestUpdateDalById(IN Id bigint)
 BEGIN
     delete from RequestUpdates where RequestUpdates.Id=Id;
-    select TRUE success;
+    select TRUE Success;
 END;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- SPLIT

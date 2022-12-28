@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Acidmanic.Utilities.Results;
 using EnTier.Mapper;
-using EnTier.Repositories;
 using EnTier.UnitOfWork;
 using Ludwig.Contracts.Models;
 using Ludwig.DataAccess.Contracts.Repositories;
@@ -98,6 +96,8 @@ namespace Ludwig.Presentation.Authentication
 
             if (foundRecord)
             {
+                //TODO: delete all updates by recordId
+                
                 var repository = _unitOfWork.GetCrudRepository<AuthorizationRecordDal, long>();
 
                 repository.Remove(foundRecord.Value.Id);

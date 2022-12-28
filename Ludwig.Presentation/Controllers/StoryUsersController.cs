@@ -14,5 +14,16 @@ namespace Ludwig.Presentation.Controllers
         public StoryUsersController(EnTierEssence essence) : base(essence)
         {
         }
+
+        protected override StoryUser OnGetById(long id)
+        {
+            return base.OnGetById(id);
+        }
+
+
+        public override IActionResult GetAll()
+        {
+            return base.GetAll();
+        }
     }
 }
