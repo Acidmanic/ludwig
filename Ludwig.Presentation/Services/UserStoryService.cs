@@ -165,13 +165,6 @@ namespace Ludwig.Presentation.Services
             return updated;
         }
 
-        public override UserStory Update(long id, UserStory value)
-        {
-            value.Id = id;
-
-            return Update(value);
-        }
-
         public override bool Remove(UserStory value)
         {
             return RemoveById(value.Id);
