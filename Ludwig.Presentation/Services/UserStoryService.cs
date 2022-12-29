@@ -1,18 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using EnTier;
-using EnTier.Repositories;
 using EnTier.Repositories.Attributes;
 using EnTier.Services;
-using EnTier.UnitOfWork;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
-using Ludwig.DataAccess.Contracts.Repositories;
 using Ludwig.DataAccess.Models;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Models;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Ludwig.Presentation.Services
 {
@@ -24,18 +19,6 @@ namespace Ludwig.Presentation.Services
         {
             _issueManager = issueManager;
         }
-        // private ILogger Logger { get; set; } = NullLogger.Instance;
-
-
-        // public UserStoryService(IUnitOfWork unitOfWork, IIssueManager issueManager)
-        // {
-        //     _unitOfWork = unitOfWork;
-        //     _issueManager = issueManager;
-        //
-        //     _userStoryRepository = unitOfWork.GetCrudRepository<UserStory, long>();
-        //     _storyUserRepository = unitOfWork.GetCrudRepository<StoryUser, long>();
-        // }
-
 
         public override IEnumerable<UserStory> GetAll()
         {
