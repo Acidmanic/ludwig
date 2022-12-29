@@ -22,6 +22,13 @@ end;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- SPLIT
 -- ---------------------------------------------------------------------------------------------------------------------
+create procedure spReadStoryUserByName(IN Name nvarchar(64))
+begin
+    select * from StoryUsers where StoryUsers.Name like Name;
+end;
+-- ---------------------------------------------------------------------------------------------------------------------
+-- SPLIT
+-- ---------------------------------------------------------------------------------------------------------------------
 create procedure spSaveStoryUser(IN Id bigint,IN Name nvarchar(64))
 begin
     if exists(select 1 from StoryUsers where StoryUsers.Name like Name) then

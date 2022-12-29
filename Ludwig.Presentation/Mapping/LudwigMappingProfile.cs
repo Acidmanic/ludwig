@@ -11,6 +11,8 @@ namespace Ludwig.Presentation.Mapping
 
         public LudwigMappingProfile()
         {
+            CreateMap<UserStory,UserStory>();
+            
             CreateMap<UserStoryDal,UserStory>().ConvertUsing<UserStoryConversion>();
             
             CreateMap<RequestUpdate,RequestUpdateDal>().ReverseMap();

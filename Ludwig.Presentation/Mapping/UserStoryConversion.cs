@@ -5,7 +5,7 @@ using Ludwig.Presentation.Models;
 
 namespace Ludwig.Presentation.Mapping
 {
-    public class UserStoryConversion:ITypeConverter<UserStoryDal,UserStory>,ITypeConverter<UserStory,UserStoryDal>
+    public class UserStoryConversion : ITypeConverter<UserStoryDal, UserStory>, ITypeConverter<UserStory, UserStoryDal>
     {
         public UserStory Convert(UserStoryDal source, UserStory destination, ResolutionContext context)
         {
@@ -19,8 +19,15 @@ namespace Ludwig.Presentation.Mapping
                 destination = new UserStory();
             }
 
-            destination = context.Mapper.Map<UserStory>(source);
-
+            destination.Id = source.Id;
+            destination.Title = source.Title;
+            destination.CardColor = source.CardColor;
+            destination.StoryBenefit = source.StoryBenefit;
+            destination.StoryFeature = source.StoryFeature;
+            destination.IsDone = source.IsDone;
+            destination.StoryUser = source.StoryUser == null ? null : context.Mapper.Map<StoryUser>(source.StoryUser);
+            destination.StoryUserId = source.StoryUserId;
+            
             destination.Priority = new Priority
             {
                 Name = source.PriorityName,
@@ -42,7 +49,14 @@ namespace Ludwig.Presentation.Mapping
                 destination = new UserStoryDal();
             }
 
-            destination = context.Mapper.Map<UserStoryDal>(source);
+            destination.Id = source.Id;
+            destination.Title = source.Title;
+            destination.CardColor = source.CardColor;
+            destination.StoryBenefit = source.StoryBenefit;
+            destination.StoryFeature = source.StoryFeature;
+            destination.IsDone = source.IsDone;
+            destination.StoryUser = source.StoryUser == null ? null : context.Mapper.Map<StoryUser>(source.StoryUser);
+            destination.StoryUserId = source.StoryUserId;
 
             destination.PriorityName = source.Priority?.Name;
 

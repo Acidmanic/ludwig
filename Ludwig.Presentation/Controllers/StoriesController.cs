@@ -9,11 +9,16 @@ namespace Ludwig.Presentation.Controllers
 {
     [ApiController]
     [Route("stories")]
-    [AuthorizeIssueManagers]
-    public class StoriesController : CrudControllerBase<UserStory,UserStory,UserStoryDal,long>
+    // [AuthorizeIssueManagers]
+    public class StoriesController : CrudControllerBase<UserStory,UserStory,UserStoryDal,long,long,long>
     {
         public StoriesController(EnTierEssence essence) : base(essence)
         {
+        }
+
+        public override IActionResult GetAll()
+        {
+            return base.GetAll();
         }
     }
 }
