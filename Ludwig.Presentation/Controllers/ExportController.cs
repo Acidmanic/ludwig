@@ -71,7 +71,7 @@ namespace Ludwig.Presentation.Controllers
             
             var fileName = "user-stories-"+ DateTime.Now.ToString("yyyyMMdd-hhmmss") + $".{format}";
 
-            return ThrowDownload(contentBytes, fileContent, $"application/{format}");
+            return ThrowDownload(contentBytes, fileName, $"application/{format}");
         }
         
         private IActionResult ThrowDownload(byte[] fileContent, string fileName, string contentType)
