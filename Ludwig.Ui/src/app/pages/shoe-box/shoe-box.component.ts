@@ -185,4 +185,11 @@ export class ShoeBoxComponent implements OnInit {
     });
 
   }
+
+
+
+  storyUpdated(src:UserStoryModel,e:any){
+    console.log('changed story:',e);
+    UserStoryModel.loadInto(src,e);
+  }
 }

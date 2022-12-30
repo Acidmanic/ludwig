@@ -15,8 +15,9 @@ export class EditableUserStoryComponent implements OnInit {
 
 
   @Input('story') story:UserStoryModel=EditableUserStoryComponent.blankStory();
-  @Input('force-enable-sync') forceEnableSync:boolean=false;
   @Output('storyChange') storyChange:EventEmitter<UserStoryModel> = new EventEmitter<UserStoryModel>();
+
+  @Input('force-enable-sync') forceEnableSync:boolean=false;
   @Output('syncStory') syncStory:EventEmitter<UserStoryModel> = new EventEmitter<UserStoryModel>();
   @Output('deleteStory') deleteStory:EventEmitter<UserStoryModel> = new EventEmitter<UserStoryModel>();
   @Output('on-issue') onIssue:EventEmitter<IssueModel> = new EventEmitter<IssueModel>();
@@ -56,6 +57,8 @@ export class EditableUserStoryComponent implements OnInit {
   }
 
 
+
+
   onFieldUpdate(index:number,update:boolean){
 
     console.log('Update field:',index,update);
@@ -89,7 +92,7 @@ export class EditableUserStoryComponent implements OnInit {
       }
     };
 
-    this.updateFields=[false,false,false,false,false];
+    this.updateFields=[false,false,false,false,false,false];
     this.modelUpdate=false;
     this.storyChange.emit(this.story);
     this.priorityRevertTrigger.fire();

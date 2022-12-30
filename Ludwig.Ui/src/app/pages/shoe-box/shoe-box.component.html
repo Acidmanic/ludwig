@@ -33,6 +33,7 @@
       collapse-overlay-image-class="opacity-75"
       >
       <editable-user-story [story]="story"
+                           (storyChange)="storyUpdated(story,$event)"
                            (syncStory)="saveUserStory($event)"
                            (deleteStory)="askDeletingStory($event)"
                            (on-issue)="onNewIssue($event)"
