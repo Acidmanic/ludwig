@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {ConfigurationItemModel} from "../../models/configuration-item-model";
 import {ConfigurationsService} from "../../services/configurations/configurations.service";
 import {WaiterService} from "../../services/waiter.service";
-import {LoginManagerService} from "../../services/login-manager/login-manager.service";
 import {MessageModel} from "../../models/message-model";
 
 @Component({
