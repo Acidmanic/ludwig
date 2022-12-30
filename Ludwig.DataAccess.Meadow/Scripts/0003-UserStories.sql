@@ -91,7 +91,8 @@ create procedure spUpdateUserStoryDal(
     IN PriorityName nvarchar(16))
 begin
     update UserStories set Title=Title,StoryUserId=StoryUserId,StoryFeature=StoryFeature,
-        StoryBenefit=StoryBenefit,CardColor=CardColor,IsDone=IsDone,PriorityValue=PriorityValue,PriorityName=PriorityName;                        
+        StoryBenefit=StoryBenefit,CardColor=CardColor,IsDone=IsDone,PriorityValue=PriorityValue,PriorityName=PriorityName
+        where UserStories.Id=Id;                        
     select * from UserStories where UserStories.Id=Id;
 end;
 -- ---------------------------------------------------------------------------------------------------------------------
