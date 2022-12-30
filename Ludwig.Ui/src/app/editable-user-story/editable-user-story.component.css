@@ -30,3 +30,8 @@ span.not-form-label{
 .form-control{
   margin-top:2px;
 }
+
+.editable-user-story-popover{
+  cursor: pointer;
+}
+
