@@ -54,8 +54,7 @@ namespace Ludwig.Presentation
                         return _issueManagersByLoginMethodName[loginMethodName];
                     }
                 }
-                //TODO: Replace NullObject
-                return null;
+                return NullIssueManager.Instance;
             }
         }
 

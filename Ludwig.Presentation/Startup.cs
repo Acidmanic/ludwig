@@ -1,10 +1,13 @@
 using System;
-using EnTier.Extensions;
+using EnTier.Repositories;
 using EnTier.Services;
-using Ludwig.Common.ReferenceFactory;
-using Ludwig.Contracts;
 using Ludwig.Contracts.Authentication;
 using Ludwig.Contracts.IssueManagement;
+using Ludwig.DataAccess.Meadow;
+using Ludwig.DataAccess.Meadow.Extensions;
+using Ludwig.DataAccess.Models;
+using Ludwig.DataService;
+using Ludwig.DataServices.Contracts;
 using Ludwig.IssueManager.Fake;
 using Ludwig.IssueManager.Gitlab.Adapter;
 using Ludwig.IssueManager.Jira.Adapter;
@@ -14,9 +17,12 @@ using Ludwig.Presentation.Configuration;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.ExporterManagement;
 using Ludwig.Presentation.Extensions;
+using Ludwig.Presentation.Mapping;
 using Ludwig.Presentation.Models;
 using Ludwig.Presentation.Services;
 using Ludwig.Presentation.Utilities;
+using Meadow.Extensions;
+using Meadow.Scaffolding.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -44,8 +50,15 @@ namespace Ludwig.Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddJsonFileUnitOfWork();
+            
+            services.AddAutoMapperForEnTier(conf => conf.AddProfile<LudwigMappingProfile>());
 
+            services.AddEnTier();
+            
+            services.AddMeadowUnitOfWork(new MeadowConfigurationProvider());
+
+            services.AddMeadowCustomRepositories();
+            
             services.AddTransient<ICrudService<UserStory, long>, UserStoryService>();
 
             services.AddTransient<IUserStoryService, UserStoryService>();
@@ -86,8 +99,8 @@ namespace Ludwig.Presentation
 
             _frontEndServer.UseLogger(logger);
 
-            logger.UseLoggerForEnTier();
-
+            logger.EnableAll().UseForMeadow();
+            
             services.AddTransient<ILogger>(p => logger);
 
             services.AddControllers();
@@ -109,7 +122,11 @@ namespace Ludwig.Presentation
                         LudwigClaims.UserSchemes.IssueManager,
                         LudwigClaims.UserSchemes.Administrator));
             });
-            
+
+
+            services.AddTransient<IStoryUserService, StoryUserService>();
+            services.AddTransient<ICrudService<StoryUser,long>, StoryUserService>();
+
         }
 
         private IssueManagerAggregation CreateIssueManagerAggregation(Wrap<IssueManagerAggregation> instance,
@@ -128,10 +145,14 @@ namespace Ludwig.Presentation
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.ConfigureEnTierResolver();
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            app.ConfigureMeadowDatabase(typeof(Startup).Assembly,env.IsDevelopment());
 
             app.UseHttpsRedirection();
 
@@ -151,7 +172,8 @@ namespace Ludwig.Presentation
 
             _frontEndServer.ConfigureMappings(app, env);
 
-            app.IntroduceDotnetResolverToEnTier();
+            
+            
         }
     }
 }

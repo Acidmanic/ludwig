@@ -53,3 +53,16 @@ button.btn.btn-icon {
 .material-symbols-outlined.s{
   font-size: 1.1em;
 }
+
+body *.editable-user-story-popover{
+  background-color: #212529;
+  border-radius: 300px;
+}
+
+body *.editable-user-story-popover .popover{
+
+}
+
+body *.editable-user-story-popover .popover-arrow {
+  --bs-popover-bg: none;
+}

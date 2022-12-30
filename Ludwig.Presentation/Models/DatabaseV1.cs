@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Ludwig.DataAccess.Models;
 
 namespace Ludwig.Presentation.Models
 {

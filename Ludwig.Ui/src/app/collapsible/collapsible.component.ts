@@ -16,7 +16,9 @@ export class CollapsibleComponent implements OnInit {
   @ViewChild('meView') meView:any;
   @Input('content-class') contentClass:string='';
   @Input('collapse-label-class') labelClass:string='';
-
+  @Input('collapse-overlay-image') collapseOverlayImage:string='';
+  @Input('collapse-overlay') collapseOverlay:boolean=false;
+  @Input('collapse-overlay-image-class') collapseOverlayImageClass:string='';
   ngOnInit(): void {
 
     this.renderer.listen('body','click',(e:Event) => {

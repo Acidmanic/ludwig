@@ -1,5 +1,6 @@
 using System.Linq;
 using EnTier.UnitOfWork;
+using Ludwig.DataAccess.Models;
 using Ludwig.Presentation.Contracts;
 using Ludwig.Presentation.Models;
 

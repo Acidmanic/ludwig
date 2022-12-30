@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>Ludwig.DataService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ludwig.DataAccess.Contracts\Ludwig.DataAccess.Contracts.csproj" />
+    <ProjectReference Include="..\Ludwig.DataAccess.Meadow\Ludwig.DataAccess.Meadow.csproj" />
+    <ProjectReference Include="..\Ludwig.DataAccess.Models\Ludwig.DataAccess.Models.csproj" />
+    <ProjectReference Include="..\Ludwig.DataServices.Contracts\Ludwig.DataServices.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

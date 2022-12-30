@@ -1,7 +1,10 @@
 
 <div #meView>
-  <div *ngIf="collapsed" class="alert alert-secondary collapsible-alternative {{labelClass}} {{contentClass}}" ngbTooltip="Click to expand" (click)="toggle()">
+  <div *ngIf="collapsed" class="alert alert-secondary collapsible-alternative {{labelClass}} {{contentClass}}"
+       ngbTooltip="Click to expand" (click)="toggle()" style="position: relative">
     {{alternativeText}}
+    <img *ngIf="collapseOverlay" class="img-strike-through {{collapseOverlayImageClass}}"
+         src="{{collapseOverlayImage}}" alt="Done" >
   </div>
   <div *ngIf="!collapsed" class="{{contentClass}}">
     <ng-content></ng-content>

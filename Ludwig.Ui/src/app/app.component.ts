@@ -17,7 +17,6 @@ export class AppComponent implements OnInit,OnDestroy{
 
   exportInfos:ExportInfoModel[]=[];
 
-
   constructor(public svcLogin:LoginManagerService,
               private svcExports:ExportService,
               private router:Router) {
@@ -39,10 +38,6 @@ export class AppComponent implements OnInit,OnDestroy{
 
   ngOnInit(): void {
     console.log("Main Component Initialized");
-
-
-
-
   }
 
   private updateExportersMenu(){

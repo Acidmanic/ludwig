@@ -6,13 +6,20 @@
 
   <ItemGroup>
     <PackageReference Include="Acidmanic.MSLogging.LightWeight" Version="1.0.1" />
+    <PackageReference Include="Acidmanic.Utilities" Version="1.0.2" />
     <PackageReference Include="Acidmanic.Utilities.Reflections" Version="1.0.5" />
-    <PackageReference Include="EnTier" Version="2.6.2" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="EnTier" Version="2.7.0-b03" />
+    <PackageReference Include="EnTier.AutoMapper" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Ludwig.Common\Ludwig.Common.csproj" />
     <ProjectReference Include="..\Ludwig.Contracts\Ludwig.Contracts.csproj" />
+    <ProjectReference Include="..\Ludwig.DataAccess.Meadow\Ludwig.DataAccess.Meadow.csproj" />
+    <ProjectReference Include="..\Ludwig.DataAccess.Models\Ludwig.DataAccess.Models.csproj" />
+    <ProjectReference Include="..\Ludwig.DataServices.Contracts\Ludwig.DataServices.Contracts.csproj" />
+    <ProjectReference Include="..\Ludwig.DataServices\Ludwig.DataServices.csproj" />
     <ProjectReference Include="..\Ludwig.IssueManager.Fake\Ludwig.IssueManager.Fake.csproj" />
     <ProjectReference Include="..\Ludwig.IssueManager.Gitlab\Ludwig.IssueManager.Gitlab.csproj" />
     <ProjectReference Include="..\Ludwig.IssueManager.Jira\Ludwig.IssueManager.Jira.csproj" />

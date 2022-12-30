@@ -1,6 +1,7 @@
-﻿using EnTier.Controllers;
+﻿using EnTier;
+using EnTier.Controllers;
+using Ludwig.DataAccess.Models;
 using Ludwig.Presentation.Authentication.Attributes;
-using Ludwig.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ludwig.Presentation.Controllers
@@ -10,6 +11,19 @@ namespace Ludwig.Presentation.Controllers
     [AuthorizeIssueManagers]
     public class StoryUsersController : CrudControllerBase<StoryUser,long>
     {
-        
+        public StoryUsersController(EnTierEssence essence) : base(essence)
+        {
+        }
+
+        protected override StoryUser OnGetById(long id)
+        {
+            return base.OnGetById(id);
+        }
+
+
+        public override IActionResult GetAll()
+        {
+            return base.GetAll();
+        }
     }
 }

@@ -15,15 +15,16 @@ export class EditableUserStoryComponent implements OnInit {
 
 
   @Input('story') story:UserStoryModel=EditableUserStoryComponent.blankStory();
-  @Input('force-enable-sync') forceEnableSync:boolean=false;
   @Output('storyChange') storyChange:EventEmitter<UserStoryModel> = new EventEmitter<UserStoryModel>();
+
+  @Input('force-enable-sync') forceEnableSync:boolean=false;
   @Output('syncStory') syncStory:EventEmitter<UserStoryModel> = new EventEmitter<UserStoryModel>();
   @Output('deleteStory') deleteStory:EventEmitter<UserStoryModel> = new EventEmitter<UserStoryModel>();
   @Output('on-issue') onIssue:EventEmitter<IssueModel> = new EventEmitter<IssueModel>();
 
   original:UserStoryModel=new UserStoryModel();
 
-  private updateFields:boolean[]=[false,false,false,false,false];
+  private updateFields:boolean[]=[false,false,false,false,false,false];
   modelUpdate:boolean=false;
   priorityRevertTrigger:Trigger=new Trigger();
   newIssueForm:EventEmitter<any>=new EventEmitter<any>();
@@ -54,6 +55,8 @@ export class EditableUserStoryComponent implements OnInit {
     story.priority={name:'Medium',value:2};
     return story;
   }
+
+
 
 
   onFieldUpdate(index:number,update:boolean){
@@ -89,7 +92,7 @@ export class EditableUserStoryComponent implements OnInit {
       }
     };
 
-    this.updateFields=[false,false,false,false,false];
+    this.updateFields=[false,false,false,false,false,false];
     this.modelUpdate=false;
     this.storyChange.emit(this.story);
     this.priorityRevertTrigger.fire();

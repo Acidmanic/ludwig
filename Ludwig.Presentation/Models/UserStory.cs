@@ -1,13 +1,11 @@
 using System.Collections.Generic;
-using Acidmanic.Utilities.Reflection.Attributes;
 using Ludwig.Contracts.Models;
+using Ludwig.DataAccess.Models;
 
 namespace Ludwig.Presentation.Models
 {
-    public class UserStory
+    public class UserStory 
     {
-        [UniqueMember]
-        [AutoValuedMember]
         public long Id { get; set; }
         
         public string Title { get; set; }
@@ -21,6 +19,8 @@ namespace Ludwig.Presentation.Models
         public string StoryBenefit { get; set; }
         
         public string CardColor { get; set; }
+        
+        public bool IsDone { get; set; }
         
         public List<Issue> Issues { get; set; }
         

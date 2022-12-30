@@ -27,6 +27,8 @@ import { QueryFieldInputComponent } from './query-field-input/query-field-input.
 import { ConfigurationsComponent } from './pages/configurations/configurations.component';
 import { EditableConfigurationItemComponent } from './editable-configuration-item/editable-configuration-item.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
+import { StrikeThroughComponent } from './strike-through/strike-through.component';
+import { EditableDoneSwitchComponent } from './editable-done-switch/editable-done-switch.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { AccessDeniedComponent } from './access-denied/access-denied.component';
     QueryFieldInputComponent,
     ConfigurationsComponent,
     EditableConfigurationItemComponent,
-    AccessDeniedComponent
+    AccessDeniedComponent,
+    StrikeThroughComponent,
+    EditableDoneSwitchComponent
   ],
   imports: [
     BrowserModule,

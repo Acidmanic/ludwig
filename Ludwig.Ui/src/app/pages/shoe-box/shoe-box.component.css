@@ -20,4 +20,6 @@
   padding: 1em;
 }
 
-
+*.opacity-75{
+  opacity: 0.75;
+}

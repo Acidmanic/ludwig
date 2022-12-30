@@ -1,42 +1,28 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using EnTier.Repositories;
+using EnTier;
 using EnTier.Repositories.Attributes;
-using EnTier.Results;
-using EnTier.UnitOfWork;
+using EnTier.Services;
 using Ludwig.Contracts.IssueManagement;
 using Ludwig.Contracts.Models;
+using Ludwig.DataAccess.Models;
 using Ludwig.Presentation.Contracts;
-using Ludwig.Presentation.Extensions;
 using Ludwig.Presentation.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace Ludwig.Presentation.Services
 {
-    public class UserStoryService : IUserStoryService
+    public class UserStoryService : CrudService<UserStory, UserStoryDal, long, long>, IUserStoryService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly ICrudRepository<UserStory, long> _userStoryRepository;
-        private readonly ICrudRepository<StoryUser, long> _storyUserRepository;
-
         private readonly IIssueManager _issueManager;
-        //private readonly Jira _jira;
 
-
-        public UserStoryService(IUnitOfWork unitOfWork, IIssueManager issueManager)
+        public UserStoryService(EnTierEssence essence, IIssueManager issueManager) : base(essence)
         {
-            _unitOfWork = unitOfWork;
             _issueManager = issueManager;
-
-            _userStoryRepository = unitOfWork.GetCrudRepository<UserStory, long>();
-            _storyUserRepository = unitOfWork.GetCrudRepository<StoryUser, long>();
         }
 
-
-        public IEnumerable<UserStory> GetAll()
+        public override IEnumerable<UserStory> GetAll()
         {
-            var all = _userStoryRepository.All();
+            var all = base.GetAll().ToArray();
 
             foreach (var userStorey in all)
             {
@@ -46,9 +32,9 @@ namespace Ludwig.Presentation.Services
             return all;
         }
 
-        public UserStory GetById(long id)
+        public override UserStory GetById(long id)
         {
-            var item = _userStoryRepository.GetById(id);
+            var item = base.GetById(id);
 
             ReadFullTree(item);
 
@@ -64,20 +50,20 @@ namespace Ludwig.Presentation.Services
 
 
         [KeepProperty(typeof(Priority))]
-        public UserStory Add(UserStory value)
+        public override UserStory Add(UserStory value)
         {
             if (value.Priority == null)
             {
                 value.Priority = Priority.Medium;
             }
 
-            var inserted = _userStoryRepository.Add(value);
+            WriteFullTreeChildren(value);
+            
+            var inserted = base.Add(value);
 
-            WriteFullTree(inserted);
-
-            _unitOfWork.Complete();
-
-            return inserted;
+            value.Id = inserted.Id;
+            
+            return value;
         }
 
 
@@ -106,45 +92,38 @@ namespace Ludwig.Presentation.Services
         }
 
 
-        private void WriteFullTree(UserStory value)
+        private void WriteFullTreeChildren(UserStory value)
         {
-            var insertee = Clone(value);
 
-            if (insertee.StoryUser != null)
+            if (value.StoryUser != null)
             {
-                var incomingUser = insertee.StoryUser;
+                var sUserRepository = UnitOfWork.GetCrudRepository<StoryUser, long>();
 
-                var foundUser = _storyUserRepository.Find(u =>
-                        u.Name != null && incomingUser.Name != null
-                                       && u.Name.Trim().ToLower() == incomingUser.Name.Trim().ToLower())
-                    .FirstOrDefault();
+                var incomingUser = new StoryUser
+                {
+                    Id = 0,
+                    Name = value.StoryUser.Name
+                };
 
-                StoryUser usingUser = null;
+                var foundUser = sUserRepository.Set(incomingUser);
+
+                if (foundUser.Id != value.StoryUserId)
+                {
+                    value.StoryUser = foundUser;
                 
-                if (foundUser!=null)
-                {
-                    usingUser = foundUser;
-                }
-                else
-                {
-                    //abandon last user in db, and create new user with given name
-                    usingUser = _storyUserRepository.Add(insertee.StoryUser);
+                    value.StoryUserId = foundUser.Id;    
                 }
                 
-                if (usingUser != null)
-                {
-                    insertee.StoryUser = usingUser;
-                    insertee.StoryUserId = usingUser.Id;
-
-                    _userStoryRepository.Update(insertee);
-                }
+                UnitOfWork.Complete();
             }
         }
 
 
         private void ReadFullTree(UserStory value)
         {
-            value.StoryUser = _storyUserRepository.GetById(value.StoryUserId);
+            var repository = UnitOfWork.GetCrudRepository<StoryUser, long>();
+            
+            value.StoryUser = repository.GetById(value.StoryUserId);
 
             ReadIssuesInto(value);
 
@@ -155,37 +134,23 @@ namespace Ludwig.Presentation.Services
         }
 
         [KeepProperty(typeof(Priority))]
-        public UserStory Update(UserStory value)
+        public override UserStory Update(UserStory value)
         {
             if (value.Priority == null)
             {
                 value.Priority = Priority.Medium;
             }
 
-            var updated = _userStoryRepository.Update(value);
-
-            WriteFullTree(updated);
-
-            _unitOfWork.Complete();
-
+            WriteFullTreeChildren(value);
+            
+            var updated = base.Update(value);
+            
             return updated;
         }
 
-        public UserStory Update(long id, UserStory value)
-        {
-            value.Id = id;
-
-            return Update(value);
-        }
-
-        public bool Remove(UserStory value)
+        public override bool Remove(UserStory value)
         {
             return RemoveById(value.Id);
-        }
-
-        public bool RemoveById(long id)
-        {
-            return _userStoryRepository.Remove(id);
         }
     }
 }

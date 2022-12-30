@@ -16,4 +16,4 @@ deploy(){
 
 echo "Building Application"
 
-ng build && deploy $PUB_DIR && deploy $DPL_DIR
+npm run build && deploy $PUB_DIR && deploy $DPL_DIR
