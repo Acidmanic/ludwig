@@ -1,5 +1,5 @@
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from "@angular/common/http";
+import {Observable, Subject} from "rxjs";
 import {Injectable} from "@angular/core";
 import {LoginManagerService} from "../services/login-manager/login-manager.service";
 import {Router} from "@angular/router";
@@ -16,26 +16,53 @@ export class AuthorizationInterceptor implements HttpInterceptor{
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+    // redirect check before the request being made
+    if(!this.svcLoginManager.isLoggedIn) {
+      if (!this.router.url.toLowerCase().startsWith("/login")) {
+        this.redirect();
+      }
+    }
+
+    var fwdRequest:HttpRequest<any>;
 
     if(this.svcLoginManager.isLoggedIn){
-      let newReq = req.clone({
+      fwdRequest = req.clone({
         setHeaders:{
           authorization:'token ' + this.svcLoginManager.token.token
         },
       });
-      return next.handle(newReq);
     }else{
-
-      if(this.router.url.toLowerCase().startsWith("/login")){
-
-        return next.handle(req);
-      }else{
-        console.log('Redirected because of 401',this.router.url.toLowerCase());
-
-        this.router.navigateByUrl('/login');
-      }
+      fwdRequest = req;
     }
-    return next.handle(req);
+
+    let handle = new Subject<HttpEvent<any>>()
+
+    next.handle(fwdRequest).subscribe({
+      next: n => {
+        let response = n as HttpResponse<any>;
+
+        if(response && response.status==401){
+          this.redirect()
+        }
+        handle.next(n);
+      },
+      error: er => {
+        if(er.status==401){
+          this.redirect();
+        }
+        handle.error(er);
+
+      },
+      complete: () => handle.complete()
+    });
+
+    return handle;
+  }
+
+  private redirect(): void
+  {
+    this.router.navigateByUrl('/login');
+    console.log('Redirected because of 401',this.router.url.toLowerCase());
   }
 
 }
