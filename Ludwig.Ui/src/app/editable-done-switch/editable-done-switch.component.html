@@ -1,0 +1,12 @@
+
+
+<div (click)="onClick()">
+
+  <span class="material-symbols-outlined" *ngIf="isDone" style="cursor: pointer;" ngbTooltip="Done - Click to set as Pending">
+  check_circle
+  </span>
+
+  <span class="material-symbols-outlined" *ngIf="!isDone" style="cursor: pointer;" ngbTooltip="Pending - Click to set as Done">
+  schedule
+  </span>
+</div>

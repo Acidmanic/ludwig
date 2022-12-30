@@ -23,7 +23,7 @@ export class EditableUserStoryComponent implements OnInit {
 
   original:UserStoryModel=new UserStoryModel();
 
-  private updateFields:boolean[]=[false,false,false,false,false];
+  private updateFields:boolean[]=[false,false,false,false,false,false];
   modelUpdate:boolean=false;
   priorityRevertTrigger:Trigger=new Trigger();
   newIssueForm:EventEmitter<any>=new EventEmitter<any>();

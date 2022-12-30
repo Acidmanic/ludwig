@@ -28,6 +28,7 @@ import { ConfigurationsComponent } from './pages/configurations/configurations.c
 import { EditableConfigurationItemComponent } from './editable-configuration-item/editable-configuration-item.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { StrikeThroughComponent } from './strike-through/strike-through.component';
+import { EditableDoneSwitchComponent } from './editable-done-switch/editable-done-switch.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { StrikeThroughComponent } from './strike-through/strike-through.componen
     ConfigurationsComponent,
     EditableConfigurationItemComponent,
     AccessDeniedComponent,
-    StrikeThroughComponent
+    StrikeThroughComponent,
+    EditableDoneSwitchComponent
   ],
   imports: [
     BrowserModule,
