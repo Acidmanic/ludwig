@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ludwig.Presentation.Controllers
 {
-    [ApiController]
-    [Route("projects")]
     [AutoWrap]
-    public class ProjectsController:CrudControllerBase<Project,long>
+    [ApiController]
+    [Route("goals")]
+    public class GoalsController : CrudControllerBase<Goal, long>
     {
-        public ProjectsController(EnTierEssence essence) : base(essence)
+        public GoalsController(EnTierEssence essence) : base(essence)
         {
         }
     }
