@@ -5,8 +5,7 @@ create table Goals(
         Id bigint AUTO_INCREMENT PRIMARY KEY,
         Title nvarchar(64),
         Description nvarchar(256),
-        ProjectId bigint,
-        IterationId bigint
+        ProjectId bigint
 );
 -- ---------------------------------------------------------------------------------------------------------------------
 -- SPLIT
@@ -14,7 +13,6 @@ create table Goals(
 create view GoalsFullTree as 
     select
         Goals.Id 'Goals_Id',
-        Goals.IterationId 'Goals_IterationId',
         Goals.ProjectId 'Goals_ProjectId',
         Goals.Title 'Goals_Title',
         Goals.Description 'Goals_Description',
@@ -68,11 +66,10 @@ end;
 create procedure spInsertGoal(
     IN Title nvarchar(64),
     IN Description nvarchar(256),
-    IN ProjectId bigint,
-    IN IterationId bigint)
+    IN ProjectId bigint)
 begin 
-    insert into Goals (Title, Description,ProjectId, IterationId) 
-        values (Title, Description, ProjectId, IterationId);
+    insert into Goals (Title, Description,ProjectId) 
+        values (Title, Description, ProjectId);
     select * from Goals where Goals.Id = last_insert_id();
 end;
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -82,11 +79,9 @@ create procedure spUpdateGoal(
     IN Id bigint,
     IN Title nvarchar(64),
     IN Description nvarchar(256),
-    IN ProjectId bigint,
-    IN IterationId bigint)
+    IN ProjectId bigint)
 begin
-    update Goals set Title=Title,Description=Description,
-                     ProjectId=ProjectId,IterationId=IterationId
+    update Goals set Title=Title,Description=Description,ProjectId=ProjectId
                  where Goals.Id=Id;                        
     select * from Goals where Goals.Id=Id;
 end;
@@ -97,16 +92,13 @@ create procedure spSaveGoal(
     IN Id bigint,
     IN Title nvarchar(64),
     IN Description nvarchar(256),
-    IN ProjectId bigint,
-    IN IterationId bigint)
+    IN ProjectId bigint)
 begin
     
     if exists(select 1 from Goals where Goals.Id=Id) then 
-        call spUpdateGoal(Id,Title,Description,
-            ProjectId,IterationId);
+        call spUpdateGoal(Id,Title,Description,ProjectId);
     else
-        call spInsertGoal(Title,Description,
-                          ProjectId,IterationId);
+        call spInsertGoal(Title,Description,ProjectId);
     end if;
 end;
 -- ---------------------------------------------------------------------------------------------------------------------

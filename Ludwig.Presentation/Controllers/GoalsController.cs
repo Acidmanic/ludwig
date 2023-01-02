@@ -14,5 +14,11 @@ namespace Ludwig.Presentation.Controllers
         public GoalsController(EnTierEssence essence) : base(essence)
         {
         }
+
+
+        public override IActionResult CreateNew(Goal value)
+        {
+            return base.CreateNew(value);
+        }
     }
 }
