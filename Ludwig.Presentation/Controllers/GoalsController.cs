@@ -15,10 +15,5 @@ namespace Ludwig.Presentation.Controllers
         {
         }
 
-
-        public override IActionResult CreateNew(Goal value)
-        {
-            return base.CreateNew(value);
-        }
     }
 }

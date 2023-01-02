@@ -6,8 +6,7 @@ create table Steps(
         Title nvarchar(64),
         Description nvarchar(256),
         ProjectId bigint,
-        GoalId bigint,
-        IterationId bigint
+        GoalId bigint
 );
 -- ---------------------------------------------------------------------------------------------------------------------
 -- SPLIT
@@ -15,13 +14,12 @@ create table Steps(
 create view StepsFullTree as
     select
         Steps.Id 'Steps_Id',
-        Steps.IterationId 'Steps_IterationId',
         Steps.GoalId 'Steps_GoalId',
         Steps.ProjectId 'Steps_ProjectId',
         Steps.Title 'Steps_Title',
         Steps.Description 'Steps_Description',
         Tasks.Id 'Tasks_Id',
-        Tasks.IterationId 'Tasks_IterationId',
+        Tasks.IterationId 'IterationId',
         Tasks.GoalId 'Tasks_GoalId',
         Tasks.StepId 'StepId',
         Tasks.ProjectId 'Tasks_ProjectId',
@@ -64,11 +62,10 @@ create procedure spInsertStep(
     IN Title nvarchar(64),
     IN Description nvarchar(256),
     IN ProjectId bigint,
-    IN GoalId bigint,
-    IN IterationId bigint)
+    IN GoalId bigint)
 begin 
-    insert into Steps (Title, Description,  ProjectId, GoalId, IterationId) 
-        values (Title, Description, ProjectId, GoalId, IterationId);
+    insert into Steps (Title, Description,  ProjectId, GoalId) 
+        values (Title, Description, ProjectId, GoalId);
     select * from Steps where Steps.Id = last_insert_id();
 end;
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -79,12 +76,10 @@ create procedure spUpdateStep(
     IN Title nvarchar(64),
     IN Description nvarchar(256),
     IN ProjectId bigint,
-    IN GoalId bigint,
-    IN IterationId bigint)
+    IN GoalId bigint)
 begin
     update Steps set Title=Title,Description=Description, 
-                     ProjectId=ProjectId,GoalId=GoalId,
-                     IterationId=IterationId
+                     ProjectId=ProjectId,GoalId=GoalId
                  where Steps.Id=Id;                        
     select * from Steps where Steps.Id=Id;
 end;
@@ -96,16 +91,13 @@ create procedure spSaveStep(
     IN Title nvarchar(64),
     IN Description nvarchar(256),
     IN ProjectId bigint,
-    IN GoalId bigint,
-    IN IterationId bigint)
+    IN GoalId bigint)
 begin
     
     if exists(select 1 from Steps where Steps.Id=Id) then 
-        call spUpdateStep(Id,Title,Description,
-            ProjectId,GoalId,IterationId);
+        call spUpdateStep(Id,Title,Description,ProjectId,GoalId);
     else
-        call spInsertStep(Title,Description,
-                          ProjectId,GoalId,IterationId);
+        call spInsertStep(Title,Description,ProjectId,GoalId);
     end if;
 end;
 -- ---------------------------------------------------------------------------------------------------------------------
