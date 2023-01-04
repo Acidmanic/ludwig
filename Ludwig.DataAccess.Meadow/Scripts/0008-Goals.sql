@@ -22,9 +22,9 @@ create view GoalsFullTree as
         Steps.Title 'Steps_Title',
         Steps.Description 'Steps_Description',
         Tasks.Id 'Tasks_Id',
-        Tasks.IterationId 'IterationId',
+        Tasks.IterationId 'Tasks_IterationId',
         Tasks.GoalId 'Tasks_GoalId',
-        Tasks.StepId 'StepId',
+        Tasks.StepId 'Tasks_StepId',
         Tasks.ProjectId 'Tasks_ProjectId',
         Tasks.Title 'Tasks_Title',
         Tasks.Description 'Tasks_Description'
@@ -113,7 +113,7 @@ end;
 -- ---------------------------------------------------------------------------------------------------------------------
 alter view ProjectsFullTree as
     select
-        Projects.Name 'Name',
+        Projects.Name 'Projects_Name',
         Projects.Id 'Projects_Id',
         Projects.Description 'Projects_Description' ,
         GoalsFullTree.Goals_ProjectId 'Goals_ProjectId' ,
@@ -126,14 +126,19 @@ alter view ProjectsFullTree as
         GoalsFullTree.Steps_Title 'Steps_Title' ,
         GoalsFullTree.Steps_Description 'Steps_Description' ,
         GoalsFullTree.Tasks_Id 'Tasks_Id' ,
-        GoalsFullTree.IterationId 'IterationId' ,
+        GoalsFullTree.Tasks_IterationId 'Tasks_IterationId' ,
         GoalsFullTree.Tasks_GoalId 'Tasks_GoalId' ,
-        GoalsFullTree.StepId 'StepId' ,
+        GoalsFullTree.Tasks_StepId 'Tasks_StepId' ,
         GoalsFullTree.Tasks_ProjectId 'Tasks_ProjectId' ,
         GoalsFullTree.Tasks_Title 'Tasks_Title' ,
-        GoalsFullTree.Tasks_Description 'Tasks_Description'
+        GoalsFullTree.Tasks_Description 'Tasks_Description',
+        Iterations.ProjectId 'Iterations_ProjectId', 
+        Iterations.Id 'Iterations_Id', 
+        Iterations.Description 'Iterations_Description', 
+        Iterations.Name 'Iterations_Name' 
     from Projects
-             left join GoalsFullTree on Goals_ProjectId =  Projects.Id;
+             left join GoalsFullTree on Goals_ProjectId =  Projects.Id
+             left join Iterations on Iterations.ProjectId = Projects.id;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- SPLIT
 -- ---------------------------------------------------------------------------------------------------------------------

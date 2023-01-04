@@ -32,6 +32,11 @@ namespace Ludwig.DataAccess.Meadow.Extensions
                 IStoryUsersRepository,
                 StoryUsersRepository>(services);
             
+            AddCustomRepository<
+                Project, long, 
+                IProjectsRepository,
+                ProjectsRepository>(services);
+            
             return services;
         }
     }
