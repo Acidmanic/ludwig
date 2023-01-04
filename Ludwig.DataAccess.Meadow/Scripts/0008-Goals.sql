@@ -111,3 +111,32 @@ end;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- SPLIT
 -- ---------------------------------------------------------------------------------------------------------------------
+alter view ProjectsFullTree as
+    select
+        Projects.Name 'Name',
+        Projects.Id 'Projects_Id',
+        Projects.Description 'Projects_Description' ,
+        GoalsFullTree.Goals_ProjectId 'Goals_ProjectId' ,
+        GoalsFullTree.Goals_Id 'Goals_Id' ,
+        GoalsFullTree.Goals_Description 'Goals_Description' ,
+        GoalsFullTree.Goals_Title 'Goals_Title' ,
+        GoalsFullTree.Steps_Id 'Steps_Id' ,
+        GoalsFullTree.Steps_GoalId 'Steps_GoalId' ,
+        GoalsFullTree.Steps_ProjectId 'Steps_ProjectId' ,
+        GoalsFullTree.Steps_Title 'Steps_Title' ,
+        GoalsFullTree.Steps_Description 'Steps_Description' ,
+        GoalsFullTree.Tasks_Id 'Tasks_Id' ,
+        GoalsFullTree.IterationId 'IterationId' ,
+        GoalsFullTree.Tasks_GoalId 'Tasks_GoalId' ,
+        GoalsFullTree.StepId 'StepId' ,
+        GoalsFullTree.Tasks_ProjectId 'Tasks_ProjectId' ,
+        GoalsFullTree.Tasks_Title 'Tasks_Title' ,
+        GoalsFullTree.Tasks_Description 'Tasks_Description'
+    from Projects
+             left join GoalsFullTree on Goals_ProjectId =  Projects.Id;
+-- ---------------------------------------------------------------------------------------------------------------------
+-- SPLIT
+-- ---------------------------------------------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------------------
+-- SPLIT
+-- ---------------------------------------------------------------------------------------------------------------------
