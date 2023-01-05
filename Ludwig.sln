@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludwig.DataServices.Contrac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludwig.DataServices", "Ludwig.DataServices\Ludwig.DataServices.csproj", "{FAA3D51A-5E2A-4C4C-ACA8-569786721B4A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludwig.Development.Tool", "Ludwig.Development.Tool\Ludwig.Development.Tool.csproj", "{1C6C43AF-5BE0-4A9E-98E4-9CAFD364579F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -170,5 +172,17 @@ Global
 		{FAA3D51A-5E2A-4C4C-ACA8-569786721B4A}.Release|x64.Build.0 = Release|Any CPU
 		{FAA3D51A-5E2A-4C4C-ACA8-569786721B4A}.Release|x86.ActiveCfg = Release|Any CPU
 		{FAA3D51A-5E2A-4C4C-ACA8-569786721B4A}.Release|x86.Build.0 = Release|Any CPU
+		{1C6C43AF-5BE0-4A9E-98E4-9CAFD364579F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C6C43AF-5BE0-4A9E-98E4-9CAFD364579F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C6C43AF-5BE0-4A9E-98E4-9CAFD364579F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1C6C43AF-5BE0-4A9E-98E4-9CAFD364579F}.Debug|x64.Build.0 = Debug|Any CPU
+		{1C6C43AF-5BE0-4A9E-98E4-9CAFD364579F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1C6C43AF-5BE0-4A9E-98E4-9CAFD364579F}.Debug|x86.Build.0 = Debug|Any CPU
+		{1C6C43AF-5BE0-4A9E-98E4-9CAFD364579F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C6C43AF-5BE0-4A9E-98E4-9CAFD364579F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C6C43AF-5BE0-4A9E-98E4-9CAFD364579F}.Release|x64.ActiveCfg = Release|Any CPU
+		{1C6C43AF-5BE0-4A9E-98E4-9CAFD364579F}.Release|x64.Build.0 = Release|Any CPU
+		{1C6C43AF-5BE0-4A9E-98E4-9CAFD364579F}.Release|x86.ActiveCfg = Release|Any CPU
+		{1C6C43AF-5BE0-4A9E-98E4-9CAFD364579F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
