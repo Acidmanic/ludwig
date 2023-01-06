@@ -29,6 +29,7 @@ import { EditableConfigurationItemComponent } from './editable-configuration-ite
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { StrikeThroughComponent } from './strike-through/strike-through.component';
 import { EditableDoneSwitchComponent } from './editable-done-switch/editable-done-switch.component';
+import { ProjectStoryMapComponent } from './pages/project-story-map/project-story-map.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { EditableDoneSwitchComponent } from './editable-done-switch/editable-don
     EditableConfigurationItemComponent,
     AccessDeniedComponent,
     StrikeThroughComponent,
-    EditableDoneSwitchComponent
+    EditableDoneSwitchComponent,
+    ProjectStoryMapComponent
   ],
   imports: [
     BrowserModule,
