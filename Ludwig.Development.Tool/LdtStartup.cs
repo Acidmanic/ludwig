@@ -1,12 +1,17 @@
+using System;
 using System.Linq;
 using Acidmanic.Utilities.Reflection;
 using Acidmanic.Utilities.Reflection.Extensions;
 using CoreCommandLine;
+using EnTier.Extensions;
 using Ludwig.DataAccess.Meadow;
 using Ludwig.DataAccess.Meadow.Extensions;
 using Ludwig.Development.Tool.Services;
+using Meadow.Extensions;
+using Meadow.MySql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Ludwig.Development.Tool
 {
@@ -46,9 +51,16 @@ namespace Ludwig.Development.Tool
         }
 
 
-        public void Configure(IApplicationBuilder app)
+        public void ConfigureServices(IServiceProvider provider,ILogger logger)
         {
-            app.ConfigureEnTierResolver();
+
+            logger.UseForMeadow();
+            
+            var engine = provider.GetService<MeadowEngineProvider>()?.ProvideEngine();
+
+            engine.UseMySql();
+            
+            provider.ConfigureEnTierResolver();
         }
     }
 }
