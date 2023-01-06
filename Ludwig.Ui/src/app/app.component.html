@@ -27,20 +27,22 @@
         </a>
       </li>
 
-      <li class="nav-item active">
-        <a class="nav-link" routerLink="/configure" routerLinkActive="active" ariaCurrentWhenActive="page">
+      <li ngbDropdown class="nav-item" >
+        <a href (click)="false" class="nav-link" ngbDropdownToggle>
           <span class="material-symbols-outlined">
-              account_tree
+            full_stacked_bar_chart
           </span>
           Projects
         </a>
         <div ngbDropdownMenu>
-          <a *ngFor="let prj of projects"
-             href="export/{{prj.id}}" ngbDropdownItem>
-            {{prj.name}}
+          <a *ngFor="let project of projects" [ngbTooltip]="project.description"
+             href="project-story-map/{{project.id}}" ngbDropdownItem>
+            {{project.name}}
           </a>
         </div>
       </li>
+
+
 
       <li ngbDropdown class="nav-item" *ngIf="svcLogin.token && svcLogin.token.isIssueManager">
         <a href (click)="false" class="nav-link" ngbDropdownToggle>
