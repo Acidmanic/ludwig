@@ -4,6 +4,8 @@ import {LoginManagerService} from "./services/login-manager/login-manager.servic
 import {ExportInfoModel} from "./models/export-info-model";
 import {ExportService} from "./services/export/export.service";
 import {NavigationStart, Router} from "@angular/router";
+import {ProjectsService} from "./services/projects/projects.service";
+import {ProjectModel} from "./models/project-model";
 
 @Component({
   selector: 'app-root',
@@ -13,11 +15,12 @@ import {NavigationStart, Router} from "@angular/router";
 export class AppComponent implements OnInit,OnDestroy{
 
   title = 'Ludwig.Ui';
-
+  projects:ProjectModel[]=[];
 
   exportInfos:ExportInfoModel[]=[];
 
   constructor(public svcLogin:LoginManagerService,
+              private svcProjects:ProjectsService,
               private svcExports:ExportService,
               private router:Router) {
 
@@ -38,6 +41,12 @@ export class AppComponent implements OnInit,OnDestroy{
 
   ngOnInit(): void {
     console.log("Main Component Initialized");
+
+    this.svcProjects.getAllProjects().subscribe({
+      next: prj => this.projects = prj,
+      error:e =>  console.log('error getting projects: ',e)
+    });
+
   }
 
   private updateExportersMenu(){

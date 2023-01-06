@@ -34,6 +34,12 @@
           </span>
           Projects
         </a>
+        <div ngbDropdownMenu>
+          <a *ngFor="let prj of projects"
+             href="export/{{prj.id}}" ngbDropdownItem>
+            {{prj.name}}
+          </a>
+        </div>
       </li>
 
       <li ngbDropdown class="nav-item" *ngIf="svcLogin.token && svcLogin.token.isIssueManager">

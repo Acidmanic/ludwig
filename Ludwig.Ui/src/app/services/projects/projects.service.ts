@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ProjectModel} from "../../models/project-model";
 import {Observable, Subject} from "rxjs";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class ProjectsService {
 
   constructor(private http:HttpClient) { }
 
-  public baseUrl:string='';
+  private baseUrl=environment.baseUrl;
 
 
   public getAllProjects():Observable<ProjectModel[]>{
