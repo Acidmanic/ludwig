@@ -1,14 +1,12 @@
-
-
+import {GoalModel} from "./goal-model";
+import {IterationModel} from "./iteration-model";
 
 
 export class ProjectModel{
 
-  self:string="";
-  id:string="";
-  key:string="";
-  name:string="";
-  projectTypeKey:string="";
-  avatarUrls:Map<string,string>=new Map<string, string>();
-
+  public name:string='';
+  public description:string='';
+  public id:number=0;
+  public goals:GoalModel[]=[];
+  public iterations:IterationModel[]=[];
 }

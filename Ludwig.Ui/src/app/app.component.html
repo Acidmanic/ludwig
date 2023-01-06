@@ -27,6 +27,15 @@
         </a>
       </li>
 
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/configure" routerLinkActive="active" ariaCurrentWhenActive="page">
+          <span class="material-symbols-outlined">
+              account_tree
+          </span>
+          Projects
+        </a>
+      </li>
+
       <li ngbDropdown class="nav-item" *ngIf="svcLogin.token && svcLogin.token.isIssueManager">
         <a href (click)="false" class="nav-link" ngbDropdownToggle>
           <span class="material-symbols-outlined">
