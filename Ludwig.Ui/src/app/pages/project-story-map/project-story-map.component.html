@@ -1,1 +1,50 @@
-<p>Project: {{projectId}}</p>
+
+
+<h1>{{project.name}}</h1>
+<h6>{{project.description}}</h6>
+
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-4" *ngFor="let goal of project.goals">
+
+      <div class="alert alert-warning">
+        <div><b>{{goal.title}}</b></div>
+        <hr>
+        <div>{{goal.description}}</div>
+      </div>
+
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col-4" *ngFor="let step of goal.steps">
+
+            <div class="alert alert-danger">
+              <div><b>{{step.title}}</b></div>
+              <hr>
+              <div>{{step.description}}</div>
+            </div>
+
+
+            <div *ngFor="let task of step.tasks">
+
+              <div class="alert alert-success">
+                <div><b>{{task.title}}</b></div>
+                <hr>
+                <div>{{task.description}}</div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

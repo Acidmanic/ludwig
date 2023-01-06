@@ -27,6 +27,21 @@ export class ProjectsService {
     });
 
     return handle;
+  }
 
+
+  public getById(projectId:number):Observable<ProjectModel>{
+
+    let url = this.baseUrl + "projects/"+projectId;
+
+    let handle = new Subject<ProjectModel>();
+
+    this.http.get<ProjectModel>(url).subscribe({
+      next: projectFull => handle.next(projectFull),
+      error: err => handle.error(err),
+      complete: () => handle.complete()
+    });
+
+    return handle;
   }
 }
