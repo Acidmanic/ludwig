@@ -30,6 +30,7 @@ import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { StrikeThroughComponent } from './strike-through/strike-through.component';
 import { EditableDoneSwitchComponent } from './editable-done-switch/editable-done-switch.component';
 import { ProjectStoryMapComponent } from './pages/project-story-map/project-story-map.component';
+import { StickyCardComponent } from './sticky-card/sticky-card.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { ProjectStoryMapComponent } from './pages/project-story-map/project-stor
     AccessDeniedComponent,
     StrikeThroughComponent,
     EditableDoneSwitchComponent,
-    ProjectStoryMapComponent
+    ProjectStoryMapComponent,
+    StickyCardComponent
   ],
   imports: [
     BrowserModule,
