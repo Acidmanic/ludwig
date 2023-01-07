@@ -1,10 +1,9 @@
 import {StepModel} from "./step-model";
+import {CardModel} from "./card-model";
 
 
-export class GoalModel{
+export class GoalModel extends CardModel{
   public projectId:number=0;
   public steps:StepModel[]=[];
-  public id: number=0;
-  public title:string='';
-  public description:string='';
+
 }
