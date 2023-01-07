@@ -66,3 +66,16 @@ body *.editable-user-story-popover .popover{
 body *.editable-user-story-popover .popover-arrow {
   --bs-popover-bg: none;
 }
+
+
+sticky-card .sticky-card-bg-goal{
+  background-color: #fdbd1c;
+}
+
+sticky-card .sticky-card-bg-step{
+  background-color: #b86b87;
+}
+
+sticky-card .sticky-card-bg-task{
+  background-color: #f4e799;
+}

@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CardModel} from "../models/card-model";
 
 @Component({
-  selector: 'app-sticky-card',
+  selector: 'sticky-card',
   templateUrl: './sticky-card.component.html',
   styleUrls: ['./sticky-card.component.css']
 })

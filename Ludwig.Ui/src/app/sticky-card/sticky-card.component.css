@@ -9,11 +9,35 @@
 
 }
 
+.sticky-card.sticky-card-body{
+  min-width: 128px;
+  border-radius: 0px 3px 3px 3px;
+  margin: 5px;
+  padding: 5px;
+}
+
+.sticky-card.sticky-card-body {
+  -webkit-clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 5% 0%,5% 0%, 0 15%);
+  clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 5% 0%,5% 0%, 0 15%);
+}
+
 
 .sticky-card-title{
 
 }
 
-.sticky-card-description{
-
+b.sticky-card-title {
+  border-bottom: 1px solid #0000003b;
+  display: block;
+  background: linear-gradient(180deg, rgba(2,0,36,0) 0%, rgba(255,255,255,0.08) 100%);
 }
+
+
+.sticky-card-description{
+  font-size: 0.8rem;
+  display: block;
+  background: linear-gradient(0deg, rgba(2,0,36,0) 0%, rgba(255,255,255,0.08) 100%);
+}
+
+
+

@@ -3,48 +3,31 @@
 <h1>{{project.name}}</h1>
 <h6>{{project.description}}</h6>
 
+
 <div class="container">
 
   <div class="row">
+  <div class="col-4" *ngFor="let goal of project.goals">
 
-    <div class="col-4" *ngFor="let goal of project.goals">
+    <sticky-card [card]="goal" card-type-class="sticky-card-bg-goal"></sticky-card>
 
-      <div class="alert alert-warning">
-        <div><b>{{goal.title}}</b></div>
-        <hr>
-        <div>{{goal.description}}</div>
-      </div>
+    <div class="row">
 
-      <div class="container">
+      <div class="col" *ngFor="let step of goal.steps">
 
-        <div class="row">
-
-          <div class="col-4" *ngFor="let step of goal.steps">
-
-            <div class="alert alert-danger">
-              <div><b>{{step.title}}</b></div>
-              <hr>
-              <div>{{step.description}}</div>
-            </div>
+        <sticky-card [card]="step" card-type-class="sticky-card-bg-step"></sticky-card>
 
 
-            <div *ngFor="let task of step.tasks">
-
-              <div class="alert alert-success">
-                <div><b>{{task.title}}</b></div>
-                <hr>
-                <div>{{task.description}}</div>
-              </div>
-
-            </div>
-
-          </div>
-        </div>
+        <sticky-card [card]="task"
+                     *ngFor="let task of step.tasks"
+                     card-type-class="sticky-card-bg-task"></sticky-card>
 
       </div>
 
     </div>
 
   </div>
+  </div>
 
 </div>
+
