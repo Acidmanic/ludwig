@@ -25,9 +25,9 @@ end;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- SPLIT
 -- ---------------------------------------------------------------------------------------------------------------------
-create procedure spReadIterationByIdFullTree(IN Id bigint)
+create procedure spReadIterationsByProjectId(IN Id bigint)
 begin
-    select * from Iterations where Iterations.Id=Id;
+    select * from Iterations where Iterations.ProjectId=Id;
 end;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- SPLIT

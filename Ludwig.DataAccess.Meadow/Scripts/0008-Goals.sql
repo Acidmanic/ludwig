@@ -116,32 +116,58 @@ alter view ProjectsFullTree as
         Projects.Name 'Projects_Name',
         Projects.Id 'Projects_Id',
         Projects.Description 'Projects_Description' ,
-        GoalsFullTree.Goals_ProjectId 'Goals_ProjectId' ,
-        GoalsFullTree.Goals_Id 'Goals_Id' ,
-        GoalsFullTree.Goals_Description 'Goals_Description' ,
-        GoalsFullTree.Goals_Title 'Goals_Title' ,
-        GoalsFullTree.Steps_Id 'Steps_Id' ,
-        GoalsFullTree.Steps_GoalId 'Steps_GoalId' ,
-        GoalsFullTree.Steps_ProjectId 'Steps_ProjectId' ,
-        GoalsFullTree.Steps_Title 'Steps_Title' ,
-        GoalsFullTree.Steps_Description 'Steps_Description' ,
-        GoalsFullTree.Tasks_Id 'Tasks_Id' ,
-        GoalsFullTree.Tasks_IterationId 'Tasks_IterationId' ,
-        GoalsFullTree.Tasks_GoalId 'Tasks_GoalId' ,
-        GoalsFullTree.Tasks_StepId 'Tasks_StepId' ,
-        GoalsFullTree.Tasks_ProjectId 'Tasks_ProjectId' ,
-        GoalsFullTree.Tasks_Title 'Tasks_Title' ,
-        GoalsFullTree.Tasks_Description 'Tasks_Description',
-        Iterations.ProjectId 'Iterations_ProjectId', 
-        Iterations.Id 'Iterations_Id', 
-        Iterations.Description 'Iterations_Description', 
-        Iterations.Name 'Iterations_Name' 
+        Goals.Id 'Goals_Id',
+        Goals.ProjectId 'Goals_ProjectId',
+        Goals.Title 'Goals_Title',
+        Goals.Description 'Goals_Description',
+        Steps.Id 'Steps_Id',
+        Steps.GoalId 'Steps_GoalId',
+        Steps.ProjectId 'Steps_ProjectId',
+        Steps.Title 'Steps_Title',
+        Steps.Description 'Steps_Description',
+        Tasks.Id 'Tasks_Id',
+        Tasks.IterationId 'Tasks_IterationId',
+        Tasks.GoalId 'Tasks_GoalId',
+        Tasks.StepId 'Tasks_StepId',
+        Tasks.ProjectId 'Tasks_ProjectId',
+        Tasks.Title 'Tasks_Title',
+        Tasks.Description 'Tasks_Description'
     from Projects
-             left join GoalsFullTree on Goals_ProjectId =  Projects.Id
-             left join Iterations on Iterations.ProjectId = Projects.id;
+             left join Goals on Goals.ProjectId =  Projects.Id
+             left join Steps on Steps.GoalId = Goals.Id
+             join Tasks on Tasks.StepId = Steps.Id;
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- SPLIT
 -- ---------------------------------------------------------------------------------------------------------------------
+create view IterationsFullTree as 
+    select Iterations.Id 'Iterations_Id',
+           Iterations.ProjectId 'Iterations_ProjectId',
+           Iterations.Name 'Iterations_Name',
+           Iterations.Description 'Iterations_Description',
+           Tasks.Description 'Tasks_Description',
+           Tasks.ProjectId 'Tasks_ProjectId',
+           Tasks.Id 'Tasks_Id',
+           Tasks.IterationId 'Tasks_IterationId',
+           Tasks.StepId 'StepId',
+           Tasks.GoalId 'Tasks_GoalId',
+           Tasks.Title 'Tasks_Title'
+        from Iterations join Tasks on Tasks.IterationId = Iterations.Id;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- SPLIT
 -- ---------------------------------------------------------------------------------------------------------------------
+create procedure spReadIterationByIdFullTree(IN Id bigint)
+begin
+    select * from IterationsFullTree where IterationsFullTree.Iterations_Id=Id;
+end;
+-- ---------------------------------------------------------------------------------------------------------------------
+-- SPLIT
+-- ---------------------------------------------------------------------------------------------------------------------
+create procedure spReadIterationByProjectFullTree(IN Id bigint)
+begin
+    select * from IterationsFullTree where IterationsFullTree.Iterations_ProjectId=Id;
+end;
+-- ---------------------------------------------------------------------------------------------------------------------
+-- SPLIT
+-- ---------------------------------------------------------------------------------------------------------------------
+
