@@ -125,13 +125,13 @@ alter view ProjectsFullTree as
         Steps.ProjectId 'Steps_ProjectId',
         Steps.Title 'Steps_Title',
         Steps.Description 'Steps_Description',
-        Tasks.Id 'Tasks_Id',
-        Tasks.IterationId 'Tasks_IterationId',
-        Tasks.GoalId 'Tasks_GoalId',
-        Tasks.StepId 'Tasks_StepId',
-        Tasks.ProjectId 'Tasks_ProjectId',
-        Tasks.Title 'Tasks_Title',
-        Tasks.Description 'Tasks_Description'
+        Tasks.Id 'Steps_Tasks_Id',
+        Tasks.IterationId 'Steps_Tasks_IterationId',
+        Tasks.GoalId 'Steps_Tasks_GoalId',
+        Tasks.StepId 'Steps_Tasks_StepId',
+        Tasks.ProjectId 'Steps_Tasks_ProjectId',
+        Tasks.Title 'Steps_Tasks_Title',
+        Tasks.Description 'Steps_Tasks_Description'
     from Projects
              left join Goals on Goals.ProjectId =  Projects.Id
              left join Steps on Steps.GoalId = Goals.Id
@@ -143,15 +143,15 @@ alter view ProjectsFullTree as
 create view IterationsFullTree as 
     select Iterations.Id 'Iterations_Id',
            Iterations.ProjectId 'Iterations_ProjectId',
-           Iterations.Name 'Iterations_Name',
+           Iterations.Name 'Name',
            Iterations.Description 'Iterations_Description',
            Tasks.Description 'Tasks_Description',
            Tasks.ProjectId 'Tasks_ProjectId',
            Tasks.Id 'Tasks_Id',
-           Tasks.IterationId 'Tasks_IterationId',
+           Tasks.IterationId 'IterationId',
            Tasks.StepId 'StepId',
-           Tasks.GoalId 'Tasks_GoalId',
-           Tasks.Title 'Tasks_Title'
+           Tasks.GoalId 'GoalId',
+           Tasks.Title 'Title'
         from Iterations join Tasks on Tasks.IterationId = Iterations.Id;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- SPLIT

@@ -6,7 +6,8 @@ namespace Ludwig.Development.Tool
 {
     [Subcommands(
         typeof(Reset),
-        typeof(SeedBinary)
+        typeof(SeedBinary),
+        typeof(View)
     )]
     public class LdtApplication : CommandLineApplication
     {
