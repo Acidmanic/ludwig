@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Meadow.Framework" Version="1.2.4-b01" />
+    <PackageReference Include="Meadow.Framework" Version="1.2.4-b04" />
   </ItemGroup>
 
 </Project>

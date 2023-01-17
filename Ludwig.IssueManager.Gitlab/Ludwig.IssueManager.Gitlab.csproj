@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EnTier" Version="2.7.0-b03" />
+    <PackageReference Include="EnTier" Version="2.7.0-b05" />
     <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="5.5.0" />
   </ItemGroup>
 

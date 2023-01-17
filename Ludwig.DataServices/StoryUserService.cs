@@ -12,12 +12,14 @@ namespace Ludwig.DataService
         }
 
 
-        public override StoryUser Update(long id, StoryUser value)
+        public override StoryUser UpdateById(long id, StoryUser value)
         {
             var repository = UnitOfWork.GetCrudRepository<StoryUser, long>();
-
+            
             return repository.Set(value);
         }
+
+        
 
     }
 }

@@ -9,7 +9,6 @@ using Ludwig.DataAccess.Meadow.Extensions;
 using Ludwig.Development.Tool.Services;
 using Meadow.Extensions;
 using Meadow.MySql;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -56,7 +55,7 @@ namespace Ludwig.Development.Tool
 
             logger.UseForMeadow();
             
-            var engine = provider.GetService<MeadowEngineProvider>()?.ProvideEngine();
+            var engine = ServiceProviderExtensions.GetService<MeadowEngineProvider>(provider)?.ProvideEngine();
 
             engine.UseMySql();
             
