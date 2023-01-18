@@ -61,6 +61,8 @@ export class AuthorizationInterceptor implements HttpInterceptor{
 
   private redirect(): void
   {
+    // to clear saved logins
+    this.svcLoginManager.logOut();
     this.router.navigateByUrl('/login');
     console.log('Redirected because of 401',this.router.url.toLowerCase());
   }
