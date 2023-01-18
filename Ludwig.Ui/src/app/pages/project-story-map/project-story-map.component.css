@@ -1,4 +1,20 @@
 
 
+.story-map-header{
+  margin: 10px;
+  background: #58515a;
+  color: #efeee5;
+  padding: 5px;
+}
 
-
+.story-map-header h1,
+.story-map-header h2,
+.story-map-header h3,
+.story-map-header h4,
+.story-map-header h5,
+.story-map-header h6,
+.story-map-header h7
+{
+  justify-content: center;
+  display: flex;
+}
