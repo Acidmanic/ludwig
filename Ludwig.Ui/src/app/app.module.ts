@@ -31,6 +31,7 @@ import { StrikeThroughComponent } from './strike-through/strike-through.componen
 import { EditableDoneSwitchComponent } from './editable-done-switch/editable-done-switch.component';
 import { ProjectStoryMapComponent } from './pages/project-story-map/project-story-map.component';
 import { StickyCardComponent } from './sticky-card/sticky-card.component';
+import { StickyCardEditorComponent } from './sticky-card-editor/sticky-card-editor.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { StickyCardComponent } from './sticky-card/sticky-card.component';
     StrikeThroughComponent,
     EditableDoneSwitchComponent,
     ProjectStoryMapComponent,
-    StickyCardComponent
+    StickyCardComponent,
+    StickyCardEditorComponent
   ],
   imports: [
     BrowserModule,

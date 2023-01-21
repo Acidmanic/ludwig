@@ -1,0 +1,20 @@
+<div *ngIf="parents.length > 1 ">
+
+  <label for="selParents">Move Under: </label>
+  <select name="selParents" id="selParents">
+    <option *ngFor="let parent of parents" [ngValue]="parent" (click)="parentSelected(parent)">
+      {{parent.title}}
+    </option>
+  </select>
+
+</div>
+
+<div>
+  <input type="text" id="txtTitle" [(ngModel)]="card.title">
+</div>
+
+<textarea id="txtDescription" [(ngModel)]="card.description"></textarea>
+
+<button *ngIf="childTypeName" class="btn btn-success"> Add {{childTypeName}}</button>
+
+<button class="btn btn-danger"> Delete</button>
