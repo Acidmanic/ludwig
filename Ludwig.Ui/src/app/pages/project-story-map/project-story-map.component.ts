@@ -4,6 +4,7 @@ import {read} from "@popperjs/core";
 import {ProjectModel} from "../../models/project-model";
 import {ProjectsService} from "../../services/projects/projects.service";
 import {WaiterService} from "../../services/waiter.service";
+import {GoalModel} from "../../models/goal-model";
 
 @Component({
   selector: 'project-story-map',
@@ -48,5 +49,19 @@ export class ProjectStoryMapComponent implements OnInit {
 
 
   }
+
+
+
+
+  addGoalClicked(){
+    let goal = new GoalModel();
+
+    goal.projectId=this.project.id;
+    goal.description="A Description About the goal";
+    goal.title="Nice Feature";
+
+    this.project.goals.push(goal);
+  }
+
 
 }

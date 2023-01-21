@@ -7,7 +7,8 @@
 <div class="container">
 
   <div class="row">
-  <div class="col-4" *ngFor="let goal of project.goals">
+
+    <div class="col-4" *ngFor="let goal of project.goals">
 
     <sticky-card [card]="goal" card-type-class="sticky-card-bg-goal"></sticky-card>
 
@@ -27,6 +28,13 @@
     </div>
 
   </div>
+
+    <button type="button" ngbtooltip="Add New Goal"
+            class="btn btn-add-goal btn-round-sm material-symbols-outlined sticky-bottom ng-tns-c36-1"
+            (click)="addGoalClicked()">
+      add
+    </button>
+
   </div>
 
 </div>
