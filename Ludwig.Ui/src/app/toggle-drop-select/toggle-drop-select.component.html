@@ -1,0 +1,12 @@
+<div ngbDropdown class="d-inline-block">
+  <button type="button" class="btn {{toggleClass}}" id="btnToggle" ngbDropdownToggle>
+    {{title}}
+  </button>
+  <div ngbDropdownMenu aria-labelledby="btnToggle" class="{{dropTrayClass}}">
+    <button ngbDropdownItem *ngFor="let item of items"
+    (click)="selected(item)" class="{{dropItemClass}}">
+      {{captioner(item)}}
+    </button>
+
+  </div>
+</div>
