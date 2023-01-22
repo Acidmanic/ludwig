@@ -1,0 +1,11 @@
+
+*.settle-input{
+  background: inherit;
+  color: white;
+  border: none;
+  margin: 5px;
+}
+
+*.width-greedy{
+  width: 100%;
+}

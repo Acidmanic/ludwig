@@ -32,6 +32,7 @@ import { EditableDoneSwitchComponent } from './editable-done-switch/editable-don
 import { ProjectStoryMapComponent } from './pages/project-story-map/project-story-map.component';
 import { StickyCardComponent } from './sticky-card/sticky-card.component';
 import { StickyCardEditorComponent } from './sticky-card-editor/sticky-card-editor.component';
+import { ToggleDropSelectComponent } from './toggle-drop-select/toggle-drop-select.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { StickyCardEditorComponent } from './sticky-card-editor/sticky-card-edit
     EditableDoneSwitchComponent,
     ProjectStoryMapComponent,
     StickyCardComponent,
-    StickyCardEditorComponent
+    StickyCardEditorComponent,
+    ToggleDropSelectComponent
   ],
   imports: [
     BrowserModule,

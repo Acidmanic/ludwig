@@ -1,20 +1,24 @@
-<div *ngIf="parents.length > 1 ">
+<div *ngIf="parents.length > 1 " class="width-greedy">
 
-  <label for="selParents">Move Under: </label>
-  <select name="selParents" id="selParents">
-    <option *ngFor="let parent of parents" [ngValue]="parent" (click)="parentSelected(parent)">
-      {{parent.title}}
-    </option>
-  </select>
+  <label for="selParents" class="settle-input">Move Under: </label>
+  <toggle-drop-select [items]="parents" id="selParents"
+                      (on-select)="onParentSelected($event)"
+                      toggle-class="sel-parents-toggle"
+                      drop-tray-class="sel-parents-tray"
+                      drop-item-class="sel-parents-item"
+                       [captioner]="cardCaptioner">
+  </toggle-drop-select>
 
 </div>
 
 <div>
-  <input type="text" id="txtTitle" [(ngModel)]="card.title">
+  <input class="settle-input width-greedy" type="text" id="txtTitle" [(ngModel)]="card.title">
 </div>
 
-<textarea id="txtDescription" [(ngModel)]="card.description"></textarea>
+<textarea id="txtDescription" class="settle-input width-greedy" [(ngModel)]="card.description"></textarea>
 
-<button *ngIf="childTypeName" class="btn btn-success"> Add {{childTypeName}}</button>
+<button *ngIf="childTypeName" class="btn btn-success width-greedy"
+        (click)="addChildClicked.emit(card)"> Add {{childTypeName}}</button>
 
-<button class="btn btn-danger"> Delete</button>
+<button class="btn btn-danger width-greedy"
+        (click)="deleteClicked.emit(card)"> Delete</button>
