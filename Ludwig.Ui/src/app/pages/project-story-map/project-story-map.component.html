@@ -10,17 +10,37 @@
 
     <div class="col-4" *ngFor="let goal of project.goals">
 
-    <sticky-card [card]="goal" card-type-class="sticky-card-bg-goal"></sticky-card>
+    <sticky-card [card]="goal" card-type-class="sticky-card-bg-goal"
+                 [ngbPopover]="stickyCardEditor"
+                 positionTarget="bottom"
+                 popoverClass="sticky-card-editor-popover"
+                 (hidden)="popoverUnselect()"
+                 autoClose="outside"
+                 (click)="selectGoal(goal)">
+    </sticky-card>
 
     <div class="row">
 
       <div class="col" *ngFor="let step of goal.steps">
 
-        <sticky-card [card]="step" card-type-class="sticky-card-bg-step"></sticky-card>
+        <sticky-card [card]="step" card-type-class="sticky-card-bg-step"
+                     [ngbPopover]="stickyCardEditor"
+                     popoverClass="sticky-card-editor-popover"
+                     autoClose="outside"
+                     positionTarget="bottom"
+                     (hidden)="popoverUnselect()"
+                     (click)="selectStep(step)">
+        </sticky-card>
 
 
         <sticky-card [card]="task"
                      *ngFor="let task of step.tasks"
+                     [ngbPopover]="stickyCardEditor"
+                     autoClose="outside"
+                     (hidden)="popoverUnselect()"
+                     positionTarget="bottom"
+                     (click)="selectTask(task)"
+                     popoverClass="sticky-card-editor-popover"
                      card-type-class="sticky-card-bg-task"></sticky-card>
 
       </div>
@@ -40,10 +60,13 @@
 </div>
 
 
-
-<sticky-card-editor [card]="project.goals[0].steps[0]"
-                    [parents]="project.goals"
-                    child-type-name="Task"
-                    >
+<ng-template #stickyCardEditor>
+<sticky-card-editor [card]="selectedCard"
+                    [parents]="selectedCardParents"
+                    child-type-name="{{selectedCardChildName}}"
+                    (add-child-clicked)="selectedAddChild($event)"
+                    (delete-clicked)="selectedDelete($event)"
+                    (parent-changed)="selectedParentChange($event)">
 
 </sticky-card-editor>
+</ng-template>

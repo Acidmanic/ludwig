@@ -102,3 +102,9 @@ sticky-card .sticky-card-bg-task{
   width: 48px;
   height: 48px;
 }
+
+
+*.sticky-card-editor-popover{
+  background: #524556;
+  border-radius: 14px;
+}
