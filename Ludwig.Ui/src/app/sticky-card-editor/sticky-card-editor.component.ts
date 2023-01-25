@@ -15,6 +15,7 @@ export class StickyCardEditorComponent implements OnInit {
   @Input('child-type-name') childTypeName!:string;
   @Output('add-child-clicked') addChildClicked:EventEmitter<CardModel>=new EventEmitter<CardModel>();
   @Output('delete-clicked') deleteClicked:EventEmitter<CardModel>= new EventEmitter<CardModel>();
+  @Input('parent-id') parentId:number|null=null;
 
   constructor() { }
 
@@ -39,4 +40,15 @@ export class StickyCardEditorComponent implements OnInit {
       return 'Not a card: ' + card;
   }
 
+  isValueEqualToListItem(value:any,listItem:any):boolean{
+    let parentId = value as number;
+    let listCard = listItem as CardModel;
+
+    if(parentId){
+      if(listCard){
+        return listCard.id==parentId;
+      }
+    }
+    return false;
+  }
 }

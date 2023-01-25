@@ -28,7 +28,7 @@ export class ProjectStoryMapComponent implements OnInit {
   selectedAddChild:(c:CardModel)=>void=(c:CardModel)=>{};
   selectedDelete:(c:CardModel)=>void=(c:CardModel)=>{};
   selectedParentChange:(c:CardModel)=>void=(c:CardModel)=>{};
-
+  selectedCardParentId:number|null=null;
 
   private generatedTaskId:number=-1;
   private generatedStepId:number=-1;
@@ -85,6 +85,7 @@ export class ProjectStoryMapComponent implements OnInit {
   selectGoal(goal:GoalModel){
     this.selectedCardParents=[];
     this.selectedCardChildName='Step';
+    this.selectedCardParentId=null;
     this.selectedAddChild=c=>{
       let step = new StepModel();
       step.id=this.generatedStepId;
@@ -103,6 +104,7 @@ export class ProjectStoryMapComponent implements OnInit {
   selectStep(step:StepModel){
     this.selectedCardParents=this.project.goals;
     this.selectedCardChildName='Task';
+    this.selectedCardParentId=step.goalId;
     this.selectedAddChild=c=>{
       let task = new TaskModel();
       task.id=this.generatedTaskId;
@@ -127,6 +129,7 @@ export class ProjectStoryMapComponent implements OnInit {
 
     this.selectedCardParents = this.getAllSteps();
     this.selectedCardChildName=null;
+    this.selectedCardParentId=task.stepId;
     this.selectedAddChild=c=>{};
     this.selectedParentChange=(c:CardModel)=>{
       let step = c as StepModel;

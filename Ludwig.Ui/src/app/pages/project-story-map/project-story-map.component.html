@@ -12,7 +12,7 @@
 
     <sticky-card [card]="goal" card-type-class="sticky-card-bg-goal"
                  [ngbPopover]="stickyCardEditor"
-                 positionTarget="bottom"
+                 placement="bottom"
                  popoverClass="sticky-card-editor-popover"
                  (hidden)="popoverUnselect()"
                  autoClose="outside"
@@ -27,7 +27,7 @@
                      [ngbPopover]="stickyCardEditor"
                      popoverClass="sticky-card-editor-popover"
                      autoClose="outside"
-                     positionTarget="bottom"
+                     placement="bottom"
                      (hidden)="popoverUnselect()"
                      (click)="selectStep(step)">
         </sticky-card>
@@ -38,7 +38,7 @@
                      [ngbPopover]="stickyCardEditor"
                      autoClose="outside"
                      (hidden)="popoverUnselect()"
-                     positionTarget="bottom"
+                     placement="bottom"
                      (click)="selectTask(task)"
                      popoverClass="sticky-card-editor-popover"
                      card-type-class="sticky-card-bg-task"></sticky-card>
@@ -63,6 +63,7 @@
 <ng-template #stickyCardEditor>
 <sticky-card-editor [card]="selectedCard"
                     [parents]="selectedCardParents"
+                    [parent-id]="selectedCardParentId"
                     child-type-name="{{selectedCardChildName}}"
                     (add-child-clicked)="selectedAddChild($event)"
                     (delete-clicked)="selectedDelete($event)"

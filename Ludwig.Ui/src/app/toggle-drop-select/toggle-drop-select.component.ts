@@ -20,12 +20,30 @@ export class ToggleDropSelectComponent implements OnInit {
   @Input('toggle-class') toggleClass:string='';
   @Input('drop-tray-class') dropTrayClass:string='';
   @Input('drop-item-class') dropItemClass:string='';
+  @Input('areEqual') areEqual:(value:any,listItem:any)=>boolean=(v1:any,v2:any)=>v1===v2;
 
   constructor() { }
 
   ngOnInit(): void {
+
+    let found = this.findInList(this.ngModel);
+
+    if(found){
+      this.selected(found);
+    }
+
   }
 
+  private findInList(value:any):any{
+
+    for(let item of this.items){
+
+      if(this.areEqual(value,item)){
+        return item;
+      }
+    }
+    return null;
+  }
 
   selected(item:any){
 

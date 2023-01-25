@@ -3,6 +3,8 @@
   <label for="selParents" class="settle-input">Move Under: </label>
   <toggle-drop-select [items]="parents" id="selParents"
                       (on-select)="onParentSelected($event)"
+                      [ngModel]="parentId"
+                      [areEqual]="isValueEqualToListItem"
                       toggle-class="sel-parents-toggle"
                       drop-tray-class="sel-parents-tray"
                       drop-item-class="sel-parents-item"
@@ -18,6 +20,7 @@
 <textarea id="txtDescription" class="settle-input width-greedy" [(ngModel)]="card.description"></textarea>
 
 <button *ngIf="childTypeName" class="btn btn-success width-greedy"
+        style="margin-bottom: 5px"
         (click)="addChildClicked.emit(card)"> Add {{childTypeName}}</button>
 
 <button class="btn btn-danger width-greedy"
