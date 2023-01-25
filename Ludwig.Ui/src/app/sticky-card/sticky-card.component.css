@@ -26,10 +26,13 @@
 
 }
 
-b.sticky-card-title {
-  border-bottom: 1px solid #0000003b;
+b.sticky-card-title,b.sticky-card-title-captioned {
   display: block;
   background: linear-gradient(180deg, rgba(2,0,36,0) 0%, rgba(255,255,255,0.08) 100%);
+}
+
+b.sticky-card-title-captioned {
+  border-bottom: 1px solid #0000003b;
 }
 
 

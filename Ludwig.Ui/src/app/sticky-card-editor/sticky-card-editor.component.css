@@ -9,3 +9,8 @@
 *.width-greedy{
   width: 100%;
 }
+
+*.btn.btn-stack{
+  padding:0px;
+  margin-bottom: 5px
+}

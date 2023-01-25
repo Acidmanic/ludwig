@@ -2,6 +2,11 @@
 
 
 <div class="sticky-card sticky-card-body {{cardTypeClass}}">
-  <b class="sticky-card-title">{{card.title}}</b>
-  <small class="sticky-card-description">{{card.description}}</small>
+  <div *ngIf="captioned()">
+    <b class="sticky-card-title sticky-card-title-captioned">{{card.title}}</b>
+    <small class="sticky-card-description">{{card.description}}</small>
+  </div>
+  <div *ngIf="!captioned()">
+    <b class="sticky-card-title">{{card.title}}</b>
+  </div>
 </div>

@@ -16,12 +16,14 @@
 <div>
   <input class="settle-input width-greedy" type="text" id="txtTitle" [(ngModel)]="card.title">
 </div>
+<button class="btn btn-stack btn-outline-warning width-greedy"
+        (click)="card.description=''"> Clear Description</button>
+<textarea id="txtDescription" class="settle-input width-greedy"
+          placeholder="Click to write descriptions..."
+          [(ngModel)]="card.description"></textarea>
 
-<textarea id="txtDescription" class="settle-input width-greedy" [(ngModel)]="card.description"></textarea>
-
-<button *ngIf="childTypeName" class="btn btn-success width-greedy"
-        style="margin-bottom: 5px"
+<button *ngIf="childTypeName" class="btn btn-stack btn-success width-greedy"
         (click)="addChildClicked.emit(card)"> Add {{childTypeName}}</button>
 
-<button class="btn btn-danger width-greedy"
+<button class="btn btn-stack btn-danger width-greedy"
         (click)="deleteClicked.emit(card)"> Delete</button>

@@ -94,7 +94,7 @@ export class ProjectStoryMapComponent implements OnInit {
       step.projectId=goal.projectId;
       step.title="New Step";
       step.tasks=[];
-      step.description="Description about Step.";
+      step.description="";
       goal.steps.push(step);
     };
     this.selectedParentChange=c=>{};
@@ -113,7 +113,7 @@ export class ProjectStoryMapComponent implements OnInit {
       task.goalId=step.goalId;
       task.projectId=step.projectId;
       task.title="New Task";
-      task.description="Description about Task.";
+      task.description="";
       step.tasks.push(task);
     };
     this.selectedParentChange=(c:CardModel)=>{

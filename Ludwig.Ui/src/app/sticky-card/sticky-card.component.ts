@@ -18,4 +18,12 @@ export class StickyCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  captioned():boolean{
+    if(this.card.description){
+      if(this.card.description.trim().length>0){
+        return true;
+      }
+    }
+    return false;
+  }
 }
