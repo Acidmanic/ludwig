@@ -29,7 +29,8 @@ export class ToggleDropSelectComponent implements OnInit {
     let found = this.findInList(this.ngModel);
 
     if(found){
-      this.selected(found);
+      this.ngModel=found;
+      this.title=this.captioner(found);
     }
 
   }
